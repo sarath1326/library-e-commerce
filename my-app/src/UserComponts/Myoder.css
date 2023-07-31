@@ -1,0 +1,81 @@
+
+
+
+
+
+.container{
+   
+   
+    padding-top: 100px;
+   
+}
+
+.myoder-icon{
+    font-size: 20px;
+    text-align: center;
+    
+}
+
+.icom{
+    color: rgb(212, 51, 51);
+}
+
+.myoder-img{
+    width: 100px;
+    height: 100px;
+}
+
+.myoder-td{
+    color: black;
+    font-size: 20px;
+    text-align: center;
+   
+}
+
+.myoder-btn{
+    border-radius: 10px;
+    background-color: rgb(56, 154, 169);
+    color: white;
+    font-size: 20px;
+    border:none;
+   
+}
+
+.btn-td{
+    text-align: center;
+}
+
+
+
+.totalpricebox{
+    background-color: aqua;
+    display: flex;
+    justify-content: end ;
+}
+
+
+#btn{
+   border: none;
+   background-color: rgb(95, 154, 6);
+   color: white;
+   height: 40px;
+   width: 100px;
+   margin-bottom: 5px;
+   font-weight: bold;
+   
+
+}
+
+
+.view-btn{
+    border-radius: 5px;
+    background-color: blueviolet;
+    color: white;
+    border: none;
+}
+
+
+
+
+
+

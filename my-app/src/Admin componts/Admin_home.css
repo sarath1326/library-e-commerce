@@ -1,0 +1,59 @@
+
+
+
+
+.admin-home-main {
+    width: 100%;
+    height: 100vh;
+    
+    padding-top: 100px;
+}
+
+.h1-admin{
+    text-align: center;
+}
+
+
+
+
+img{
+    width: 50px;
+    height: 50px;
+}
+
+table{
+    text-align: center;
+}
+
+.edit-admin{
+
+    font-size: 30px;
+    color: green;
+}
+
+.delete-admin{
+
+    font-size: 20px;
+    margin-left: 10px;
+    color: red;
+}
+
+.btn-admin{
+    margin-left: 100px;
+    border: none;
+    background-color: rgb(154, 197, 244);
+    color: black;
+    width: 100px;
+    height: 30px;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+
+
+@media (max-width:700px){
+    .btn-admin{
+        margin-left: 30px;
+    }
+}
+

@@ -1,0 +1,64 @@
+
+
+
+
+
+
+
+.main-plcepro{
+    height: 100vh;
+    
+    padding-top: 100px;
+    display: flex;
+    justify-content:center ;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    
+}
+
+.itembox-plcepro{
+    width: 400px;
+    height: 160px;
+    display: flex;
+    border: 2px solid rgb(224, 219, 219);
+    border-radius: 5px;
+}
+
+.imgbox-plcepro{
+    width: 150px;
+    height: 100%;
+    
+}
+
+
+
+
+.textbox-plcepro{
+    width: 200px;
+    height: 100%;
+   
+    margin-left: 0;
+}
+
+.plcepro-h3{
+    text-align: center;
+}
+
+p{
+    text-align: center;
+}
+
+
+.proimg-plcepro{
+
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 5px;
+}
+
+
+.titile-plcepro{
+
+    font-size: 25px;
+}

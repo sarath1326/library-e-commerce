@@ -1,0 +1,96 @@
+
+
+
+
+.adminnavbar{
+  
+    width: 100%;
+    position: fixed;
+    
+    
+    
+    
+    background-color:rgb(33, 51, 99);
+    
+      color:rgb(17, 16, 16);
+    }
+    
+    .navdrop{
+      margin-right: 50px;
+      font-size: 25px;
+      color: white;
+      
+    }
+    
+     .togil{
+     
+      background-color: rgb(228, 228, 228);
+      font-size: 16px;
+      
+    }
+
+    .icon-moreview{
+
+     color: white;
+     font-size: 25px;
+     position: absolute;
+     right: 10px;
+
+    }
+
+    .logintext-moreview{
+      position: absolute;
+      right: 50px;
+      color: white;
+      margin-top: 20px;
+    }
+    
+     
+    
+    
+    
+    .navlink{
+    
+     
+      font-size: 16px;
+      margin-left: 50px;
+      transition: 0.3s ease-in-out;
+      color: white;
+    
+    }
+    
+    .navlink:hover{
+      color: rgb(98, 95, 95);
+      
+    }
+    
+    
+    
+    
+    img{
+      width: 50px;
+      margin-left: 15px;
+    }
+    
+    .name{
+      margin-right: 5px;
+      font-size: 16px;
+      
+      color: white;
+    }
+    
+    .ndi{
+      color: blue;
+    }
+    
+    .icons-nav{
+      font-size: 20px;
+      
+    }
+    
+    .admin-title{
+
+        color: white;
+        font-size: 20px;
+        margin-left: 10px;
+    }
