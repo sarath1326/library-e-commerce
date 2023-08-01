@@ -51,7 +51,7 @@ const viewproductschema=new mongoos.Schema({
 
             return new Promise( async(resolve,reject)=>{
 
-                console.log(limit)
+                
 
                 const obj={}
 
@@ -73,7 +73,7 @@ const viewproductschema=new mongoos.Schema({
 
                  
 
-                   console.log(result)
+                   
                   
                  if (result){
 
@@ -93,7 +93,7 @@ const viewproductschema=new mongoos.Schema({
 
             },
 
-            viewpro_edu:()=>{
+            viewpro_edu:(limit)=>{
 
 
                 return new  Promise (async(resolve,reject)=>{
@@ -103,11 +103,11 @@ const viewproductschema=new mongoos.Schema({
                        
                     const viewproedu=mongoos.model("products",viewproductschema)
 
-                    const result= await  viewproedu.find({cotegory:"education"}).limit(12)
+                    const result= await  viewproedu.find({cotegory:"education"}).limit(limit)
 
                     if(result){
 
-                        obj.flag=true
+                       obj.flag=true
                         obj.data=result
 
                         resolve(obj)

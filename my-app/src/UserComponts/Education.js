@@ -7,12 +7,14 @@ import React from 'react'
 import "./Education.css"
 // import Navbar from "./Navbars"
 import { VscFilter } from "react-icons/vsc";
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { BiFilterAlt } from "react-icons/bi"
+import axios from "../Constant/Axios" 
 
 function Education() {
 
   const [state,setstate]=useState(false)
+  const [fetchdata,setfetchdata]=useState([])
 
     function btn(){
   
@@ -21,6 +23,20 @@ function Education() {
 
     }
 
+    useEffect(()=>{
+
+
+
+      axios("/user/view/edu").then((respo)=>{
+
+        setfetchdata(respo.data)
+  
+
+    })
+
+
+    
+  },[])
  
 
 
@@ -84,158 +100,63 @@ function Education() {
           <div className='items-disply-box'>
 
             
+         
+         {
+
+         fetchdata.map((obj)=>
+
+        
+              (
 
 
-          
-          <div class="main-edu">
+                <div class="main-edu">
         <div class="img-edu"> 
-            <img  className='item-img-edu' src="https://dcbookstore.com/uploads/product/images/bk_9761.jpg" alt=""/>
+            <img  className='item-img-edu' src={`data:${obj.contentType};base64,${obj.imageBase64}`} alt=""/>
           
           </div>
        
         <div class="text">
 
-            <h5> Vilapayathra</h5>
-            <p> 
-            Language : Malayalam     
-            </p>
+        <h6 className='booktitle'> {obj.name}</h6>
+       <span>Language:</span><span> {obj.language}</span>
+  
           
            </div>
 
            </div>
 
 
-           <div class="main">
-        <div class="img"> 
-            <img  className='item-img' src="https://dcbookstore.com/uploads/product/images/bk_9761.jpg" alt=""/>
+                  )
+        
+        
+                )
+
+              }
+           
+
+
+
+           
+
+
+           
+
+
           
-          </div>
-       
-        <div class="text">
-
-            <h5> Vilapayathra</h5>
-            <p> 
-            Language : Malayalam     
-            </p>
-          
-           </div>
-
-           </div>
-
-
-
-           <div class="main">
-        <div class="img"> 
-            <img  className='item-img' src="https://dcbookstore.com/uploads/product/images/bk_9761.jpg" alt=""/>
-          
-          </div>
-       
-        <div class="text">
-
-            <h5> Vilapayathra</h5>
-            <p> 
-            Language : Malayalam     
-            </p>
-          
-           </div>
-
-           </div>
-
-
-           <div class="main">
-        <div class="img"> 
-            <img  className='item-img' src="https://dcbookstore.com/uploads/product/images/bk_9761.jpg" alt=""/>
-          
-          </div>
-       
-        <div class="text">
-
-            <h5> Vilapayathra</h5>
-            <p> 
-            Language : Malayalam     
-            </p>
-          
-           </div>
-
-           </div>
-
-
-           <div class="main">
-        <div class="img"> 
-            <img  className='item-img' src="https://dcbookstore.com/uploads/product/images/bk_9761.jpg" alt=""/>
-          
-          </div>
-       
-        <div class="text">
-
-            <h5> Vilapayathra</h5>
-            <p> 
-            Language : Malayalam     
-            </p>
-          
-           </div>
-
-           </div>
 
 
 
 
-           <div class="main">
-        <div class="img"> 
-            <img  className='item-img' src="https://dcbookstore.com/uploads/product/images/bk_9761.jpg" alt=""/>
-          
-          </div>
-       
-        <div class="text">
+           
 
-            <h5> Vilapayathra</h5>
-            <p> 
-            Language : Malayalam     
-            </p>
-          
-           </div>
 
-           </div>
+
+           
 
 
 
 
-           <div class="main">
-        <div class="img"> 
-            <img  className='item-img' src="https://dcbookstore.com/uploads/product/images/bk_9761.jpg" alt=""/>
-          
-          </div>
-       
-        <div class="text">
-
-            <h5> Vilapayathra</h5>
-            <p> 
-            Language : Malayalam     
-            </p>
-          
-           </div>
-
-           </div>
-
-
-
-
-           <div class="main">
-        <div class="img"> 
-            <img  className='item-img' src="https://dcbookstore.com/uploads/product/images/bk_9761.jpg" alt=""/>
-          
-          </div>
-       
-        <div class="text">
-
-            <h5> Vilapayathra</h5>
-            <p> 
-            Language : Malayalam     
-            </p>
-          
-           </div>
-
-           </div>
+         
            </div>
 
 

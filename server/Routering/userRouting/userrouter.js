@@ -31,8 +31,12 @@ router.get("/view/lit",(req,res)=>{
 
     router.get("/view/edu",(req,res)=>{
 
+        let num= req.query.limit
+
+        
+
        
-        db.viewpro_edu().then((respo)=>{
+        db.viewpro_edu( num ? num : null ).then((respo)=>{
 
             if(respo.flag){
                 
