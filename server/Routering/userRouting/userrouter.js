@@ -57,7 +57,9 @@ router.get("/view/lit",(req,res)=>{
 
      router.get("/view/gen",(req,res)=>{
 
-        db.view_gen().then((respo)=>{
+        let num=req.query.limit
+
+        db.view_gen(num ? num : null).then((respo)=>{
 
             if(respo.flag){
 
@@ -74,6 +76,9 @@ router.get("/view/lit",(req,res)=>{
 
 
           })
+
+
+          
 
 
 

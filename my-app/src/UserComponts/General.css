@@ -126,7 +126,7 @@ cursor: pointer;
         width: 100%;
         
         margin-top: 20px;
-       border: solid 2px rgb(9, 9, 9);
+       /* border: solid 2px rgb(9, 9, 9); */
         display: flex;
         flex-wrap: wrap;
         
@@ -197,7 +197,7 @@ cursor: pointer;
 
   @media (max-width:444px){
 
-    .main{
+    .main-gen{
         width:46.333%;
         height: 240px;
        

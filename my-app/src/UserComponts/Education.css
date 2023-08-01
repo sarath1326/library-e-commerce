@@ -112,7 +112,7 @@ h3{
         width: 100%;
         
         margin-top: 20px;
-       border: solid 2px rgb(9, 9, 9);
+       /* border: solid 2px rgb(9, 9, 9); */
         display: flex;
         flex-wrap: wrap;
         
@@ -186,7 +186,7 @@ h3{
 
   @media (max-width:444px){
 
-    .main{
+    .main-edu{
         width:46.333%;
         height: 240px;
        

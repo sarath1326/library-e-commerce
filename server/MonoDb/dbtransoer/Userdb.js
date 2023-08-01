@@ -121,7 +121,7 @@ const viewproductschema=new mongoos.Schema({
 
             },
 
-            view_gen:()=>{
+            view_gen:(limit)=>{
 
                 return new Promise( async(resolve,reject)=>{
 
@@ -130,7 +130,7 @@ const viewproductschema=new mongoos.Schema({
 
                     const viewprogen=mongoos.model("products",viewproductschema)
 
-                    const result= await viewprogen.find({cotegory:"genarl" }).limit(12)
+                    const result= await viewprogen.find({cotegory:"genarl" }).limit(limit)
 
                     
                     if(result){

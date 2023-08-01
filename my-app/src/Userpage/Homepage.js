@@ -50,7 +50,7 @@ function Homepage() {
 
         <Rowhome title="education" url="/user/view/edu?limit=1"  id='edu' />
 
-        <Rowhome   title="Genaral" url="/user/view/gen"  id="gen"   /> 
+        <Rowhome   title="Genaral" url="/user/view/gen?limit=1"  id="gen"   /> 
 
     
       
