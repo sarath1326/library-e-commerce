@@ -6,6 +6,8 @@ import "./Rowhome.css"
 import { useEffect,useState } from 'react'
 import axios from "../Constant/Axios"
 import { useNavigate } from "react-router-dom"
+import { useContext } from 'react'
+import { viewcontext } from '../Userpage/Context/Viewcontext'
 
 
 
@@ -20,6 +22,8 @@ function Rowhome(props) {
   const [fetchdata,setfetchdata]=useState([])
 
   const navigate=useNavigate()
+
+  const {setdata}=useContext(viewcontext)
 
 
 
@@ -51,9 +55,14 @@ function Rowhome(props) {
 
         axios(props.url).then((respo)=>{
 
+
+
+
           console.log(respo.data)
 
           setfetchdata(respo.data)
+
+       
 
 
 
@@ -63,6 +72,29 @@ function Rowhome(props) {
 
 
        },[])
+
+
+       function oneview(proid){
+
+        axios("/user/oneview?proid="+proid).then((result)=>{
+
+         
+
+            setdata(result.data)
+
+          navigate("/oneview")
+
+
+          
+
+
+          
+
+
+
+                 })
+
+             }
 
       
 
@@ -106,7 +138,7 @@ function Rowhome(props) {
 
 
 
-                  <div>
+                  <div onClick={()=>{oneview(obj._id)}}>
 
             <div className='poster'>
 

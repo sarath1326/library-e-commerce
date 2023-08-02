@@ -15,34 +15,39 @@ function Oneview() {
   const {data}=useContext(viewcontext)
 
 
+  
+
+
 
   
  
     return (
     <div>
 
-      {/* <Navbers/> */}
+    
 
       <div className='mainbox-oneview'>
 
         <div className='items-disply-box-oneview'>
 
+          
+
         <div class="main-oneview">
         <div class="img-oneview"> 
-            <img  className='item-img-oneview' src="https://dcbookstore.com/uploads/product/images/bk_9761.jpg" alt=""/>
+            <img  className='item-img-oneview' src={`data:${data.oneview.contentType};base64,${data.oneview.imageBase64}`} alt=""/>
           
           </div>
        
         <div class="text-oneview">
 
-          <h4> Vilapayathra</h4>
+          <h4>{data.oneview.name}</h4>
 
         <p>
-          Auther : mt vasudeven nair<br/>
-          languge : malayalam<br/>
-          catagoury : novel<br/>
-          Publisher : dc books<br/>
-          price :{data}
+          Auther : {data.oneview.author}<br/>
+          languge : {data.oneview.language}<br/>
+          {/* catagoury : {data.cotegory}<br/> */}
+          Publisher : {data.oneview.publisher}<br/>
+          price :{data.oneview.price}
 
 
 
@@ -61,6 +66,8 @@ function Oneview() {
            <button className='btn2-oneview'> Add cart</button>
 
            </div>
+
+          
            
            
            </div>
@@ -78,138 +85,53 @@ function Oneview() {
  
 
    <div className='subitem-main-oneview'>
-   
 
-  <div className='subitems-oneview' >
+    {
+
+      data.subdata.map((obj)=>
+
+
+      (
+
+
+        <div className='subitems-oneview' >
 
     <div className='sub-img-oneview'>
-      <img className='simg-oneview' src='https://dcbookstore.com/uploads/product/images/bk_9761.jpg' alt='' />
+      <img className='simg-oneview' src={`data:${obj.contentType};base64,${obj.imageBase64}`} alt='' />
 
     </div>
 
-    <h5 > vilapayathra</h5>
-    <p> 
-      Languge : malayalam
-    </p>
-
-
+    <h6 className='booktitle'> {obj.name}</h6>
+    <span>Language:</span><span> {obj.language}</span>
 
   </div>
 
-  <div className='subitems-oneview' >
-
-<div className='sub-img-oneview'>
-  <img className='simg-oneview' src='https://dcbookstore.com/uploads/product/images/bk_9761.jpg' alt='' />
-
-</div>
-
-<h5> vilapayathra</h5>
-<p> 
-  Languge : malayalam
-</p>
 
 
 
-</div>
-
-<div className='subitems-oneview' >
-
-<div className='sub-img-oneview'>
-  <img className='simg-oneview' src='https://dcbookstore.com/uploads/product/images/bk_9761.jpg' alt='' />
-
-</div>
-
-<h5> vilapayathra</h5>
-<p> 
-  Languge : malayalam
-</p>
 
 
 
-</div>
 
-<div className='subitems-oneview' >
-
-<div className='sub-img-oneview'>
-  <img className='simg-oneview' src='https://dcbookstore.com/uploads/product/images/bk_9761.jpg' alt='' />
-
-</div>
-
-<h5> vilapayathra</h5>
-<p> 
-  Languge : malayalam
-</p>
-
-
-
-</div>
-
-<div className='subitems-oneview' >
-
-<div className='sub-img-oneview'>
-  <img className='simg-oneview' src='https://dcbookstore.com/uploads/product/images/bk_9761.jpg' alt='' />
-
-</div>
-
-<h5> vilapayathra</h5>
-<p> 
-  Languge : malayalam
-</p>
-
-
-
-</div>
-
-<div className='subitems-oneview' >
-
-<div className='sub-img-oneview'>
-  <img className='simg-oneview' src='https://dcbookstore.com/uploads/product/images/bk_9761.jpg' alt='' />
-
-</div>
-
-<h5> vilapayathra</h5>
-<p> 
-  Languge : malayalam
-</p>
-
-
-
-</div>
-
-<div className='subitems-oneview' >
-
-<div className='sub-img-oneview'>
-  <img className='simg-oneview' src='https://dcbookstore.com/uploads/product/images/bk_9761.jpg' alt='' />
-
-</div>
-
-<h5> vilapayathra</h5>
-<p> 
-  Languge : malayalam
-</p>
-
-
-
-</div>
-
-
+      )
+      
+      
+      
+      
+      )
    
-
-
-
-
-
-   </div> 
-
 
   
+
    
-   
-   
-   
-   
-   
-    </div>
+   }
+
+ 
+
+</div> 
+
+
+ </div>
   )
 }
 

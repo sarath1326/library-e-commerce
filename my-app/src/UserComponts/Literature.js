@@ -8,6 +8,9 @@ import "./Literature.css"
 import { BiFilterAlt } from "react-icons/bi"
 import { useState,useEffect } from 'react';
 import axios from "../Constant/Axios"
+import { useContext } from 'react';
+import { viewcontext } from '../Userpage/Context/Viewcontext'
+import { useNavigate } from 'react-router-dom';
 
 function Literature() {
   
@@ -15,6 +18,13 @@ function Literature() {
  const [state,setstate]=useState(false)
  const [fetchdata,setfetchdata]=useState([])
 
+
+ const navigate=useNavigate()
+
+    const {setdata}=useContext(viewcontext)
+
+   
+   
     function btn(){
   
       setstate(!state)
@@ -36,6 +46,27 @@ function Literature() {
 
         
       },[])
+
+
+
+
+      function oneview(proid){
+
+        axios("/user/oneview?proid="+proid).then((result)=>{
+    
+    
+          setdata(result.data)
+    
+          navigate("/oneview")
+    
+          
+    
+    
+                 })
+    
+             }
+    
+
 
 
 
@@ -126,7 +157,7 @@ function Literature() {
                (
 
 
-                <div class="main-lit">
+                <div class="main-lit" onClick={()=>{oneview(obj._id)}}   >
 <div class="img-lit"> 
     <img  className='item-img-lit' src={`data:${obj.contentType};base64,${obj.imageBase64}`} alt=""/>
   

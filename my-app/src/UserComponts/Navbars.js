@@ -34,7 +34,7 @@ function Navbars() {
 
   function home(){
 
-  navigate("/")
+  navigate("/home")
 
   }
 

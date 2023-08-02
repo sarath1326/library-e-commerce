@@ -78,6 +78,38 @@ router.get("/view/lit",(req,res)=>{
           })
 
 
+          router.get("/oneview",(req,res)=>{
+
+            let proid=req.query.proid
+
+           db.oneview(proid).then((respo)=>{
+
+            if (respo.flag){
+
+
+                db.bestchoise(respo.data.type).then((bestdata)=>{
+
+
+                    const result={
+       
+                    oneview:respo.data,
+                    subdata:bestdata
+                   }
+       
+                     res.json(result)
+    
+                    })
+                
+                }else{
+
+                res.sendStatus(404)
+           
+           
+            }
+         })
+        
+        })
+
           
 
 

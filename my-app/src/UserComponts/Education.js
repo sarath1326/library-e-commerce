@@ -9,12 +9,24 @@ import "./Education.css"
 import { VscFilter } from "react-icons/vsc";
 import { useState ,useEffect} from 'react';
 import { BiFilterAlt } from "react-icons/bi"
-import axios from "../Constant/Axios" 
+import axios from "../Constant/Axios"
+import { useNavigate } from 'react-router-dom'; 
+import { useContext } from 'react';
+import { viewcontext } from '../Userpage/Context/Viewcontext'
+
+
 
 function Education() {
 
   const [state,setstate]=useState(false)
   const [fetchdata,setfetchdata]=useState([])
+
+  const navigate=useNavigate()
+
+  const {setdata}=useContext(viewcontext)
+
+
+
 
     function btn(){
   
@@ -37,6 +49,31 @@ function Education() {
 
     
   },[])
+
+
+  function oneview(proid){
+
+    axios("/user/oneview?proid="+proid).then((result)=>{
+
+
+      setdata(result.data)
+
+      navigate("/oneview")
+
+      
+
+
+             })
+
+         }
+
+
+
+
+
+
+
+
  
 
 
@@ -109,7 +146,7 @@ function Education() {
               (
 
 
-                <div class="main-edu">
+                <div class="main-edu"   onClick={()=>{oneview(obj._id)}}>
         <div class="img-edu"> 
             <img  className='item-img-edu' src={`data:${obj.contentType};base64,${obj.imageBase64}`} alt=""/>
           

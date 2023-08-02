@@ -156,6 +156,64 @@ const viewproductschema=new mongoos.Schema({
 
 
 
+            },
+
+
+            oneview:(proid)=>{
+
+                const obj={}
+
+                return new Promise (async(resolve,reject)=>{
+
+                    const prodectes=mongoos.model("products",viewproductschema)
+
+                    const result= await prodectes.findOne({_id:proid})
+
+                    
+
+                  if(result) {
+
+                    obj.flag=true
+                    obj.data=result
+
+                    resolve(obj)
+
+
+                  }else{
+
+                    resolve({flag:false})
+
+
+                  }
+
+
+
+                })
+
+
+
+
+            },
+
+            bestchoise:(protype)=>{
+
+
+                return new Promise( async(resolve,reject)=>{
+
+                    const prodectes=mongoos.model("products",viewproductschema)
+
+                    const result=await prodectes.find({type:protype})
+
+                   resolve(result)
+
+
+                })
+
+
+              
+
+
+
             }
 
 
