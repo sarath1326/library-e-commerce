@@ -2,6 +2,7 @@
 
 
 const mongoos=require("mongoose")
+const bcrypt=require("bcrypt")
 
 
 
@@ -40,6 +41,20 @@ const viewproductschema=new mongoos.Schema({
     type:String,
 
 })
+
+
+
+
+
+    const user_signup_schema= new mongoos.Schema({
+
+        name:String,
+        mobile:String,
+        email:String,
+        password:String
+
+
+    })
 
 
 
@@ -214,7 +229,138 @@ const viewproductschema=new mongoos.Schema({
 
 
 
+            },
+
+
+            signup:(data)=>{
+
+                const obj={}
+
+
+                const signup=mongoos.model("user",user_signup_schema)
+
+                return new Promise( async(resolve,reject)=>{
+
+                    const item=data
+
+                    item.password=await bcrypt.hash(item.password,10)
+
+                    const adddata= new signup(item)
+
+                    adddata.save().then((result)=>{
+
+                        console.log(result)
+
+                        if(result){
+
+                            obj.flag=true
+                            obj.data=result
+
+                            resolve(obj)
+
+
+
+
+                        }else{
+
+                            resolve({flag:false})
+
+                        }
+
+                        
+
+                       
+
+                    })  
+
+
+
+
+                    
+
+
+
+                    
+
+
+
+
+
+                })
+
+
+
+            },
+
+            login:(data)=>{
+
+                const responce={}
+
+
+                const userdata=mongoos.model("user",user_signup_schema)
+
+
+                return new Promise ( async (resolv,reject)=>{
+
+
+                  const fetchdata= await userdata.findOne({email:data.email})
+
+
+                  if(fetchdata){
+
+                    bcrypt.compare(data.password,fetchdata.password).then((result)=>{
+
+                        
+                        if(result){
+
+                            
+
+                            responce.flag=true
+                            responce.user=fetchdata
+
+                            resolv(responce)
+
+
+
+                        }else{
+
+                            
+                            resolv({flag:false})
+
+
+                        }
+
+
+
+
+
+                    })
+
+
+
+
+
+                  }else{
+
+                    
+                    
+                    resolv({flag:false})
+
+
+                  }
+
+
+
+
+                        
+
+                })
+
+
+
             }
+
+            
 
 
 

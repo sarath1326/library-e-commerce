@@ -64,18 +64,10 @@ function Genaral() {
 
         function oneview(proid){
 
-          axios("/user/oneview?proid="+proid).then((result)=>{
-      
-      
-            setdata(result.data)
-      
-            navigate("/oneview")
-      
-            
-      
-      
-                   })
-      
+
+          navigate(`/oneview/${proid}`)
+
+          
                }
       
 

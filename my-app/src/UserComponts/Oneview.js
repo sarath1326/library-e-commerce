@@ -5,49 +5,67 @@
 import React from 'react'
 import "./Oneview.css"
 // import Navbers from "./Navbars"
-import { useContext } from 'react'
-import {viewcontext}from ".././Userpage/Context/Viewcontext"
+import { useParams } from 'react-router-dom'
+import axios from "../Constant/Axios"
+import { useState,useEffect } from 'react'
 
 
 
 function Oneview() {
 
-  const {data}=useContext(viewcontext)
+  const {proid}=useParams();
+  const [data,setdata]=useState({});
+  const [bestdata,setbestdata]=useState([]);
+
+  console.log(proid)
+
+  useEffect(()=>{
+
+    axios("/user/oneview?proid="+proid).then((respo)=>{
+
+      
+
+      setdata(respo.data.oneview);
+      setbestdata(respo.data.subdata);
+  
+  
+    });
 
 
   
+   
 
+  },[]);
 
-
+  
+        console.log(bestdata)
   
  
     return (
     <div>
 
-    
+      {/* <Navbers/> */}
 
       <div className='mainbox-oneview'>
 
         <div className='items-disply-box-oneview'>
 
-          
-
         <div class="main-oneview">
         <div class="img-oneview"> 
-            <img  className='item-img-oneview' src={`data:${data.oneview.contentType};base64,${data.oneview.imageBase64}`} alt=""/>
+            <img  className='item-img-oneview' src={`data:${data.contentType};base64,${data.imageBase64}`} alt=""/>
           
           </div>
        
         <div class="text-oneview">
 
-          <h4>{data.oneview.name}</h4>
+          <h4>{data.name}</h4>
 
         <p>
-          Auther : {data.oneview.author}<br/>
-          languge : {data.oneview.language}<br/>
-          {/* catagoury : {data.cotegory}<br/> */}
-          Publisher : {data.oneview.publisher}<br/>
-          price :{data.oneview.price}
+          Auther : {data.author}<br/>
+          languge : {data.language}<br/>
+          catagoury : {data.cotegory}<br/>
+          Publisher : {data.publisher}<br/>
+          price :{data.price}
 
 
 
@@ -66,8 +84,6 @@ function Oneview() {
            <button className='btn2-oneview'> Add cart</button>
 
            </div>
-
-          
            
            
            </div>
@@ -85,53 +101,67 @@ function Oneview() {
  
 
    <div className='subitem-main-oneview'>
+   
 
-    {
+  
+  
+     {
 
-      data.subdata.map((obj)=>
-
-
+      bestdata.map((obj)=>
+      
       (
 
-
-        <div className='subitems-oneview' >
+           <div className='subitems-oneview' >
 
     <div className='sub-img-oneview'>
-      <img className='simg-oneview' src={`data:${obj.contentType};base64,${obj.imageBase64}`} alt='' />
+      <img className='simg-oneview' src={`data:${obj.contentType};base64,${obj.imageBase64}`}           alt='' />
 
     </div>
 
-    <h6 className='booktitle'> {obj.name}</h6>
-    <span>Language:</span><span> {obj.language}</span>
+        <h6 className='booktitle'> {obj.name}</h6>
+       <span>Language:</span><span> {obj.language}</span>
+
+
 
   </div>
 
 
-
-
-
-
-
-
-      )
-      
-      
+          )
       
       
       )
-   
+  
+  
+ }
 
   
 
+
+
+
+
+
+
+
+
+
    
-   }
-
- 
-
-</div> 
 
 
- </div>
+
+
+
+   </div> 
+
+
+  
+   
+   
+   
+   
+   
+   
+    </div>
   )
 }
 

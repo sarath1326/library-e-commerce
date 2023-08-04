@@ -53,19 +53,10 @@ function Education() {
 
   function oneview(proid){
 
-    axios("/user/oneview?proid="+proid).then((result)=>{
+     navigate(`/oneview/${proid} `);
 
 
-      setdata(result.data)
-
-      navigate("/oneview")
-
-      
-
-
-             })
-
-         }
+     }
 
 
 

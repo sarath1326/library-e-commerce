@@ -47,13 +47,42 @@ function placeoder(){
          
           <td > <img src='https://dcbookstore.com/uploads/product/images/bk_9761.jpg ' alt='Loading....' className='cart-img'/> </td>
          
-          <td className='cart-td'>vellapayathra</td>
+          <td className='cart-td'>vellapayathra <br/><br/>
+
+          <a className='tda-cart'> view</a>
           
-          <td className='cart-td'>850/-</td>
+          </td>
           
-          <td className='btn-td' > <button className='cart-btn'>-</button >       <span>5 </span>    <button className='cart-btn'>+</button>          </td>
+          <td className='cart-td'>
+
+
+
+            <br/>
+            
+            850/-
+          
+          
+          </td>
+          
+          <td className='btn-td' > 
+
+          <br/>
+          
+          <button className='cart-btn'>-</button >       <span>5 </span>    <button className='cart-btn'>+</button>    
+          
+          
+          
+                </td>
          
-          <td className='cart-icon' > <BsFillTrash3Fill className='icom'  /> </td>
+          <td className='cart-icon' >
+
+            <br/>
+            
+             <BsFillTrash3Fill className='icom'  /> 
+             
+             
+             
+             </td>
        
         </tr>
 

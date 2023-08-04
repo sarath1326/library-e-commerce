@@ -6,6 +6,7 @@ import { useState } from "react"
 
 
 export const viewcontext=createContext(null)
+// export const username=createContext(null)
 
 
 
@@ -44,4 +45,39 @@ export const viewcontext=createContext(null)
 
   }
 
-  export default View
+  export default View 
+
+
+
+
+
+
+//    function name({children}){
+
+// const [name,setname]=useState('')
+
+
+
+//      return (
+
+
+//          <username.Provider value={{name,setname}}>
+
+//           {children}
+
+
+
+//          </username.Provider>
+
+
+
+
+//      )
+
+
+
+
+
+//    }
+
+//    export  name

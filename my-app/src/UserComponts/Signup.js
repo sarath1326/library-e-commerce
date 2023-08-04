@@ -5,6 +5,7 @@ import React from 'react'
 import "./Signup.css"
 import { useState, } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from "../Constant/Axios"
 
 
 function Signup() {
@@ -12,6 +13,56 @@ function Signup() {
     const navigate=useNavigate()
 
     const [state,setstate]=useState(true)
+
+    const [name,setname]=useState('')
+    const [mobile,setmobile]=useState('')
+    const [email,setemail]=useState('')
+    const [password,setpassword]=useState('')
+
+
+      const data={
+        name,
+        mobile,
+        email,
+        password
+      }
+  
+  
+  
+  
+  
+          function signup(){
+
+                
+
+               axios.post("/user/signup",data).then((respo)=>{
+
+
+                if(respo.data.flag){
+                  
+                  alert("signup sucss")
+
+                  setstate(false)
+                
+                }else{
+
+                  alert("signup err")
+
+
+                  
+                }
+
+
+
+                      
+
+                   })
+
+
+
+
+
+                    }
 
 
 
@@ -55,19 +106,23 @@ function Signup() {
 
             <form>
 
-                <input type='text' placeholder='name'  name='name'  /> <br/><br/>
+                <input type='text' placeholder='name'  name='name' onChange={(e)=>{setname(e.target.value)}}  /> <br/><br/>
 
-                <input type='text' placeholder='Email id' name='email' /> <br/><br/>
+                <input type='text' placeholder='mobile no'  name='mobile' onChange={(e)=>{setmobile(e.target.value)}}  /> <br/><br/>
+
+                
+
+                <input type='text' placeholder='Email id' name='email' onChange={(e)=>{setemail(e.target.value)}} /> <br/><br/>
 
                 {/* <input type='number' placeholder='mobile no' name='mobile' /> <br/><br/> */}
 
-                <input type='text' placeholder='Password' name='password' />
+                <input type='text' placeholder='Password' name='password' onChange={(e)=>{setpassword(e.target.value)}} />
 
               </form>
 
               <br/><br/>
 
-               <button onClick={()=>{setstate(false)}}  className='btn-next'  > next </button>
+               <button onClick={signup}  className='btn-next'  > next </button>
               
                </div>
 

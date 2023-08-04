@@ -11,6 +11,7 @@ import Cartpage from './Userpage/Cartpage';
 import Myoderpage from './Userpage/Myoderpage';
 import Oneviewpage from './Userpage/Oneviewpage';
 import View from './Userpage/Context/Viewcontext';
+import Username from "./Userpage/Context/Usernamecontext"
 import Educationpage from './Userpage/Educationpage';
 import Literaturepage from './Userpage/Literaturepage';
 import Generalpage from './Userpage/Generalpage';
@@ -28,6 +29,10 @@ import Moreviewpageadmin from './Admin pages/Moreviewpageadmin';
 import Loginpageadmin from './Admin pages/Loginpage';
 
 import Lodingpage from './Userpage/Lodingpage';
+
+
+
+import Text from './UserComponts/Text';
 
 
 
@@ -61,6 +66,8 @@ function App() {
   return (
     <div>
 
+      
+      <Username>
      <View>
 
       <Routes>
@@ -74,7 +81,7 @@ function App() {
 
         <Route element={<Myoderpage />}  path='/myoder'   />
 
-        <Route element={<Oneviewpage />} path='/oneview' />
+        <Route element={<Oneviewpage />} path='/oneview/:proid' />
 
         <Route element={<Educationpage />} path='/edu' />
 
@@ -115,7 +122,8 @@ function App() {
 
       
       
-      </View>      
+      </View>  
+      </Username>    
     
 
     

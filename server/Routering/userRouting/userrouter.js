@@ -110,9 +110,37 @@ router.get("/view/lit",(req,res)=>{
         
         })
 
+
+        router.post("/signup",(req,res)=>{
+
+            const data=req.body
+            
+
+
+
+            db.signup(data).then((respo)=>{
+
+                if(respo.flag){
+
+                    
+                 res.json({flag:true})
+
+                }else{
+
+                    
+                    res.json({flag:false})
+                }
+
+            })
+
+
+
+            
+
+        })
           
 
-
+       
 
 
 

@@ -2,7 +2,7 @@
 
 
 
-import React from 'react'
+import React, { useState } from 'react'
 import "./Navbar.css"
 
 
@@ -12,15 +12,14 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { VscAccount } from "react-icons/vsc";
+import { useContext } from 'react';
+import { namecontext } from '../Userpage/Context/Usernamecontext'; 
 
 import { BsFillCartDashFill,BsFillBagCheckFill,BsFillHouseDoorFill } from "react-icons/bs";
 
 import { useNavigate } from 'react-router-dom';
-
-
-
-
-
+import { useEffect } from 'react';
+import axios from "../Constant/Axios"
 
 
 
@@ -28,6 +27,54 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Navbars() {
+
+
+ const {nameuser}=useContext(namecontext)
+
+ const [user,setuser]=useState('')
+
+       
+
+
+             useEffect(()=>{
+
+             axios("/user/userdata/navbar").then((respo)=>{
+
+              if(respo.data.flag){
+
+                console.log(respo.data.obj)
+
+              }else{
+
+                console.log("plz login")
+             
+              }
+
+
+
+             })
+                   
+
+
+
+
+             },[])
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+
+
+
 
   const navigate=useNavigate()
 
@@ -89,7 +136,9 @@ function Navbars() {
             
           
             </Nav>
-            <span className='name'> sangara narayanan</span>
+            
+   { user ?    <span className='name'> {user} </span> : null    }
+          
           <NavDropdown className='navdrop' title=<VscAccount/> id="navbarScrollingDropdown">
            
               <NavDropdown.Item className='ndi' onClick={login}  >Login</NavDropdown.Item>
