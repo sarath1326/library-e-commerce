@@ -17,7 +17,7 @@ function Proadd_admin() {
  const [name,setname]=useState("")
  const [author,setauthor]=useState("")
  const [language,setlanguage]=useState("")
- const [price,setprice]=useState("")
+ const [price,setprice]=useState(0)
  const [publisher,setpublisher]=useState("")
  const [cotegory,setcotegory]=useState("")
  const [type,settype]=useState("")
@@ -98,7 +98,7 @@ function Proadd_admin() {
                     
                     
                     
-                    <input type='text' placeholder='price' name='price' onChange={(e)=>{setprice(e.target.value)}} /><br/><br/>
+                    <input type='number' placeholder='price' name='price' onChange={(e)=>{setprice(e.target.value)}} /><br/><br/>
 
                     <input type='text' placeholder='publisher' name='publisher' onChange={(e)=>{setpublisher(e.target.value)}} /><br/><br/>
 

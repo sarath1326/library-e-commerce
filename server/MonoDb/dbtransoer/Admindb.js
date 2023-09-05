@@ -34,7 +34,7 @@ const addproductsschema=new mongoos.Schema({
     name:String,
     author:String,
     language:String,
-    price:String,
+    price:Number,
     publisher:String,
     cotegory:String,
     type:String,

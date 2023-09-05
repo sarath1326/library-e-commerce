@@ -3,6 +3,7 @@
 
 const mongoos=require("mongoose")
 const bcrypt=require("bcrypt")
+const { promises } = require("nodemailer/lib/xoauth2")
 
 
 
@@ -55,6 +56,58 @@ const viewproductschema=new mongoos.Schema({
 
 
     })
+
+
+
+   const otp_schema=new mongoos.Schema({
+
+       
+      otp:{
+        type:String,
+        unique:true
+      },
+     
+      name:String,
+      
+      mobile:String,
+      
+      email:{
+        type:String,
+        unique:true
+      },
+
+      password:String
+    
+    })
+
+    const cart_schema= new mongoos.Schema({
+
+        user:{
+            type:String,
+            
+
+        },
+
+        
+        products:Array
+
+    })
+
+
+    const place_oder_schema=new mongoos.Schema({
+
+       userid:String,
+        userAdress:Object,
+        products:Array,
+        pyment_method: String,
+        totalAmount: Number,
+        date: String,
+        status: String
+
+
+       })
+
+
 
 
 
@@ -232,56 +285,120 @@ const viewproductschema=new mongoos.Schema({
             },
 
 
-            signup:(data)=>{
+            emailexist:(email)=>{
 
-                const obj={}
+                return new Promise(async(resolve ,reject)=>{
+
+                    const signup=mongoos.model("user",user_signup_schema);
+
+                    const result= await signup.findOne({email:email})
+
+                    if(result){
+
+                        resolve({exsist:true});
+                    }else{
+
+                        resolve({exsist:false});
+                    }
 
 
-                const signup=mongoos.model("user",user_signup_schema)
+
+
+                });
+
+
+
+            },
+
+
+
+            otpData:(data)=>{
+
+               return new Promise( async(resolve,reject)=>{
+
+
+                const otpDb=mongoos.model("otp",otp_schema)
+
+              const dataUplode={
+
+                  otp:data.sendotp,
+                  name:data.userDetailes.name,
+                  mobile:data.userDetailes.mobile,
+                  email:data.userDetailes.email,
+                  password:data.userDetailes.password
+
+                 }
+
+
+
+
+
+                const final= new  otpDb(dataUplode)
+
+                final.save().then(()=>{
+
+
+                }).catch(err=>{
+                    console.log("otpData uplding err" + err)
+                        
+                })
+
+                
+
+
+
+
+
+               })
+
+
+
+
+            },
+
+
+            otpVarification:(otp)=>{
 
                 return new Promise( async(resolve,reject)=>{
 
-                    const item=data
+                    const otpDb=mongoos.model("otp",otp_schema)
 
-                    item.password=await bcrypt.hash(item.password,10)
+                  const result= await otpDb.findOne({otp:otp})
 
-                    const adddata= new signup(item)
+                  console.log(result)
 
-                    adddata.save().then((result)=>{
+                  
+                  if(result){
 
-                        console.log(result)
+               
+                     otpDb.deleteOne({otp: otp}).then(()=>{})
+                  
+                    const signup=mongoos.model("user",user_signup_schema)
 
-                        if(result){
+                    result.password= await   bcrypt.hash(result.password,10)
 
-                            obj.flag=true
-                            obj.data=result
+                    const signupData={
 
-                            resolve(obj)
+                        name:result.name,
+                        email:result.email,
+                        mobile:result.mobile,
+                        password:result.password
 
+                    }
 
+                    const final= new signup(signupData)
 
+                    final.save().then(()=>{
 
-                        }else{
+                        resolve({flag:true})
 
-                            resolve({flag:false})
+                    })
+                
+                }else{
 
-                        }
+                   resolve({flag:false})
 
-                        
-
-                       
-
-                    })  
-
-
-
-
-                    
-
-
-
-                    
-
+                }
 
 
 
@@ -290,8 +407,10 @@ const viewproductschema=new mongoos.Schema({
 
 
 
-            },
 
+            },
+            
+            
             login:(data)=>{
 
                 const responce={}
@@ -313,7 +432,7 @@ const viewproductschema=new mongoos.Schema({
                         
                         if(result){
 
-                            
+                            console.log("login sucss");
 
                             responce.flag=true
                             responce.user=fetchdata
@@ -324,6 +443,7 @@ const viewproductschema=new mongoos.Schema({
 
                         }else{
 
+                            console.log("password wong");
                             
                             resolv({flag:false})
 
@@ -340,10 +460,11 @@ const viewproductschema=new mongoos.Schema({
 
 
 
+
                   }else{
 
                     
-                    
+                    console.log("username invalig");
                     resolv({flag:false})
 
 
@@ -358,7 +479,529 @@ const viewproductschema=new mongoos.Schema({
 
 
 
+            },
+
+            add_cart:(proid,userid)=>{
+
+
+              const  pro_objid= new mongoos.Types.ObjectId(proid)
+              
+              
+              const data={
+
+                    item:pro_objid,
+                    quantity:1
+                
+                }
+
+
+              return new Promise(async(resolve,reject)=>{
+
+
+              const cartDB=mongoos.model("cart",cart_schema)
+
+                 const findUser= await cartDB.findOne({user:userid})
+
+                 if (findUser){
+
+                    
+              let proExist=findUser.products.findIndex(docObj=>docObj.item==proid)
+
+                if(proExist !=-1){
+
+                    resolve({proexit:true})
+
+
+                }else{
+
+
+                    cartDB.updateOne({user:userid},{
+
+                        $push:{
+
+                            products:data
+                            
+                        }
+                    
+                    }).then( async(result)=>{
+
+
+                        const findData= await  cartDB.findOne({user:userid})
+
+                        const arrya= findData.products
+
+                        const count= arrya.length
+
+                         resolve({update:true,count:count})
+
+
+
+                    }).catch(err=>{
+
+                        console.log("errr", err);
+                    })
+                
+                }
+            
+            
+            }else{
+
+                   
+                const addData={
+
+                    user:userid,
+                    products:[data]
+                
+                }
+
+
+               const final= new cartDB(addData)
+
+               final.save().then(async()=>{
+
+              const findData  =  await cartDB.findOne({user:userid})
+
+              const cartArrya=findData.products
+
+
+              const count= cartArrya.length
+
+              console.log(count)
+
+
+                resolve({flag:true,count:count})
+
+                 }).catch(err=>{
+
+                reject({flag:false})
+
+               })
+
+           
+           
             }
+
+
+
+              })
+
+
+            
+
+
+               
+
+
+
+
+
+
+
+            },
+
+            get_Cartcount:(userid)=>{
+
+                
+
+                
+
+                return new Promise(async(resolve,reject)=>{
+
+                    console.log("inn")
+
+                    let  count = 0
+                   
+
+                    const cartDB=mongoos.model("cart",cart_schema)
+
+                    const cartData= await cartDB.findOne({user:userid})
+
+                
+
+
+
+                    if(cartData){
+
+                        console.log("call")
+
+
+                        const arrya= cartData.products  
+
+                         count = arrya.length 
+
+                        console.log(count)
+
+                        resolve({cartCount:count})
+                     
+            
+                    }else{
+
+                        console.log("helooo")
+
+                        resolve({cartCount:count})
+
+
+             }
+            
+            })
+        
+        },
+
+        show_cart:(userid)=>{
+
+
+            return new Promise( async(resolve,reject)=>{
+
+                const cartDB=mongoos.model("cart",cart_schema)
+
+
+                const findUser= await cartDB.findOne({user:userid})
+
+                if(findUser){
+
+
+                    let cartlist= await cartDB.aggregate([
+
+                        {
+                           $match:{user:userid}
+
+                        },
+                        {
+                            $unwind:"$products"
+                        
+                        },
+                        {
+
+                            $project:{
+
+                                item:"$products.item",
+                                quantity:"$products.quantity"
+
+
+
+                            }
+
+                        },
+
+                        {
+
+                            $lookup:{
+                                from:"products",
+                                localField:"item",
+                                foreignField:"_id",
+                                as:"cartitems"
+                                
+
+                            }
+
+                         },
+                         
+                         {
+                            
+                            $project:{
+
+                                item:1,quantity:1,cartitems:{$arrayElemAt:["$cartitems",0]}
+
+                            }
+                       
+                       
+                         }
+                        
+                        ])
+
+                    // console.log(cartlist)
+
+                    resolve({flag:true,cartdata:cartlist})
+
+
+                    }else{
+
+                    console.log("user not fount")
+
+                    resolve({flag:false})
+               
+               
+                }
+
+
+
+
+                    
+
+            })
+        
+        
+        
+        },
+
+        cart_count_change:(userid,proid,count)=>{
+
+            const countnum=parseInt(count)
+
+            const proid_obj=new mongoos.Types.ObjectId(proid)
+              
+
+
+
+
+
+            return new Promise( async(resolv,reject)=>{
+
+                const cartDB=mongoos.model("cart",cart_schema)
+
+                const  userfind= await cartDB.findOne({user:userid})
+
+                if(userfind){
+
+                    cartDB.updateOne({user:userid,"products.item":proid_obj},{
+
+                        $inc:{"products.$.quantity":countnum}
+
+
+
+                    }).then(()=>{
+
+                        resolv({flag:true})
+
+                   
+                    }).catch(err=>{
+
+                        console.log("cart cgange err")
+
+                        reject(err)
+
+                    })
+
+
+
+                }else{
+
+                    resolv({flag:false})
+
+                }
+
+
+              
+
+
+
+
+
+            })
+
+
+
+
+        },
+
+        cart_total_price:(userid)=>{
+
+            return new Promise( async(resolve,reject)=>{
+
+                const cartDB=mongoos.model("cart",cart_schema)
+
+
+                const userfind= await cartDB.findOne({user:userid})
+
+                if(userfind){
+
+                    const cartdata= await cartDB.aggregate([
+
+                        {
+                            $match :{user:userid}
+                        },
+
+                        {
+
+                            $unwind:"$products"
+                        
+
+                         },
+
+                         {
+                            $project:{
+
+                                item:"$products.item",
+                                quantity:"$products.quantity"
+
+                             }
+                         },
+
+                         {
+
+                            $lookup:{
+                                from:"products",
+                                localField:"item",
+                                foreignField:"_id",
+                                as:"cartitems"
+                                
+
+                            }
+
+                         },
+
+                         {
+                            
+                            $project:{
+
+                                item:1,quantity:1,cartitems:{$arrayElemAt:["$cartitems",0]}
+
+                            }
+                       
+                       
+                         },
+
+                         {
+
+                            $group:{
+                               _id:null,
+                               total:{$sum:{$multiply:["$quantity","$cartitems.price"]}}
+                            }
+
+
+
+                         }
+
+
+
+
+
+
+
+
+
+
+
+                    ])
+
+                    resolve({total_price:cartdata[0].total})
+
+
+                    
+                   }else{
+
+                    console.log(" cart total user not fount")
+
+
+                   }
+
+
+
+
+
+
+
+
+
+
+
+            })
+
+        },
+
+
+        place_oder_cart:(data)=>{
+
+            return new Promise( async(resolve,reject)=>{
+
+                const {userid,detailes}= data
+
+                const { addrss,pyment, payprice    }=detailes
+
+
+                 //user cart data find
+
+                 const cartDB=mongoos.model("cart",cart_schema)
+
+                 const findData= await cartDB.findOne({user:userid})
+
+                 if(findData){
+
+                    const addproducts= findData.products
+
+                    console.log("user cart data:" ,addproducts)
+
+                    const date = new Date();
+
+
+
+                 let shortdate = date.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                    
+                    
+                    })
+
+                    const status= pyment ==="cod" ? "placed(cod)" : "pending"
+
+
+
+
+
+
+
+                    const savedata={
+
+                        userAdress:{
+
+                            name:addrss.name,
+                            adress:addrss.adress,
+                            pincode:addrss.pincode,
+                            landmark:addrss.landmark,
+                            mobile:addrss.mobile
+                        
+                        },
+
+                        userid:userid,
+                        products:addproducts,
+                        pyment_method:pyment,
+                        totalAmount:payprice,
+                        data:shortdate,
+                        status:status
+                    
+                    
+                    }
+
+
+
+                    const place_oder_DB=mongoos.model("placoder",place_oder_schema)
+
+
+                    const final = new place_oder_DB(savedata)
+
+                    final.save().then((responce)=>{
+
+                        resolve({flag:true,oderid:responce._id,total:payprice})
+
+                    }).catch(err=>{
+
+                      
+
+                       reject(err)
+
+                    })
+                
+                
+                
+                
+                }else{
+
+                    resolve({flag:true})
+
+                }
+
+
+
+
+
+            })
+
+
+
+
+
+        }
 
             
 

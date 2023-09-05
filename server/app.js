@@ -11,15 +11,34 @@ const adminrouter=require("./Routering/adminRouting/adminrouter")
 const cors=require("cors")
 const cookiparser=require("cookie-parser")
 const session=require("express-session")
+const bodyparser =require ("body-parser")
 
 
 
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(cors())
+app.use(bodyparser.urlencoded({extended:true}))
+app.use(cors({
+    
+  origin:["http://localhost:3000"],
+  methods:["GET","POST"],
+  credentials:true
+}));
+
+// app.use(session({
+    
+//   key:"libray",
+//   secret:"sarath",
+//   cookie:{expires:60*60*24},
+//   saveUninitialized:false,
+//   resave: false 
+
+
+// }));
+
+
 app.use(cookiparser())
-app.use(session({secret:"key", cookie:{maxAge:120000}}))         
 
 
   dbconnecting.dbconnecting()

@@ -1,0 +1,133 @@
+
+
+
+
+.navbar{
+  
+width: 100%;
+position: fixed;
+
+
+
+
+background-color:rgb(33, 51, 99);
+
+  color: rgb(17, 16, 16);
+}
+
+.navdrop{
+  margin-right: 50px;
+  font-size: 25px;
+  color: white;
+  
+}
+
+ .togil{
+ 
+  background-color: rgb(228, 228, 228);
+  font-size: 16px;
+  
+}
+
+ 
+
+
+
+.navlink{
+
+ 
+  font-size: 16px;
+  margin-left: 50px;
+  transition: 0.3s ease-in-out;
+  color: white;
+
+}
+
+.navlink:hover{
+  color: rgb(98, 95, 95);
+  
+}
+
+
+
+
+img{
+  width: 50px;
+  margin-left: 15px;
+}
+
+.name{
+  margin-right: 5px;
+  font-size: 16px;
+  
+  color: white;
+  display: block;
+ 
+}
+
+.ndi{
+  color: blue;
+}
+
+.icons-nav{
+  font-size: 20px;
+  
+}
+
+
+.badg-nav{
+
+  width: 30px;
+  height: 20px;
+  margin-left: 5px;
+  
+  
+}
+
+.profile{
+  width: 40px;
+  height: 40px;
+  background-color: aqua;
+  border-radius: 50%;
+
+}
+
+.pro-img{
+  width: 100%;
+  height: 100%;
+
+
+}
+
+.photo{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

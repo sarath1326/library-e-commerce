@@ -12,16 +12,16 @@ import Myoderpage from './Userpage/Myoderpage';
 import Oneviewpage from './Userpage/Oneviewpage';
 import View from './Userpage/Context/Viewcontext';
 import Username from "./Userpage/Context/Usernamecontext"
-import Educationpage from './Userpage/Educationpage';
-import Literaturepage from './Userpage/Literaturepage';
-import Generalpage from './Userpage/Generalpage';
+
+
+
 import Placeoderpage from './Userpage/Placeoderpage';
 import Signuppage from './Userpage/Signuppage';
 import AddAdresspage from './Userpage/AddAdresspage';
 import Loginpage from './Userpage/Loginpage';
 import Placeoderpropage from './Userpage/Placeoderpropage';
 import Proaddpage_admin from './Admin pages/Proaddpage_admin';
-
+import Categorypage from './Userpage/Categorypage';
 
 import Admin_home_page from './Admin pages/Admin_home_page';
 import Alloderspage from './Admin pages/Alloderspage';
@@ -29,6 +29,9 @@ import Moreviewpageadmin from './Admin pages/Moreviewpageadmin';
 import Loginpageadmin from './Admin pages/Loginpage';
 
 import Lodingpage from './Userpage/Lodingpage';
+import Otp_page from './Userpage/Otp_page';
+
+// import Plc from './UserComponts/Plc';
 
 
 
@@ -83,13 +86,15 @@ function App() {
 
         <Route element={<Oneviewpage />} path='/oneview/:proid' />
 
-        <Route element={<Educationpage />} path='/edu' />
+        <Route element={<Categorypage />} path='/cata/:url' />
+       
+        <Route element={<Otp_page />} path='/otp' />
 
-        <Route element={<Literaturepage/>} path='/lit' />
+       
 
-        <Route element={<Generalpage />} path='/gen' />
+       
 
-        <Route element={ <Placeoderpage />} path='/plo'    />
+        <Route element={ <Placeoderpage />} path='/plo/:total'    />
 
         <Route element={<Signuppage />  } path='/sig' />
 
@@ -108,6 +113,8 @@ function App() {
         <Route element={<Moreviewpageadmin />} path='/admin/moreview'   />
 
         <Route  element={<Loginpageadmin />} path='/admin/login' />
+
+        {/* <Route element={<Plc />} path='/plc' /> */}
 
         {/* <Route  element={<Rowhome />} path='/row' /> */}
 

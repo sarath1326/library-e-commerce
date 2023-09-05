@@ -1,0 +1,89 @@
+
+
+.main-sig{
+
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+
+.mainbox-sig{
+
+    width: 800px;
+    height: 500px;
+    /* background-color: aqua; */
+    display: flex;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    border: 2px solid rgb(164, 186, 196);
+    
+}
+
+.logo-sig{
+
+    width: 400px;
+    height: 100%;
+    /* background-color: blueviolet; */
+    padding-top: 30px;
+    
+}
+.form-sig{
+
+    width: 500px;
+    height: 100%;
+    /* background-color: brown; */
+    padding-top: 70px;
+    padding-left: 50px;
+    background-color: rgb(248, 240, 229);
+   
+}
+
+.img-sig{
+
+    margin-left: 70px;
+    width: 200px;
+    height: 200px;
+}
+
+
+.title-sig{
+
+    margin-top: 50px;
+    text-align: center;
+}
+
+
+.input-sig{
+    width: 300px;
+    height: 40px;
+}
+
+
+.btn-sig{
+    margin-top: 50px;
+    margin-left: 70px;
+    width: 150px;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(20, 30, 70);
+    font-size: 20px;
+}
+
+.loding-sig{
+
+    margin-left: 150px;
+    margin-top: 50px;
+}
+
+.span-sig{
+
+    color: red;
+}

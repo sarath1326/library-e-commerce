@@ -3,8 +3,8 @@
 
 
 import React from 'react'
-import Signup from '../UserComponts/Signup'
-import Navbars from '../UserComponts/Navbars'
+import Signup from '../UserComponts/signup/Signup'
+import Navbars from '../UserComponts/navbar/Navbars'
 
 function Signuppage() {
  

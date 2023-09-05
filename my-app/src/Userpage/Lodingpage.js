@@ -1,7 +1,7 @@
 
 
 import React from 'react'
-import Loding from '../UserComponts/Loding'
+import Loding from '../UserComponts/loding/Loding'
 import { useState,useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 

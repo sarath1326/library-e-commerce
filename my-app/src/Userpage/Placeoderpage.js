@@ -5,8 +5,8 @@
 
 
 import React from 'react'
-import Navbars from '../UserComponts/Navbars'
-import Placoder from "../UserComponts/Placeoder"
+import Navbars from '../UserComponts/navbar/Navbars'
+import Placeoder from '../UserComponts/placeOder/Placeoder'
 
 function Placeoderpage() {
  
@@ -16,7 +16,7 @@ function Placeoderpage() {
 
 
         <Navbars />
-        <Placoder />
+        <Placeoder />
       
 
 

@@ -3,9 +3,8 @@
 
 
 import React from 'react'
-import Navbars from '../UserComponts/Navbars'
-import Oneview from "../UserComponts/Oneview"
-
+import Navbars from '../UserComponts/navbar/Navbars'
+import Oneview from '../UserComponts/oneView/Oneview'
 
 
 function Oneviewpage() {
