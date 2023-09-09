@@ -32,7 +32,7 @@ import { AddCart } from '../../redux/cart/Cart'
 
 
 
-function Navbars() {
+function Navbars(props) {
 
   const count=useSelector((state)=>state.count)
 
@@ -54,7 +54,7 @@ const navigate=useNavigate();
 
 useEffect(()=>{
   
- 
+   
 
   
 
@@ -87,6 +87,10 @@ useEffect(()=>{
 
               setusername("")
             }
+
+}).catch(err=>{
+
+  props.failed(true)
 
 })
 

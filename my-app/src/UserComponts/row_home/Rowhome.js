@@ -77,6 +77,13 @@ function Rowhome(props) {
 
 
 
+        }).catch(err=>{
+
+
+          props.failed(true)
+
+
+
         })
 
           

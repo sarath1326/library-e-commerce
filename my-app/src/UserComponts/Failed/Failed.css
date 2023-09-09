@@ -1,0 +1,18 @@
+
+
+
+.main-faild{
+    width: 100%;
+    height: 100vh;
+background-color: rgba(249, 246, 246, 0.766);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.faild-img{
+
+    width: 500px;
+    height: 400px;
+}

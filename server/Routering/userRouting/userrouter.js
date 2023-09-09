@@ -515,6 +515,64 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
     })
 
+    router.delete("/cart_delete",(req,res)=>{
+
+        const proid= req.query.proid;
+        const token=req.query.userid
+
+        jwt.verify(token,"sarath1937",(err,result)=>{
+
+            if(result){
+
+                const userid= result.id
+
+                db.cart_delete(proid,userid).then(()=>{
+
+                  db.cart_total_price(userid).then((respo)=>{
+
+                    if(respo.empty){
+
+                        res.json({empty:true})
+
+                    }else{
+
+
+                        const total=respo.total_price
+
+                        console.log(total)
+
+                        res.json({empty:false,total:total})
+
+
+                    }
+
+                    
+
+                  })
+
+                     
+                  
+
+
+
+
+                })
+
+                
+
+
+
+            }
+
+        })
+
+       
+        
+
+
+
+    })
+
 
 
 
@@ -529,9 +587,11 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
                     console.log(result.id)
 
+                    const id= result.id
+
                     const data={
                         detailes:req.body,
-                        userid:result.id
+                        userid:id
                     }
 
                    
@@ -543,8 +603,17 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
                             if(pyment_method==="cod"){
 
+                                 
+
+                                
+                                db.cart_full_delete(id).then(()=>{})
+
                                 res.json({cod:true})
                                 console.log("cod")
+
+                                
+
+
                             
                             }else{
 
@@ -558,7 +627,7 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
                                 //    console.log(order);
     
-
+                                   
 
 
                                 }).catch(err=>{
@@ -616,11 +685,26 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
     router.post("/verify_pyment",(req,res)=>{
 
+        const {token}=req.body
+        
+
         
 
         Razorpay.pyment_verify(req.body).then(()=>{
 
-            res.json({flag:true})
+            jwt.verify(token,"sarath1937",(err,reslt)=>{
+
+                const id= reslt.id 
+
+                db.cart_full_delete(id).then(()=>{})
+
+                res.json({flag:true})
+
+
+
+            })
+
+           
 
 
 
@@ -631,14 +715,90 @@ router.get("/add_cart", verifiLogin, (req, res) => {
             res.json({flag:false})
 
         })
-          
-
-
-        
-
     
     
     })
+
+
+
+   router.get("/myorder",verifiLogin,(req,res)=>{
+
+    const token = req.headers["jwt-token"]
+
+    jwt.verify(token,"sarath1937",(err,result)=>{
+
+        if(result){
+
+
+
+            db.my_oder(result.id).then((respo)=>{
+
+                if(respo.flag){
+
+                    res.json({flag:true,data:respo.data})
+
+                }else{
+
+                    res.json({flag:false})
+
+                    console.log("no data")
+                }
+
+           
+            }).catch(err=>{
+
+                console.log("my oder errr")
+            })
+
+        
+        
+        
+        
+        
+        }else{
+
+            console.log("err");
+
+        }
+
+    })
+
+
+
+})
+
+
+
+router.get("/plcepro",async(req,res)=>{
+
+    
+    console.log(req.query.cartid)
+
+    const result=await db.plce_products(req.query.cartid)
+
+    if(result.flag){
+
+        res.json({flag:true,data:result.data})
+
+
+    }else{
+        
+        res.json({flag:false})
+    
+    }
+
+
+    
+
+})
+
+
+
+
+
+
+
+   
 
 
 

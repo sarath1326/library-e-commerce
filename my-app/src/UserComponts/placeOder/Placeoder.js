@@ -12,6 +12,8 @@ import {validationSchema} from "./Validation_schema"
 import {message } from "antd"
 import { useParams } from 'react-router-dom'
 import {onlinePayment}from "../Razorpya/Payment"
+import {useDispatch} from "react-redux"
+import {AddCart} from "../../redux/cart/Cart"
 
 function Signup() {
 
@@ -21,6 +23,8 @@ function Signup() {
    
    const navigate=useNavigate();
     const {total}=useParams()
+
+    const dispatch=useDispatch()
 
   
   
@@ -93,14 +97,20 @@ function Signup() {
 
             message.success(" your oder placed sucssfully")
 
+            const count=0
+            
+            dispatch(AddCart(count))
+
 
           }else{
 
             onlinePayment(result.data.razorpay_order,(pyment,order)=>{
 
+            const token = localStorage.getItem("library_token")
               const data={
                 pyment,
-                order
+                order,
+                token
               }
 
 
@@ -108,6 +118,10 @@ function Signup() {
 
 
                 message.success("online pyment ok your order is placed sucssfuly...!!!")
+
+                const count=0
+            
+                dispatch(AddCart(count))
 
 
 

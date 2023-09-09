@@ -102,7 +102,8 @@ const viewproductschema=new mongoos.Schema({
         pyment_method: String,
         totalAmount: Number,
         date: String,
-        status: String
+        status: String,
+        delevary_date:String
 
 
        })
@@ -657,7 +658,23 @@ const viewproductschema=new mongoos.Schema({
 
                 const findUser= await cartDB.findOne({user:userid})
 
-                if(findUser){
+
+
+
+            if(findUser){
+
+                if(findUser.products.length===0){
+
+                    resolve({flag:false})
+
+
+
+                }else{
+
+
+
+
+                
 
 
                     let cartlist= await cartDB.aggregate([
@@ -712,6 +729,8 @@ const viewproductschema=new mongoos.Schema({
                     // console.log(cartlist)
 
                     resolve({flag:true,cartdata:cartlist})
+
+                }
 
 
                     }else{
@@ -805,6 +824,21 @@ const viewproductschema=new mongoos.Schema({
 
                 if(userfind){
 
+                    if(userfind.products.length===0){
+
+                        resolve({empty:true})
+
+                        console.log("cart empty")
+
+
+                    }else{
+
+                    
+
+
+
+
+
                     const cartdata= await cartDB.aggregate([
 
                         {
@@ -875,6 +909,8 @@ const viewproductschema=new mongoos.Schema({
                     ])
 
                     resolve({total_price:cartdata[0].total})
+
+                }
 
 
                     
@@ -958,7 +994,10 @@ const viewproductschema=new mongoos.Schema({
                         pyment_method:pyment,
                         totalAmount:payprice,
                         data:shortdate,
-                        status:status
+                        status:status,
+                        delevary_date:"plz wait..."
+
+                        
                     
                     
                     }
@@ -1000,6 +1039,192 @@ const viewproductschema=new mongoos.Schema({
 
 
 
+
+        },
+
+        my_oder:(userid)=>{
+
+            return new Promise( async(resolve,reject)=>{
+
+                
+            const place_oder_DB= mongoos.model("placoder",place_oder_schema)
+
+            const result= await place_oder_DB.find({userid:userid})
+
+            if(result){
+
+                // console.log(result)
+
+                resolve({flag:true,data:result})
+
+          
+            }else{
+
+                resolve({flag:false})
+
+                console.log("my oder empty")
+            }
+
+
+            
+
+            
+        
+        })
+
+
+
+
+
+        },
+
+        plce_products:(odertid)=>{
+
+            const oderid_obj= new mongoos.Types.ObjectId(odertid)
+
+            return new Promise(async(resolve,reject)=>{
+
+                
+           const place_oder_DB= mongoos.model("placoder",place_oder_schema)
+
+           const findoder= await place_oder_DB.findOne({_id:oderid_obj})
+
+           if(findoder){
+
+           const oderilst= await place_oder_DB.aggregate([
+
+            {
+                $match:{_id:oderid_obj}
+            },
+
+            {
+                $unwind:"$products"
+            },
+            {
+
+                $project:{
+
+                    item:"$products.item",
+                    quantity:"$products.quantity"
+
+                }
+
+
+
+            },
+
+            {
+                $lookup:{
+
+                    from:"products",
+                    localField:"item",
+                    foreignField:"_id",
+                    as:"prodata"
+
+                }
+            },
+
+
+            {
+
+                $project:{
+                    item:1,quantity:1,prodata:{$arrayElemAt:["$prodata",0]}
+                }
+            }
+      
+      
+      
+        ])
+
+        resolve({flag:true,data:oderilst})
+    
+    
+        }else{
+            
+            resolve({flag:false})
+        
+        }
+
+
+              
+
+
+
+
+            })
+
+        },
+
+        cart_delete:(proid,userid)=>{
+
+         const  proid_obj= new mongoos.Types.ObjectId(proid)
+
+            return new Promise(async(resolve,reject)=>{
+
+                const cartDB=mongoos.model("cart",cart_schema)
+
+                const cartfind= await cartDB.findOne({user:userid})
+
+                if(cartfind){
+
+
+                    cartDB.updateOne({user:userid},{
+
+                        $pull:{"products":{item:proid_obj}}
+
+                    }).then(()=>{
+
+                        console.log('delete cart')
+                        resolve()
+
+                    }).catch(err=>{
+
+                        console.log("delete cart err")
+
+                    })
+
+                    
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+            })
+
+
+
+        },
+
+        cart_full_delete:(userid)=>{
+
+            return new Promise((resolve,reject)=>{
+
+                const cartDB=mongoos.model("cart",cart_schema)
+
+                cartDB.deleteOne({user:userid}).then(()=>{
+
+                    console.log(userid)
+
+                    console.log("cart full delete")
+                    resolve()
+               
+                }).catch(err=>{
+
+                    console.log("cart full delet err")
+
+                })
+
+
+
+            })
 
         }
 

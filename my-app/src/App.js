@@ -102,7 +102,7 @@ function App() {
 
         <Route element={<Loginpage />} path='/Login' />
 
-        <Route element={<Placeoderpropage/>} path='/placepro' />
+        <Route element={<Placeoderpropage/>} path='/placepro/:cartid' />
 
         <Route element={<Admin_home_page />} path='/admin' />
 

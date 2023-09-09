@@ -205,7 +205,7 @@ state ?  <div className='filtermenu-gen'>
 
 <Oval
   height={80}
-  width={80}
+  width={50}
   color="#0E21A0"
   wrapperStyle={{}}
   wrapperClass=""

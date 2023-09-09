@@ -9,6 +9,8 @@ import { BsFillTrash3Fill } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from "../../Constant/Axios"
+import { useDispatch} from "react-redux"
+import {AddCart} from "../../redux/cart/Cart"
 
 
 
@@ -17,12 +19,17 @@ import axios from "../../Constant/Axios"
 function Cart() {
 
   const navigate = useNavigate()
+  const dispatch= useDispatch()
 
   const [cartdata, setcartdata] = useState([])
 
   const [countflag,setcountflag]=useState(false)
 
   const [total,settotal]=useState(0)
+
+  const [empty,setempty]=useState(false)
+
+  
 
   
 
@@ -61,8 +68,12 @@ function Cart() {
 
         } else {
 
+          setempty(true)
+
           console.log("your cart is empty")
 
+        
+        
         }
 
 
@@ -125,11 +136,24 @@ function Cart() {
 
    const countdecriment=(index,proid)=>{
 
-    const userid= localStorage.getItem("library_token")   
+    const userid= localStorage.getItem("library_token") 
+    
+    if(cartdata[index].quantity===1){
+
+      pro_delete(index,proid)
+      
+      return
+
+    }
 
     cartdata[index].quantity -=1
 
     setcartdata([...cartdata])
+
+   
+
+
+
 
     const data={
 
@@ -172,23 +196,71 @@ function Cart() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   function placeoder() {
 
 
     navigate(`/plo/${total}`)
+
+
+
+  }
+
+
+  function pro_delete(index,proid){
+
+    cartdata.splice(index,1)
+   
+    setcartdata([...cartdata])
+
+    const count= cartdata.length
+
+    dispatch(AddCart(count))
+    
+
+
+
+
+
+    if(cartdata.length===0){
+
+      setempty(true)
+
+    }else{
+
+      setempty(false)
+
+    }
+
+    
+    const userid= localStorage.getItem("library_token") 
+
+    
+
+
+
+    axios.delete( `/user/cart_delete?proid=${proid}&userid=${userid}`).then((respo)=>{
+
+
+              if(respo.data.empty){
+
+                  }else{
+
+                     const total= respo.data.total
+
+                     settotal(total)
+
+                  }
+
+           
+
+
+
+    }).catch(err=>{
+
+      console.log(err)
+    })
+
+
 
 
 
@@ -200,9 +272,39 @@ function Cart() {
   return (
 
     <div className='main-cart'>
-      {/* <Navbars/> */}
+   
 
       <div className='container'>
+
+      
+        {   empty ? 
+
+         <div className='empty-cart'>
+
+          <img className="empty-img-cart" src='./emptycart.png' alt='loding...' />
+
+
+
+
+
+         </div>
+
+
+
+
+
+        : 
+        
+        
+        
+        <>
+ 
+
+        
+
+       
+      
+      
 
 
 
@@ -247,7 +349,7 @@ function Cart() {
 
                       <br />
 
-                      <button className='cart-btn' onClick={()=>{countdecriment(index,obj.item)}}       > - </button >
+                     <button className='cart-btn' onClick={()=>{countdecriment(index,obj.item)}}       > - </button > 
 
                      
                       
@@ -268,7 +370,7 @@ function Cart() {
 
                       <br />
 
-                      <BsFillTrash3Fill className='icom' />
+                      <BsFillTrash3Fill className='icom' onClick={()=>{pro_delete(index,obj.item)}} />
 
 
 
@@ -315,6 +417,10 @@ function Cart() {
           </div>
 
 
+          
+          
+        
+
 
         </div>
 
@@ -324,10 +430,12 @@ function Cart() {
 
 
 
-
+    </>  }   
 
 
       </div>
+
+            
 
 
 
