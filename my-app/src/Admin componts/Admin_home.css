@@ -1,59 +1,99 @@
 
+.admin-main{
 
-
-
-.admin-home-main {
     width: 100%;
-    height: 100vh;
-    
-    padding-top: 100px;
+    height: 150vh;
+   padding-top: 80px;
+   /* background-color: aqua; */
+
 }
 
-.h1-admin{
+
+.title-adimn{
+    font-size: 35px;
     text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+   letter-spacing: 2px;
+}
+
+.add-pro-admin{
+
+    margin-left: 10px;
+    border: none;
+    background-color: blue;
+    color: white;
+    border-radius: 10px;
+    width: 200px;
+    height: 40px;
 }
 
 
 
+.paginationBttns{
 
-img{
+    width: 90%;
+    height: 40%;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+
+.paginationBttns a{
+
+    /* padding: 2px; */
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 8px;
+    border-radius: 5px;
+    border: 1px solid #2b2eff;
+    color: #2b2eff;
+    cursor: pointer;
+    text-decoration: none;
+   
+}
+
+.paginationBttns a:hover{
+
+    color: white;
+    background-color: #2b2eff;
+
+}
+
+.paginationActive a {
+
+    color: white;
+    background-color: #2b2eff;
+
+
+
+}
+
+.img-admin{
+
     width: 50px;
     height: 50px;
 }
 
-table{
+.th-admin{
     text-align: center;
+    font-size: 18px;
+}
+
+.td-admin{
+
+    text-align: center;
+   
 }
 
 .edit-admin{
 
-    font-size: 30px;
-    color: green;
+    font-size: 25px;
+    color: green
+
 }
 
 .delete-admin{
-
     font-size: 20px;
-    margin-left: 10px;
     color: red;
 }
-
-.btn-admin{
-    margin-left: 100px;
-    border: none;
-    background-color: rgb(154, 197, 244);
-    color: black;
-    width: 100px;
-    height: 30px;
-    font-size: 18px;
-    border-radius: 10px;
-}
-
-
-
-@media (max-width:700px){
-    .btn-admin{
-        margin-left: 30px;
-    }
-}
-

@@ -16,7 +16,8 @@ import {AddCart} from "../../redux/cart/Cart"
 
 
 
-function Cart() {
+
+function Cart(props) {
 
   const navigate = useNavigate()
   const dispatch= useDispatch()
@@ -28,6 +29,7 @@ function Cart() {
   const [total,settotal]=useState(0)
 
   const [empty,setempty]=useState(false)
+  const [loding,setloding]=useState(true)
 
   
 
@@ -59,6 +61,8 @@ function Cart() {
 
           setcartdata(data.cartdata)
 
+          setloding(false)
+
           settotal(data.total_price)
 
          
@@ -86,6 +90,9 @@ function Cart() {
 
 
 
+    }).catch(err=>{
+
+      props.failed(true)
     })
 
 
@@ -94,6 +101,8 @@ function Cart() {
 
 
   const  countincriment= (index,proid)=>{
+
+   
 
    const userid= localStorage.getItem("library_token")   
 
@@ -127,7 +136,7 @@ function Cart() {
 
     }).catch(err=>{
 
-      console.log("err",err)
+    props.failed(true)
 
     })
 
@@ -183,7 +192,7 @@ function Cart() {
 
     }).catch(err=>{
 
-      console.log("err",err)
+      props.failed(true)
 
     })
 
@@ -257,15 +266,17 @@ function Cart() {
 
     }).catch(err=>{
 
-      console.log(err)
+     props.failed(true)
+   
     })
 
+   }
 
+   const more_view=(proid)=>{
 
+    navigate(`/oneview/${proid}`)
 
-
-  }
-
+   }
 
 
 
@@ -281,7 +292,7 @@ function Cart() {
 
          <div className='empty-cart'>
 
-          <img className="empty-img-cart" src='./emptycart.png' alt='loding...' />
+          <img className="empty-img-cart" src='./empty-cart.jpeg' alt='loding...' />
 
 
 
@@ -294,6 +305,21 @@ function Cart() {
 
 
         : 
+
+        loding ?<div className='loding-cat'>
+
+          <img className='loding-img-cart' src='../Book animation.gif' alt='loding..' />
+
+      
+
+
+
+
+      </div>
+
+        
+        
+        :
         
         
         
@@ -330,7 +356,7 @@ function Cart() {
 
                     <td className='cart-td'>{obj.cartitems.name} <br /><br />
 
-                      <a className='tda-cart'> view</a>
+                      <a className='tda-cart' onClick={()=>{more_view(obj.cartitems._id)}}   > view</a>
 
                     </td>
 

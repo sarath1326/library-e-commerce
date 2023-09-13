@@ -8,26 +8,30 @@ import './Myoder.css'
 import Table from 'react-bootstrap/Table';
 import { useNavigate } from 'react-router-dom';
 import axios from "../../Constant/Axios"
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 
 
 
-function Myoder() {
 
-  const navigate=useNavigate()
+function Myoder(props) {
 
-  const [fetchdata,setfetchdata]=useState([])
+  const navigate = useNavigate()
+
+  const [fetchdata, setfetchdata] = useState([])
+  const [empty,setempty]=useState(false)
+  const [loding,setloding]=useState(true)
+  
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    
+
     console.log("getkkkkkkk");
 
-    axios("/user/myorder",{
-      
-      headers:{
+    axios("/user/myorder", {
+
+      headers: {
 
         "jwt-token": localStorage.getItem("library_token")
 
@@ -35,66 +39,73 @@ function Myoder() {
       }
 
 
-    }).then((respo)=>{
+    }).then((respo) => {
 
-      const result= respo.data
+      const result = respo.data
 
-      if(result.authfaild){
+      if (result.authfaild) {
 
         navigate("/Login")
       }
 
-      if(result.flag){
+      if (result.flag) {
 
 
-         setfetchdata(result.data)
-        
-         console.log(result.data)
-     
-     
-     
-      }else{
+        setfetchdata(result.data)
 
-        console.log("my oder is empty")
+        setloding(false)
+
+        console.log(result.data)
+
+
+
+      } else {
+
+                    console.log("my oder empty")
+       
+                    setempty(true)
+
+
+
       }
 
 
 
-     
 
-    }).catch(err=>{
 
-      console.log('errr')
+    }).catch(err => {
+
+    props.failed(true)
 
 
     })
 
-  
-  
-  
-  
-  
-  
-  
-  },[])
 
 
 
-  
- 
-
-  
-  
- 
-
-  function view_pro(cartid){
 
 
 
-  
-     navigate(`/placepro/${cartid}`)
 
-     
+  }, [])
+
+
+
+
+
+
+
+
+
+
+  function view_pro(cartid) {
+
+
+
+
+    navigate(`/placepro/${cartid}`)
+
+
   }
 
 
@@ -103,157 +114,129 @@ function Myoder() {
 
 
 
-  
-    return (
+
+  return (
     <div>
 
-{/* <Navbars/> */}
-
-<div className='container'>
-    
-  
-  
-   <div className='myoder-item'>
-
-   {/* <Table striped bordered hover>
-  
-  <tbody>
-    <tr>
-     
-      <td > <img src='https://dcbookstore.com/uploads/product/images/bk_9761.jpg ' alt='Loading....' className='myoder-img'/> </td>
-     
-      <td className='myoder-td'>vellapayathra</td>
-      
-      <td className='myoder-td'>850/-</td>
-      
-      <td className='btn-td' > <button className='myoder-btn'>-</button >       <span>5 </span>    <button className='myoder-btn'>+</button>          </td>
-     
-      <td className='myoder-icon' > <BsFillTrash3Fill className='icom'  /> </td>
-   
-    </tr>
-
-    </tbody>
-
-    </Table> */}
 
 
-       
+      <div className='container'>
 
-<Table striped bordered hover>
-      
-      
-      <thead>
-        <tr>
-          
-         
-          <th>Delevery Date</th>
-          <th>Price</th>
-          <th> Payment type</th>
-          <th>Status</th>
-          <th> View product</th>
-        </tr>
-      </thead>
+        {
 
-
-      <tbody>
-
-      {
-        
-        fetchdata.map((obj)=>
-
-        (
-
-          <tr>
-         
-          
-          <td>{obj.delevary_date}</td>
-         
-          <td>{obj.totalAmount}</td>
-          
-          <td>{obj.pyment_method}</td>
-          
-          <td>{obj.status}</td>
-          
-          <td> <button className='view-btn' onClick={()=>{view_pro(obj._id)}}  > View product</button></td>
-        
-        </tr>
-
-
-
-
-        )
-
-        )
+          empty ? 
 
         
-
-      }
-
-
-        </tbody>
-        </Table>
+         <div className='empty-myoder'>  <img className='empty-img-myoder' src='../emptyoder.jpeg' alt='loging...' />     </div>
 
 
+         :
+
+         loding ? <div className='loding-myoder'>  
 
 
+            <img className='loding-img-myoder' src='../Book animation.gif' alt='loding...'/>
+          
+          
+          
+          
+            </div>
+          
+         
 
-
-
-
-
-
-
-
-
-
+         
 
 
 
-    </div>
+          :
+
+
+
+        <div className='myoder-item'>
+
+          <Table striped bordered hover>
+
+
+            <thead>
+              <tr>
+
+
+                <th>Delevery Date</th>
+                <th>Price</th>
+                <th> Payment type</th>
+                <th>Status</th>
+                <th> View product</th>
+              </tr>
+            </thead>
+
+
+            <tbody>
+
+              {
+
+                fetchdata.map((obj) =>
+
+                (
+
+                  <tr>
+
+
+                    <td>{obj.delevary_date}</td>
+
+                    <td>{obj.totalAmount}</td>
+
+                    <td>{obj.pyment_method}</td>
+
+                    <td>{obj.status}</td>
+
+                    <td> <button className='view-btn' onClick={() => { view_pro(obj._id) }}  > View product</button></td>
+
+                  </tr>
 
 
 
 
+                )
 
-    
-
-
-
+                )
 
 
 
+              }
 
 
-
-
-    
-
-
-
-
-
-
-
-
-
-
-</div>
-  
+            </tbody>
+          </Table>
 
       
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+      
+      
+        </div>
+
+
+           
+           
+           
+           }
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
   )
 }

@@ -1,0 +1,100 @@
+
+
+
+
+
+.main-edit{
+
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+
+.mainbox-edit{
+
+    width: 800px;
+    height: 550px;
+    /* background-color: aqua; */
+    display: flex;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 50px;
+    border: 2px solid rgb(164, 186, 196);
+    
+}
+
+.logo-edit{
+
+    width: 400px;
+    height: 100%;
+    /* background-color: blueviolet; */
+    padding-top: 30px;
+    
+}
+.form-edit{
+
+    width: 500px;
+    height: 100%;
+    /* background-color: brown; */
+    padding-top: 40px;
+    padding-left: 50px;
+    background-color:rgb(8, 131, 149);
+   
+}
+
+.img-edit{
+
+    margin-left: 70px;
+    width: 200px;
+    height: 200px;
+}
+
+
+.img_input-edit{
+
+    margin-top: 150px;
+    margin-left: 50px;
+    
+}
+
+
+.input-edit{
+    width: 300px;
+    height: 35px;
+}
+
+
+.btn-edit{
+    margin-top: 50px;
+    margin-left: 70px;
+    width: 150px;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(20, 30, 70);
+    font-size: 20px;
+}
+
+.loding-edit{
+
+    margin-left: 150px;
+    margin-top: 50px;
+}
+
+.span-edit{
+
+    color: red;
+}
+
+.label-edit{
+    color: white;
+    font-size: 15px;
+
+}

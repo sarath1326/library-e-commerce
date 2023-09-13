@@ -9,7 +9,7 @@ function Failed() {
 
         <div className='main-faild'>
 
-            <img className='faild-img'  src='../notfount.jpeg' alt='loding....' />
+            <img className='faild-img'  src='../noneterr.jpeg' alt='loding....' />
 
 
 

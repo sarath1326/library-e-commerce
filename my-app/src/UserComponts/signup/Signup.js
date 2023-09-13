@@ -10,7 +10,7 @@ import axios from "../../Constant/Axios"
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react'
 
-function Signup() {
+function Signup(props) {
 
   const navigate=useNavigate();
 
@@ -59,6 +59,10 @@ function Signup() {
 
 
         
+                  }).catch(err=>{
+
+                    props.failed(true)
+
                   })
 
     

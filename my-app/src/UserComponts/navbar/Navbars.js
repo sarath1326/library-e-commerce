@@ -49,6 +49,8 @@ function Navbars(props) {
  
  const [countFlag,setcountFlag]=useState(false)
 
+ const [login,setlogin]=useState(false)
+
 
 const navigate=useNavigate();
 
@@ -78,6 +80,10 @@ useEffect(()=>{
 
               setusername(name.name)
 
+              setlogin(true)
+
+
+
              
 
 
@@ -96,6 +102,12 @@ useEffect(()=>{
 
 },[])
 
+
+const Logout=()=>{
+
+    localStorage.removeItem("library_token")
+
+}
 
        
  
@@ -143,12 +155,21 @@ return (
     <span className='name'>{ username ? username : null  } </span>     
 
     
-
-      {/* <img className='photo' src='../myphoto.jpg' alt= <VscAccount /> /> */}
-          
+           <span className='ac-icon'> {<VscAccount />    }</span>
+      
           <NavDropdown className='navdrop' title=""  id="navbarScrollingDropdown">
            
-              <NavDropdown.Item className='ndi' onClick={()=>{navigate("/login")}}  >Login</NavDropdown.Item>
+       { login ?     <NavDropdown.Item className='ndi' onClick={Logout}  >Logout</NavDropdown.Item>
+   
+       
+       : 
+       
+       <NavDropdown.Item className='ndi' onClick={()=>{navigate("/login")}}  >Login</NavDropdown.Item>
+
+
+          }
+             
+             
               <NavDropdown.Item href="#action4">
                 Profile
               </NavDropdown.Item>

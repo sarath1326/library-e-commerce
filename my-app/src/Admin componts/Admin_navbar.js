@@ -29,7 +29,7 @@ function Admin_navbar() {
         
 <Navbar expand="lg" className="bg-body-tertiary-adminnavbar ">
       <Container fluid>
-      <img src='logo li.png' alt='loding..' />
+      <img src='../logo li.png' alt='loding..' />
         {/* <Navbar.Brand href="#" className='navhad'>Laibrary</Navbar.Brand> */}
         <Navbar.Toggle aria-controls="navbarScroll" className='togil' />
         <Navbar.Collapse id="navbarScroll" className='colaps'>

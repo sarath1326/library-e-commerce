@@ -993,7 +993,7 @@ const viewproductschema=new mongoos.Schema({
                         products:addproducts,
                         pyment_method:pyment,
                         totalAmount:payprice,
-                        data:shortdate,
+                        date:shortdate,
                         status:status,
                         delevary_date:"plz wait..."
 
@@ -1042,6 +1042,166 @@ const viewproductschema=new mongoos.Schema({
 
         },
 
+        single_buy:(data)=>{
+
+            const { userid,detailes}=data
+
+            const { addrss,pyment, payprice ,proid   }=detailes
+
+            const proid_obj_id=new mongoos.Types.ObjectId(proid)
+
+            const date=new Date()
+
+            let shortdate = date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+              
+              
+              })
+
+
+
+            return new Promise((resolve,reject)=>{
+
+                
+                
+
+                  const status= pyment ==="cod" ? "placed(cod)" : "pending"
+
+
+                 const  addproducts=[
+                    {
+                        item: proid_obj_id,
+                        quantity:1
+
+                    }
+                 ]
+
+
+
+                 const savedata={
+
+                    userAdress:{
+
+                        name:addrss.name,
+                        adress:addrss.adress,
+                        pincode:addrss.pincode,
+                        landmark:addrss.landmark,
+                        mobile:addrss.mobile
+                    
+                    },
+
+                    userid:userid,
+                    products:addproducts,
+                    pyment_method:pyment,
+                    totalAmount:payprice,
+                    date:shortdate,
+                    status:status,
+                    delevary_date:"plz wait..."
+                
+                
+                }
+
+
+             
+                const place_oder_DB=mongoos.model("placoder",place_oder_schema)
+
+                            console.log("db save starting")
+                           const final = new place_oder_DB(savedata)
+
+                           final.save().then((responce)=>{
+
+                              console.log("single ok")  
+                           
+                              resolve({flag:true,oderid:responce._id,total:payprice})
+
+
+                           }).catch(err=>{
+
+                            console.log("single err")
+
+                            reject(err)
+
+                           
+                        })
+
+
+
+
+
+
+
+            
+            
+                })
+
+
+
+
+
+        },
+
+
+        place_oder_status_change:(order)=>{
+
+            const orderid=order.receipt
+
+            return new Promise(async(resolve,reject)=>{
+
+                const place_oder_DB=mongoos.model("placoder",place_oder_schema)
+
+               place_oder_DB.updateOne({_id:orderid},{
+               
+                $set:{
+
+                    status:"placed(online)"
+
+                }
+
+               }).then(()=>{
+
+                 console.log("online status updated")
+                resolve()
+
+              
+            }).catch(err=>{
+
+                console.log("online status update err")
+
+               
+            })
+
+                     
+
+
+
+
+            })
+
+
+
+
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         my_oder:(userid)=>{
 
             return new Promise( async(resolve,reject)=>{
@@ -1053,16 +1213,22 @@ const viewproductschema=new mongoos.Schema({
 
             if(result){
 
-                // console.log(result)
+                if(result.length===0){
 
-                resolve({flag:true,data:result})
+                    resolve({flag:false})
+                
+                }else{
 
-          
-            }else{
+                    resolve({flag:true,data:result})
+
+                }
+
+             }else{
 
                 resolve({flag:false})
 
                 console.log("my oder empty")
+            
             }
 
 

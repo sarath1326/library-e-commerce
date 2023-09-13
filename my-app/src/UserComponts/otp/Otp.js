@@ -5,10 +5,11 @@ import React from 'react'
 import "./Otp.css"
 import { useState,useRef } from 'react'
 import axios from "../../Constant/Axios"
+import {message } from "antd"
 import { useNavigate } from 'react-router-dom'
 
 
-function Otp() {
+function Otp(props) {
 
   const navigate=useNavigate()
 
@@ -109,10 +110,14 @@ function Otp() {
                   
                   }else{
 
+                  message.error("invalid otp")
 
-
-                    navigate("/otp")
+                    
                   }
+
+             }).catch(err=>{
+
+              props.failed(true)
 
              })
 

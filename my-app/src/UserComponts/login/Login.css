@@ -13,8 +13,9 @@
 .form-main-login{
 
     width: 400px;
-    height: 400px;
-    background-color: rgb(122, 49, 111);
+    height: 420px;
+    /* background-color: rgb(122, 49, 111); */
+    background-color: rgb(39, 0, 93);
     margin-top: 100px;
     border-radius: 20px;
  
@@ -32,14 +33,14 @@
 .form-main-login form {
 
     margin-top: 50px;
-    margin-left: 80px;
+    margin-left: 50px;
 
 }
 
 .form-main-login input{
 
-    width: 250px;
-    height: 35px;
+    width: 300px;
+    height: 40px;
     border-radius: 10px;
 }
 
@@ -61,4 +62,18 @@
     color: white;
     
    
+}
+
+.home-icon-login{
+
+    color: white;
+    font-size: 20px;
+    margin-left: 190px;
+    cursor: pointer;
+
+}
+
+.err-login{
+    font-size: 20px;
+    color: red;
 }

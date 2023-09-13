@@ -4,17 +4,42 @@
 import React from 'react'
 import Navbars from '../UserComponts/navbar/Navbars'
 import Place_Products from '../UserComponts/place_pro/Place_Products'
+import Failed from '../UserComponts/Failed/Failed'
+import { useState } from 'react'
 
 function Placeoderpropage() {
-  
-    return (
+  const [failed, setfailed] = useState(false)
+
+  return (
     <div>
 
-        <Navbars />
-        
-        <Place_Products />
 
-        
+      {
+
+        failed ? <Failed />
+
+        :
+
+        <>
+
+
+          <Navbars failed={setfailed} />
+
+          <Place_Products failed={setfailed}  />
+
+
+
+
+
+        </>
+
+
+
+      }
+
+
+
+
 
 
 

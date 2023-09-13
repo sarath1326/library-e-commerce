@@ -267,6 +267,8 @@ router.post("/login", (req, res) => {
 
         } else {
 
+
+            console.log("login err")
             res.json({ flag: false })
 
         }
@@ -685,7 +687,7 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
     router.post("/verify_pyment",(req,res)=>{
 
-        const {token}=req.body
+        const {token,order}=req.body
         
 
         
@@ -696,7 +698,19 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
                 const id= reslt.id 
 
-                db.cart_full_delete(id).then(()=>{})
+                db.cart_full_delete(id).then(()=>{}).catch(err=>{
+
+                    console.log("cart cler err")
+
+                })
+
+                
+                db.place_oder_status_change(order).then(()=>{}).catch(err=>{
+
+                    console.log("place oder status change err")
+
+                })
+
 
                 res.json({flag:true})
 
@@ -718,6 +732,157 @@ router.get("/add_cart", verifiLogin, (req, res) => {
     
     
     })
+
+
+
+
+
+    router.post("/single_buy",(req,res)=>{
+
+           console.log("single buy")
+        const token=req.body.userid
+
+        jwt.verify(token,"sarath1937",(err,result)=>{
+
+            if(result){
+
+                const id= result.id
+
+                const data={
+                    detailes:req.body,
+                    userid:id
+                }
+               
+                 console.log("db connecting")
+
+                db.single_buy(data).then((result)=>{
+
+                    if(result.flag){
+
+                        const pyment_method=req.body.pyment
+
+                        if(pyment_method==="cod"){
+
+                            
+                            
+
+                           res.json({cod:true})
+                            console.log("cod")
+
+                            
+
+
+                        
+                        }else{
+
+                                 
+
+
+                            Razorpay.generateRazorpay(result.oderid,result.total).then((order)=>{
+
+
+                                res.json({razorpay_order:order})
+
+                         
+
+                               
+
+
+                            }).catch(err=>{
+
+                                console.log("razorpay err");
+
+                            })
+
+
+
+
+                         
+
+
+                        }
+
+
+
+
+
+                    }else{
+
+                        res.json({flag:false})
+                    }
+
+                }).catch(err=>{
+
+                    console.log("place oder err ", err)
+
+                })
+
+
+
+
+
+            }
+
+        })
+
+
+    })
+
+
+    router.post("/single_buy/verify_pyment",(req,res)=>{
+
+
+         Razorpay.pyment_verify(req.body).then(()=>{
+
+            const {order}=req.body
+
+            db.place_oder_status_change(order).then(()=>{
+
+                
+                res.json({flag:true})
+
+
+            }).catch(err=>{
+
+                console.log("online pyment status change err")
+
+            })
+
+
+
+               }).catch(err=>{
+
+                console.log("pyment err:",err)
+               
+                res.json({flag:false})
+    
+            })
+    
+
+           
+
+
+
+        })
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

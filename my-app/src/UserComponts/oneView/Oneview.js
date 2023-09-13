@@ -15,7 +15,8 @@ import {message } from "antd"
 
 
 
-function Oneview() {
+
+function Oneview(props) {
 
   const navigate=useNavigate()
 
@@ -24,6 +25,7 @@ function Oneview() {
   const {proid}=useParams();
   const [data,setdata]=useState({});
   const [bestdata,setbestdata]=useState([]);
+  const [loding,setloding]=useState(true)
 
   console.log(proid)
 
@@ -35,12 +37,18 @@ function Oneview() {
 
       setdata(respo.data.oneview);
       setbestdata(respo.data.subdata);
+      setloding(false)
   
+     
   
-    });
+    }).catch(err=>{
+
+      props.failed(true)
+
+    })
 
 
-  
+ 
    
 
   },[]);
@@ -102,20 +110,35 @@ function Oneview() {
     
      }).catch(err=>{
 
-      message.error("somthing worng")
+      props.failed(true)
 
      })
 
       
 
-    
+  }
 
+  const best_oneview=(proid)=>{
 
-
+   navigate(`/oneview/${proid}`)
 
 
   }
 
+  
+  const single_buy=(proid,total)=>{
+
+    const data={
+      proid,
+      total
+    }
+
+   
+
+   navigate("/single_buy",{state:data})
+
+
+  }
   
 
   
@@ -126,9 +149,30 @@ function Oneview() {
     <div>
 
       {  
+
       
+
+
+          loding ? 
+          
+         <div className='loding-oneview'>
+
+        <img className='loding-img-oneview' src='../Book animation.gif' alt='' />
+         
+         
+          
+         
+         
+            </div>
+
+          :
+
+
+
+        
       
-      data ?
+      <>
+     
 
       <div className='mainbox-oneview'>
 
@@ -163,7 +207,7 @@ function Oneview() {
 
            <div className='buttons-oneview'>
 
-           <button className='btn1-oneview'> buy</button>
+           <button className='btn1-oneview' onClick={()=>{single_buy(data._id,data.price)}}  > buy</button>
 
            <button className='btn2-oneview' onClick={()=>{addCart(data._id)}}  > Add cart</button>
 
@@ -182,9 +226,9 @@ function Oneview() {
 
       </div>
 
-      : null
+   
 
-}
+
       
  
 
@@ -194,13 +238,12 @@ function Oneview() {
   
   
      {
-      bestdata ?
 
       bestdata.map((obj)=>
       
       (
 
-           <div className='subitems-oneview' >
+           <div className='subitems-oneview' onClick={(()=>{best_oneview(obj._id)})} >
 
     <div className='sub-img-oneview'>
       <img className='simg-oneview' src={`data:${obj.contentType};base64,${obj.imageBase64}`}           alt='' />
@@ -220,10 +263,10 @@ function Oneview() {
       
       )
 
-      : null
+     
   
-  
- }
+       }
+             
 
   
 
@@ -237,19 +280,23 @@ function Oneview() {
 
 
    
-
+      
 
 
 
 
    </div> 
 
+    </>
+      
+   
+   
 
-  
+      }
+
+    
    
-   
-   
-   
+    
    
    
     </div>

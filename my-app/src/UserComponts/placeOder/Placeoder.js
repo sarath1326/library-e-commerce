@@ -3,7 +3,7 @@
 
 import React from 'react'
 import "./Placeoder.css"
-import { Oval } from 'react-loader-spinner'
+
 import {useFormik} from "formik"
 import axios from "../../Constant/Axios"
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ import {onlinePayment}from "../Razorpya/Payment"
 import {useDispatch} from "react-redux"
 import {AddCart} from "../../redux/cart/Cart"
 
-function Signup() {
+function Placeoder(props) {
 
   const [loding,setloding]=useState(false)
    const [pyment,setpyment]=useState("") 
@@ -143,7 +143,7 @@ function Signup() {
 
         }).catch(err=>{
 
-          console.log(err)
+          props.failed(true)
 
         })
 
@@ -240,24 +240,8 @@ function Signup() {
          
          <div className='loding-sig' >
 
-          
-          <Oval 
-
-
-            height={50}
-            width={50}
-           
-
-            color="black"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-            ariaLabel='oval-loading'
-            secondaryColor="#4fa94d"
-            strokeWidth={2}
-            strokeWidthSecondary={2}
-
-          />
+          <img className='loding-img-pl' src='../Book animation.gif' alt='loding...' />
+        
 
           </div>
 
@@ -406,4 +390,4 @@ function Signup() {
   )
 }
 
-export default Signup
+export default Placeoder

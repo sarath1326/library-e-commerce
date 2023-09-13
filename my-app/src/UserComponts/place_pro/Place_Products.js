@@ -18,7 +18,7 @@ import { useParams } from 'react-router-dom'
 
 
 
-function Place_Products() {
+function Place_Products(props) {
 
   const {cartid}=useParams()
 
@@ -43,6 +43,10 @@ function Place_Products() {
 
       
       }
+
+    }).catch(err=>{
+
+      props.failed(true)
 
     })
        

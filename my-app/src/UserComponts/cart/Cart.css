@@ -2,7 +2,8 @@
 .main-cart{
     width: 100%;
     height: 100vh;
-    background-color: rgb(150, 194, 145);
+    /* background-color: rgb(150, 194, 145); */
+    background-color: white;
 }
 
 
@@ -92,8 +93,8 @@
 .empty-cart{
 
     width: 100%;
-    height: 80vh;
-    /* background-color: aqua; */
+   height: 80vh;
+   /* background-color: white; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -102,8 +103,26 @@
 
 .empty-img-cart{
 
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
+
+}
+
+.loding-cat{
+
+    width: 100%;
+    height: 70vh;
+ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.loding-img-cart{
+
+    width: 300px;
+    height: 300px;
 
 }
 

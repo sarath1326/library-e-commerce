@@ -22,11 +22,14 @@ import Loginpage from './Userpage/Loginpage';
 import Placeoderpropage from './Userpage/Placeoderpropage';
 import Proaddpage_admin from './Admin pages/Proaddpage_admin';
 import Categorypage from './Userpage/Categorypage';
+import Signle_buypage from './Userpage/Signle_buypage';
 
 import Admin_home_page from './Admin pages/Admin_home_page';
 import Alloderspage from './Admin pages/Alloderspage';
 import Moreviewpageadmin from './Admin pages/Moreviewpageadmin';
 import Loginpageadmin from './Admin pages/Loginpage';
+import Oneviewadmin from './Admin pages/Oneview_admin_page';
+import Pro_editpage from './Admin pages/Pro_editpage';
 
 import Lodingpage from './Userpage/Lodingpage';
 import Otp_page from './Userpage/Otp_page';
@@ -75,7 +78,7 @@ function App() {
 
       <Routes>
 
-        
+{/*         
       <Route element={<Lodingpage />} path='/' />
 
         <Route element={<Homepage/>} path='/home'   />
@@ -90,6 +93,8 @@ function App() {
        
         <Route element={<Otp_page />} path='/otp' />
 
+        <Route element={<Signle_buypage />} path='/single_buy' />
+
        
 
        
@@ -102,7 +107,7 @@ function App() {
 
         <Route element={<Loginpage />} path='/Login' />
 
-        <Route element={<Placeoderpropage/>} path='/placepro/:cartid' />
+        <Route element={<Placeoderpropage/>} path='/placepro/:cartid' /> */}
 
         <Route element={<Admin_home_page />} path='/admin' />
 
@@ -114,10 +119,12 @@ function App() {
 
         <Route  element={<Loginpageadmin />} path='/admin/login' />
 
-        {/* <Route element={<Plc />} path='/plc' /> */}
+        <Route element={< Oneviewadmin />} path='/admin/oneview' />
 
-        {/* <Route  element={<Rowhome />} path='/row' /> */}
+        <Route element={<Pro_editpage/>} path='/admin/edit' />
 
+
+        
         
 
         

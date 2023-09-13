@@ -130,7 +130,7 @@ function Rowhome(props) {
 
           {
 
-            loging ? <h1> heloo</h1>
+            loging ? null
 
             :
 
