@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom'
 import {onlinePayment}from "../Razorpya/Payment"
 import {useDispatch} from "react-redux"
 import {AddCart} from "../../redux/cart/Cart"
+  import Swal from 'sweetalert2'
 
 function Placeoder(props) {
 
@@ -94,8 +95,14 @@ function Placeoder(props) {
         axios.post("/user/place_oder",data).then((result)=>{
 
           if(result.data.cod){
-
-            message.success(" your oder placed sucssfully")
+             
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'your oder placed successfuly !',
+              showConfirmButton: false,
+              timer: 2000
+            })
 
             const count=0
             
@@ -117,7 +124,15 @@ function Placeoder(props) {
                axios.post("/user/verify_pyment",data).then(()=>{
 
 
-                message.success("online pyment ok your order is placed sucssfuly...!!!")
+                  
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'your oder placed successfuly !',
+              showConfirmButton: false,
+              timer: 2000
+            })
+
 
                 const count=0
             

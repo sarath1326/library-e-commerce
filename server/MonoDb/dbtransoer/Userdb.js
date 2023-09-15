@@ -103,7 +103,8 @@ const viewproductschema=new mongoos.Schema({
         totalAmount: Number,
         date: String,
         status: String,
-        delevary_date:String
+        delevary_date:String,
+        shiping:String
 
 
        })
@@ -995,7 +996,8 @@ const viewproductschema=new mongoos.Schema({
                         totalAmount:payprice,
                         date:shortdate,
                         status:status,
-                        delevary_date:"plz wait..."
+                        delevary_date:"plz wait...",
+                        shiping:""
 
                         
                     

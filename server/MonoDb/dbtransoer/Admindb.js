@@ -42,6 +42,23 @@ const addproductsschema = new mongoos.Schema({
 })
 
 
+const place_oder_schema=new mongoos.Schema({
+
+    userid:String,
+     userAdress:Object,
+     products:Array,
+     pyment_method: String,
+     totalAmount: Number,
+     date: String,
+     status: String,
+     delevary_date:String,
+     shiping:String
+
+
+    })
+
+
+
 
 module.exports.addproducts = (data) => {
 
@@ -295,3 +312,204 @@ module.exports.edit_pro_post = (post_data) => {
 
 
 }
+
+
+module.exports.pro_delete=(proid)=>{
+
+       return new Promise((resolve,reject)=>{
+
+        try {
+
+            const productsDB = mongoos.model("products", addproductsschema)
+
+            productsDB.deleteOne({_id:proid}).then(()=>{
+    
+                resolve()
+    
+            }).catch(err=>{
+
+                reject()
+            })
+
+            
+        } catch (error) {
+
+            reject()
+            
+        }
+
+
+
+
+
+       })
+
+}
+
+
+module.exports.get_all_oders=()=>{
+
+    return new Promise( async(resolve,reject)=>{
+
+        try {
+
+            const place_oder_DB=mongoos.model("placoder",place_oder_schema)
+
+
+              const finddata= await place_oder_DB.find()
+
+                if(finddata){
+
+                    resolve({flag:true,data:finddata})
+
+                }else(
+
+                    resolve({flag:true})
+                )
+            
+            } catch (error) {
+
+                reject()
+            
+        }
+
+         
+
+
+          
+
+    })
+
+}
+
+
+module.exports.shiping=(data)=>{
+
+        const{oderid,date}=data
+
+           return new Promise(async(resolve,reject)=>{
+
+            try {
+
+                const place_oder_DB=mongoos.model("placoder",place_oder_schema)
+    
+                const findData= await place_oder_DB.updateOne({_id:oderid},{
+
+                    $set:{
+
+                        status:"shipping",
+                        delevary_date:date,
+                        shiping:"true"
+                    
+                    }
+
+                }).then(()=>{
+                    
+                    console.log("update")
+                    resolve()
+
+                }).catch(err=>{
+
+                    console.log("update errr");
+                    reject()
+
+                })
+    
+                
+               } catch (error) {
+    
+                console.log("update err");
+                  reject()
+    
+                
+               }
+
+
+                 
+           })
+
+
+    }
+
+
+
+    module.exports.oder_pro=(oderid)=>{
+
+        const oderis_obj=new mongoos.Types.ObjectId(oderid)
+
+          return new Promise( async(resolve,reject)=>{
+
+            try {
+
+
+                const place_oder_DB=mongoos.model("placoder",place_oder_schema)
+
+                const prolist= await place_oder_DB.aggregate([
+
+                     {
+                        $match:{_id:oderis_obj}
+                     },
+                     {
+                        $unwind:"$products"
+                     },
+                     {
+                        $project:{
+                           
+                            item:"$products.item",
+                            quantity:"$products.quantity"
+                        }
+                     
+                    },
+                    {
+
+                        $lookup:{
+
+                            from:"products",
+                            foreignField:"_id",
+                            localField:"item",
+                            as:"prodata"
+
+                        }
+
+
+
+
+                },
+                
+                {
+
+                    $project:{
+
+                        item:1,quantity:1,prodata:{$arrayElemAt:["$prodata",0]}
+
+                    }
+
+
+                }
+
+
+
+                ])
+
+               
+                
+                resolve({data:prolist})
+
+              
+
+
+                
+            } catch (error) {
+
+                reject()
+                
+            }
+
+
+
+
+
+          })
+
+        
+    }

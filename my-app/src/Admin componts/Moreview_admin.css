@@ -2,16 +2,27 @@
 
 
 
+
 .deli-moreview{
 
      width: 100%;
-     height: 250px;
+     height: 300px;
+     /* background-color: aqua; */
      
      padding-top: 100px;
 }
 .title-moreview{
     font-size: 25px;
     margin-left: 10px;
+}
+
+.p-address{
+
+    margin-left: 20px;
+}
+
+.del-span{
+    color: blue;
 }
 
 
@@ -21,13 +32,20 @@
 .main-moreview{
 
  width: 100%;
+ 
   /* padding-top: 100px; */
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
+ 
 
 
 
+}
+
+.title-2-more{
+    text-align: center;
+    margin-bottom: 50px;
 }
 
 
@@ -39,6 +57,7 @@
     border: 2px solid rgb(224, 219, 219);
     border-radius: 5px;
     margin: 10px;
+    background-color:rgb(240, 240, 240);
 }
 
 .imgbox-moreview{

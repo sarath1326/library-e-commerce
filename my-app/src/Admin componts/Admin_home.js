@@ -11,6 +11,12 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import ReactPaginate from "react-paginate"
 import axios from "../Constant/Axios"
+import Swal from 'sweetalert2'
+import {message } from "antd"
+
+
+
+
 
 function Admin_home() {
 
@@ -50,8 +56,70 @@ function Admin_home() {
 
   }
 
+  const proDelete=(proid,index)=>{
 
 
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+          prodata.splice(index,1)
+          setprodata([...prodata])
+
+          axios.delete("/admin/pro_delete?proid="+proid).then((result)=>{
+
+            if(result.data.flag){
+
+              Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+                )
+
+               }else{
+
+                 message.error("somthing worng")
+
+
+               }
+
+            
+          
+            }).catch(err=>{
+
+              console.log("err")
+
+            })
+          
+
+
+          
+        
+          }
+   
+   
+   
+   
+   
+   
+   
+    })
+
+
+
+
+
+
+
+
+  }
 
 
   // react pagination start //
@@ -74,7 +142,7 @@ function Admin_home() {
     .map((obj, index) =>
 
     (
-      <tr  >
+      <tr className='tr-admin'  >
         {/* <td>{index+1}</td>   */}
        
         <td className='td-admin'> {obj.name}</td>
@@ -82,9 +150,9 @@ function Admin_home() {
         <td className='td-admin'>{obj.price}</td>
       
         <td className='td-admin'>  <img  className='img-admin' src={`data:${obj.contentType};base64,${obj.imageBase64}`}  alt='loding...' />   </td>
-        <td className='td-admin' onClick={()=>{moreview(obj._id)}}> View</td>
+        <td className='td-admin' onClick={()=>{moreview(obj._id)}}>  <button className='view-btn-admin'> view</button>     </td>
         
-        <td className='td-admin'><BiEditAlt className='edit-admin' onClick={()=>{proedit(obj._id)}}    />   <BsFillTrash3Fill className='delete-admin' />   </td>
+        <td className='td-admin'><BiEditAlt className='edit-admin' onClick={()=>{proedit(obj._id)}}    />   <BsFillTrash3Fill className='delete-admin'  onClick={()=>{proDelete(obj._id,index)}}   />   </td>
 
 
 
@@ -154,9 +222,9 @@ function Admin_home() {
 
         <ReactPaginate
 
-          previousLabel={"previous"}
+          previousLabel={"<"}
 
-          nextLabel={"next"}
+          nextLabel={">"}
 
           pageCount={pageCount}
 

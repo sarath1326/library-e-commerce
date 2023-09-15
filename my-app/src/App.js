@@ -30,6 +30,7 @@ import Moreviewpageadmin from './Admin pages/Moreviewpageadmin';
 import Loginpageadmin from './Admin pages/Loginpage';
 import Oneviewadmin from './Admin pages/Oneview_admin_page';
 import Pro_editpage from './Admin pages/Pro_editpage';
+import Report_page from './Admin pages/Report_page';
 
 import Lodingpage from './Userpage/Lodingpage';
 import Otp_page from './Userpage/Otp_page';
@@ -78,8 +79,8 @@ function App() {
 
       <Routes>
 
-{/*         
-      <Route element={<Lodingpage />} path='/' />
+       
+      {/* <Route element={<Lodingpage />} path='/' />
 
         <Route element={<Homepage/>} path='/home'   />
 
@@ -107,7 +108,7 @@ function App() {
 
         <Route element={<Loginpage />} path='/Login' />
 
-        <Route element={<Placeoderpropage/>} path='/placepro/:cartid' /> */}
+        <Route element={<Placeoderpropage/>} path='/placepro/:cartid' />  */}
 
         <Route element={<Admin_home_page />} path='/admin' />
 
@@ -122,6 +123,13 @@ function App() {
         <Route element={< Oneviewadmin />} path='/admin/oneview' />
 
         <Route element={<Pro_editpage/>} path='/admin/edit' />
+
+        <Route element={<Report_page/>} path='/admin/report' />
+
+
+
+        
+
 
 
         

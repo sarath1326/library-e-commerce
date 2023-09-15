@@ -4,7 +4,9 @@
     width: 100%;
     height: 150vh;
    padding-top: 80px;
-   /* background-color: aqua; */
+   /* background-color: rgb(24, 61, 61); */
+   background-color: rgb(92, 131, 116);
+ 
 
 }
 
@@ -14,6 +16,7 @@
     text-align: center;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
    letter-spacing: 2px;
+   color: white;
 }
 
 .add-pro-admin{
@@ -96,4 +99,19 @@
 .delete-admin{
     font-size: 20px;
     color: red;
+}
+
+
+.view-btn-admin{
+
+    border: none;
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.tr-admin{
+
+    margin-bottom: 10px;
 }

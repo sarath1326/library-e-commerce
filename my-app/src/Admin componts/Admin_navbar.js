@@ -11,7 +11,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { VscAccount } from "react-icons/vsc";
 import { useNavigate } from 'react-router-dom';
-import { BsFillPersonFill } from "react-icons/bs"
+import { BsFillPersonFill ,BsGraphUpArrow } from "react-icons/bs"
 
 import { BsFillCartDashFill,BsFillBagCheckFill,BsFillHouseDoorFill } from "react-icons/bs";
 
@@ -40,11 +40,11 @@ function Admin_navbar() {
           >
              <h6  className='admin-title'    > Admin Port </h6>
             
-            <Nav.Link  className='navlink'   > <BsFillHouseDoorFill className='icons-nav'/> Home </Nav.Link>
+            <Nav.Link  className='navlink' onClick={()=>{navigate("/admin")}}  > <BsFillHouseDoorFill className='icons-nav'/> Home </Nav.Link>
             
-            <Nav.Link  className='navlink'  onClick={()=>{navigate("/admin/alloders")}}    > All Oders </Nav.Link>
+            <Nav.Link  className='navlink'  onClick={()=>{navigate("/admin/alloders")}}> <BsFillBagCheckFill className='icons-nav'/>     All Oders </Nav.Link>
 
-            {/* <Nav.Link className='navlink'    ><BsFillBagCheckFill className='icons-nav'/>    My Oders </Nav.Link> */}
+            <Nav.Link className='navlink' onClick={()=>{navigate("/admin/report")}}   > <BsGraphUpArrow className='icons-nav' />       Report </Nav.Link>
 
            <span className='logintext-moreview'> Login </span>
             <Nav.Link className='icon-moreview' onClick={()=>{navigate("/admin/login")}}>  <BsFillPersonFill /> </Nav.Link>

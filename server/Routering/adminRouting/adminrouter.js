@@ -143,11 +143,98 @@ router.post("/edit_pro", store.single("image"), (req, res) => {
        
   })
 
-
-
-
-
 })
+
+
+
+  router.delete("/pro_delete",(req,res)=>{
+
+    const proid=req.query.proid
+
+        db.pro_delete(proid).then(()=>{
+
+            res.json({flag:true})
+
+        }).catch(err=>{
+
+          res.json({flag:false})
+
+        })
+
+
+      
+
+
+  })
+
+
+
+
+   router.get("/all_oders",(req,res)=>{
+
+           db.get_all_oders().then((respo)=>{
+
+            if(respo.flag){
+
+              res.json({flag:true,data:respo.data})
+
+            }else{
+              
+              res.json({flag:false})
+            
+            }
+
+           }).catch(err=>{
+
+              res.json({err:true})
+
+           })
+
+   })
+
+
+
+     router.post("/shiping",(req,res)=>{
+
+            const data= req.body
+
+            db.shiping(data).then((respo)=>{
+
+              res.json({flag:true})
+
+               }).catch(err=>{
+
+                res.json({flag:false})
+
+               })
+
+    
+          })
+
+
+
+
+          router.get("/oder_pro",(req,res)=>{
+
+              const oderid= req.query.oderid
+              
+
+             db.oder_pro(oderid).then((respo)=>{
+
+              res.json({flag:true,data:respo.data})
+
+
+             }).catch(err=>{
+
+               res.json({flag:false})
+
+             })
+              
+
+
+
+
+          })
 
 
 

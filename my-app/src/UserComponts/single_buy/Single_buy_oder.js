@@ -16,6 +16,7 @@ import {useDispatch} from "react-redux"
 import {AddCart} from "../../redux/cart/Cart"
 import { useLocation } from 'react-router-dom'
 import { date } from 'yup'
+import Swal from 'sweetalert2'
 
 function Singlebuy(props) {
 
@@ -109,7 +110,15 @@ function Singlebuy(props) {
 
           if(result.data.cod){
 
-            message.success(" your oder placed sucssfully")
+             
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'your oder placed successfuly !',
+              showConfirmButton: false,
+              timer: 2000
+            })
+
 
             }else{
 
@@ -126,7 +135,15 @@ function Singlebuy(props) {
                axios.post("/user/single_buy/verify_pyment",data).then(()=>{
 
 
-                message.success("online pyment ok your order is placed sucssfuly...!!!")
+                
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'your oder placed successfuly !',
+              showConfirmButton: false,
+              timer: 2000
+            })
+
 
               
                 }).catch(err=>{
