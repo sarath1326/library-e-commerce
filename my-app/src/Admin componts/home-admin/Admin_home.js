@@ -10,7 +10,7 @@ import { BsFillTrash3Fill } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import ReactPaginate from "react-paginate"
-import axios from "../Constant/Axios"
+import axios from "../../Constant/Axios"
 import Swal from 'sweetalert2'
 import {message } from "antd"
 
@@ -73,7 +73,14 @@ function Admin_home() {
           prodata.splice(index,1)
           setprodata([...prodata])
 
-          axios.delete("/admin/pro_delete?proid="+proid).then((result)=>{
+          const jwt= localStorage.getItem("library_admin_token")
+
+          const data={
+            proid,
+            jwt
+          }
+
+          axios.delete("/admin/pro_delete?proid="+data).then((result)=>{
 
             if(result.data.flag){
 
@@ -196,7 +203,7 @@ function Admin_home() {
 
       <h1 className='title-adimn'> All Products</h1>
 
-      <button className='add-pro-admin'> Add New Products</button>
+      <button className='add-pro-admin '  onClick={()=>{navigate("/admin/proadd")}}> Add New Products</button>
 
       <div className='container'>
 

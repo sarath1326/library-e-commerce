@@ -33,13 +33,13 @@
      color: white;
      font-size: 25px;
      position: absolute;
-     right: 10px;
+     right: 30px;
 
     }
 
     .logintext-moreview{
       position: absolute;
-      right: 50px;
+      right: 100px;
       color: white;
       margin-top: 20px;
     }
@@ -92,4 +92,11 @@
         color: white;
         font-size: 20px;
         margin-left: 10px;
+    }
+
+    .drop-navad{
+
+      color: white;
+      font-size: 25px;
+      color: white;
     }

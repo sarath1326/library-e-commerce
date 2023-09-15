@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom'
 import axios from "../../Constant/Axios"
 import {message } from "antd"
 
+
 function Pro_edit() {
 
     const [image,setimage]=useState("")
@@ -14,6 +15,7 @@ function Pro_edit() {
     const [fetchdata,setfetchdata]=useState({})
     const [data,setdata]=useState("")
 
+    
     const [values,setvalues]=useState({
 
            name:"",
@@ -147,9 +149,9 @@ function Pro_edit() {
 
       axios.post("/admin/edit_pro",formdata).then((result)=>{
 
-        if(result.flag){
+        if(result.data.flag){
 
-          navigator("/admin")
+        message.success("product edited ")
 
 
         }else{

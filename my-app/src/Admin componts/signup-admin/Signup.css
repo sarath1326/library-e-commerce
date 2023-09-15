@@ -1,0 +1,55 @@
+
+
+
+
+
+.main-signup-admin{
+
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.box-signup-admin{
+
+    width: 500px;
+    height: 450px;
+    background-color: rgb(1, 106, 112);
+    border-radius: 10px;
+
+}
+
+.form-signup-admin{
+    margin-top: 80px;
+    margin-left: 90px;
+}
+
+.h1-signup-admin{
+
+    text-align: center;
+    color: white;
+}
+
+.input-signup-admin{
+
+    width: 300px;
+    height: 35px;
+    
+}
+
+.btn-signup-admin{
+
+    border: none;
+    background-color: brown;
+    color: white;
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-left: 95px;
+    margin-top: 20px;
+
+}

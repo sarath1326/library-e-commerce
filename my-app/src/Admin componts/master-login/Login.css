@@ -19,6 +19,7 @@
     height: 400px;
     border: 2px solid black ;
     border-radius: 10px;
+    background-color: rgb(13, 76, 98);
 
 
 }
@@ -40,17 +41,18 @@
 
 .form-adminlog input{
 
-    width: 250px;
+    width: 300px;
+   height: 40px;
     border-radius: 7px;
-   height: 32px;
+   ;
 }
 
 .btn-adminlog{
-    margin-left: 80px;
+    margin-left: 100px;
     width: 100px;
     margin-top: 20px;
     border: none;
-    background-color: blue;
+    background-color: rgb(102, 37, 73);
     color: white;
     height: 40px;
     font-size: 20px;
@@ -58,7 +60,7 @@
 }
 
 .p-adminlog{
-    color: blue;
+    color: white;
     cursor: pointer;
     margin-top: 5px;
 }

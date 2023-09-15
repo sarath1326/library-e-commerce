@@ -1,7 +1,7 @@
 
 
 import React from 'react'
-import Admin_navbar from '../Admin componts/Admin_navbar'
+import Admin_navbar from '../Admin componts/navbar-admin/Admin_navbar'
 import Onve_view_admin from '../Admin componts/onview-admin/Onve_view_admin'
 
 function Oneview_admin_page() {

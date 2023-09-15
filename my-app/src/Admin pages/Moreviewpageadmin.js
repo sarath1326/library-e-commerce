@@ -1,9 +1,8 @@
 
 
 import React from 'react'
-import Moreview_admin from '../Admin componts/Moreview_admin'
-import Admin_navbar from '../Admin componts/Admin_navbar'
-
+import Moreview_admin from '../Admin componts/more_view/Moreview_admin'
+import Admin_navbar from '../Admin componts/navbar-admin/Admin_navbar'
 
 function Moreviewpageadmin() {
   

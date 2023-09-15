@@ -2,14 +2,14 @@
 
 
 import React from 'react'
-import Admin_navbar from './Admin_navbar'
+
 import "./Alloders_admin.css"
 
 import Table from 'react-bootstrap/Table';
 import { BsFillTrash3Fill } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import axios from "../Constant/Axios"
+import axios from "../../Constant/Axios"
 import ReactPaginate from "react-paginate"
 import {message } from "antd"
 
@@ -163,7 +163,7 @@ function Alloders_admin() {
 
   return (
     <div>
-      <Admin_navbar />
+     
 
       <div className='main-allod'>
 

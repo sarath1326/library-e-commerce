@@ -1,0 +1,58 @@
+
+
+
+.login-nor-main{
+
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+
+.box-login-admin-nor{
+    width: 450px;
+    height: 400px;
+    background-color: rgb(1, 106, 112);
+    border-radius: 10px;
+
+}
+
+.h1-login-admin-nor{
+
+    color: white;
+    text-align: center;
+
+}
+
+.form-login-admin-nor{
+
+    margin-top: 80px;
+    margin-left: 75px;
+
+}
+
+.input-login-admin-nor{
+
+    width: 300px;
+    height: 40px;
+}
+
+.btn-login-admin-nor{
+
+    
+    border: none;
+    background-color: brown;
+    color: white;
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-left: 95px;
+    margin-top: 20px;
+
+
+}

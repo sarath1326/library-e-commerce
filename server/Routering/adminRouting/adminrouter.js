@@ -5,6 +5,102 @@ const express = require("express");
 const router = express.Router();
 const store = require("../../image/multer")
 const db = require("../../MonoDb/dbtransoer/Admindb")
+const jwt =require("jsonwebtoken")
+
+
+
+
+
+
+router.post("/master/login",(req,res)=>{
+
+  const data=req.body
+
+  db.veryfi_master(data).then((respo)=>{
+
+    if(respo.flag){
+
+        res.json({flag:true})
+    
+      }else if(respo. nomaster){
+
+        res.json({nomaster:true})
+ 
+
+    }else{
+     
+      res.json({flag:false})
+    
+    }
+
+    
+
+  }).catch(err=>{
+
+    res.json({err:true})
+
+  })
+
+
+     
+
+})
+
+
+  router.post("/signup",(req,res)=>{
+
+    const data=req.body
+
+    db.signup(data).then((respo)=>{
+
+      if(respo.flag){
+       
+        res.json({flag:true})
+      
+      }else if(respo.email_exit){
+
+        res.json({exist:true})
+
+      }
+
+    }).catch(err=>{
+
+      res.json({err:true})
+
+    })
+
+
+})
+
+router.post("/login",(req,res)=>{
+
+      const data= req.body
+
+      db.login(data).then((respo)=>{
+
+        if(respo.flag){
+
+          const {_id,name}=respo.data
+
+           const token= jwt.sign({id:_id,name:name},"sarath1937admin",{expiresIn:300})
+
+            res.json({flag:true, jwt:token ,admin:name})
+          
+          }else{
+
+            res.json({flag:false})
+
+          }
+
+
+      }).catch(err=>{
+
+        res.json({err:true})
+
+      })
+
+})
+
 
 
 
@@ -133,12 +229,14 @@ router.post("/edit_pro", store.single("image"), (req, res) => {
 
 
     res.json({flag:true})
+    console.log("erdit ok")
 
      
 
   }).catch(err => {
 
     res.json({flag:false})
+    console.log("edit err")
 
        
   })
@@ -236,6 +334,24 @@ router.post("/edit_pro", store.single("image"), (req, res) => {
 
           })
 
+
+          router.get("/report",(req,res)=>{
+
+            console.log('jh[[[[[')
+
+             db.collect_report().then((respo)=>{
+
+              res.json({data:respo})
+
+             }).catch(err=>{
+
+              res.json({err:true})
+
+
+
+             })
+
+          })
 
 
 

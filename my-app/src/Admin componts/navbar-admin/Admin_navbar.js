@@ -12,6 +12,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { VscAccount } from "react-icons/vsc";
 import { useNavigate } from 'react-router-dom';
 import { BsFillPersonFill ,BsGraphUpArrow } from "react-icons/bs"
+import { PiWarningCircleBold } from "react-icons/pi"
+
+
 
 import { BsFillCartDashFill,BsFillBagCheckFill,BsFillHouseDoorFill } from "react-icons/bs";
 
@@ -46,8 +49,23 @@ function Admin_navbar() {
 
             <Nav.Link className='navlink' onClick={()=>{navigate("/admin/report")}}   > <BsGraphUpArrow className='icons-nav' />       Report </Nav.Link>
 
-           <span className='logintext-moreview'> Login </span>
-            <Nav.Link className='icon-moreview' onClick={()=>{navigate("/admin/login")}}>  <BsFillPersonFill /> </Nav.Link>
+           <span className='logintext-moreview'> master </span>
+{/*             
+            <Nav.Link className='icon-moreview' onClick={()=>{navigate("/admin/login")}}>  <BsFillPersonFill /> </Nav.Link> */}
+           
+            <NavDropdown className='icon-moreview text-white' title={<BsFillPersonFill className='text-white'/>} >
+
+            <NavDropdown.Item className='ndi' onClick={()=>{navigate("/admin/master/login")}}   >Add new</NavDropdown.Item>
+
+            <NavDropdown.Item className='ndi'   >Login</NavDropdown.Item>
+
+            
+
+              
+
+
+            </NavDropdown>
+
             
             
           

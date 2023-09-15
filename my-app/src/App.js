@@ -27,10 +27,12 @@ import Signle_buypage from './Userpage/Signle_buypage';
 import Admin_home_page from './Admin pages/Admin_home_page';
 import Alloderspage from './Admin pages/Alloderspage';
 import Moreviewpageadmin from './Admin pages/Moreviewpageadmin';
-import Loginpageadmin from './Admin pages/Loginpage';
+import Master_login from './Admin pages/Master_login';
 import Oneviewadmin from './Admin pages/Oneview_admin_page';
 import Pro_editpage from './Admin pages/Pro_editpage';
 import Report_page from './Admin pages/Report_page';
+import Signup_Admin from './Admin componts/signup-admin/Signup';
+import Login_Admin from './Admin componts/login/Login_normal';
 
 import Lodingpage from './Userpage/Lodingpage';
 import Otp_page from './Userpage/Otp_page';
@@ -118,13 +120,17 @@ function App() {
 
         <Route element={<Moreviewpageadmin />} path='/admin/moreview'   />
 
-        <Route  element={<Loginpageadmin />} path='/admin/login' />
+        <Route  element={<Master_login />} path='/admin/master/login' />
 
         <Route element={< Oneviewadmin />} path='/admin/oneview' />
 
         <Route element={<Pro_editpage/>} path='/admin/edit' />
 
         <Route element={<Report_page/>} path='/admin/report' />
+
+        <Route element={<Signup_Admin/>} path='/admin/signup' />
+
+        <Route element={<Login_Admin />} path='/admin/login' />
 
 
 

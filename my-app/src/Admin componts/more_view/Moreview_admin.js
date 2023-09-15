@@ -1,11 +1,11 @@
 
 
 import React from 'react'
-import Admin_navbar from './Admin_navbar'
+
 import "./Moreview_admin.css"
 import { useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import axios from "./../Constant/Axios"
+import axios from "../../Constant/Axios"
 import { message } from 'antd'
 
 

@@ -2,7 +2,7 @@
 
 
 import React from 'react'
-import Admin_navbar from '../Admin componts/Admin_navbar'
+import Admin_navbar from '../Admin componts/navbar-admin/Admin_navbar'
 import Pro_edit from '../Admin componts/pro_edit/Pro_edit'
 
 
