@@ -3,37 +3,33 @@
 
 import React, { useState } from 'react'
 import "./Cart.css"
-// import Navbars from './Navbars'
+
 import Table from 'react-bootstrap/Table';
 import { BsFillTrash3Fill } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import axios from "../../Constant/Axios"
-import { useDispatch} from "react-redux"
-import {AddCart} from "../../redux/cart/Cart"
-
-
-
+import axios from "../../Constant/Axios";
+import { useDispatch } from "react-redux";
+import { AddCart } from "../../redux/cart/Cart";
+import { message } from "antd";
 
 
 
 function Cart(props) {
 
-  const navigate = useNavigate()
-  const dispatch= useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [cartdata, setcartdata] = useState([])
+  const [cartdata, setcartdata] = useState([]);
 
-  const [countflag,setcountflag]=useState(false)
+  const [total, settotal] = useState(0);
 
-  const [total,settotal]=useState(0)
+  const [empty, setempty] = useState(false);
+  const [loding, setloding] = useState(true);
 
-  const [empty,setempty]=useState(false)
-  const [loding,setloding]=useState(true)
 
-  
 
-  
+
 
 
   useEffect(() => {
@@ -48,9 +44,14 @@ function Cart(props) {
 
     }).then((respo) => {
 
+      if(respo.data.err){
+        message.error("somthing worng");
+
+      }
+
       if (respo.data.authfaild) {
 
-        navigate("/login")
+        navigate("/login");
 
 
       } else {
@@ -59,409 +60,368 @@ function Cart(props) {
 
           const data = respo.data
 
-          setcartdata(data.cartdata)
+          setcartdata(data.cartdata);
 
-          setloding(false)
+          setloding(false);
 
-          settotal(data.total_price)
-
-         
-
-
-
+          settotal(data.total_price);
 
         } else {
 
-          setempty(true)
+          setempty(true);
 
-          console.log("your cart is empty")
-
-        
-        
         }
-
-
-
-
-
       }
 
 
+    }).catch(err => {
 
-
-
-    }).catch(err=>{
-
-      props.failed(true)
-    })
+      props.failed(true);
+    });
 
 
 
   }, [])
 
 
-  const  countincriment= (index,proid)=>{
+  const countincriment = (index, proid) => {
 
-   
+    const userid = localStorage.getItem("library_token");
 
-   const userid= localStorage.getItem("library_token")   
+    cartdata[index].quantity += 1
 
-    cartdata[index].quantity +=1
+    setcartdata([...cartdata]);
 
-    setcartdata([...cartdata])
-
-
-    const data={
+    const data = {
 
       userid,
       proid,
-      count:1
+      count: 1
 
     }
 
-     axios.post("/user//cart_count_change",data).then((respo)=>{
+    axios.post("/user//cart_count_change", data).then((respo) => {
 
-     if(respo.data.flag){
+    if(respo.data.err){
+      message.error("somthoing worng")
+    }
 
-      const data= respo.data
+      if (respo.data.flag) {
 
-      settotal(data.total_price)
+        const data = respo.data;
 
-     }else{
+        settotal(data.total_price);
 
-      console.log("cart incriment err")
+      } else {
 
-     }
+        message.error("somthing worng");
+
+      }
 
 
-    }).catch(err=>{
+    }).catch(err => {
 
-    props.failed(true)
+      props.failed(true);
 
     })
 
 
-  }    
+  }
 
-   const countdecriment=(index,proid)=>{
+  const countdecriment = (index, proid) => {
 
-    const userid= localStorage.getItem("library_token") 
-    
-    if(cartdata[index].quantity===1){
+    const userid = localStorage.getItem("library_token")
 
-      pro_delete(index,proid)
-      
+    if (cartdata[index].quantity === 1) {
+
+      pro_delete(index, proid);
+
       return
 
     }
 
-    cartdata[index].quantity -=1
+    cartdata[index].quantity -= 1
 
-    setcartdata([...cartdata])
+    setcartdata([...cartdata]);
 
-   
-
-
-
-
-    const data={
+    const data = {
 
       userid,
       proid,
-      count:-1
+      count: -1
 
     }
 
 
-    axios.post("/user//cart_count_change",data).then((respo)=>{
+    axios.post("/user//cart_count_change", data).then((respo) => {
 
-        if(respo.data.flag){
+    if(respo.data.err){
+      message.error("somthing worng")
+    }
 
-          const data= respo.data
+      if (respo.data.flag) {
 
-          settotal(data.total_price)
+        const data = respo.data;
 
-        }else{
+        settotal(data.total_price);
 
-          console.log("cart deceiment err")
+      } else {
 
-        }
+        message.error("somthig worng");
 
+      }
+    }).catch(err => {
 
+      props.failed(true);
 
-
-    }).catch(err=>{
-
-      props.failed(true)
-
-    })
-
-
-       
-
-
+    });
 
   }
-
-
 
   function placeoder() {
 
-
-    navigate(`/plo/${total}`)
-
-
+    navigate(`/plo/${total}`);
 
   }
 
 
-  function pro_delete(index,proid){
+  function pro_delete(index, proid) {
 
-    cartdata.splice(index,1)
-   
-    setcartdata([...cartdata])
+    cartdata.splice(index, 1);
 
-    const count= cartdata.length
+    setcartdata([...cartdata]);
 
-    dispatch(AddCart(count))
-    
+    const count = cartdata.length;
 
+    dispatch(AddCart(count));
 
 
+    if (cartdata.length === 0) {
 
+      setempty(true);
 
-    if(cartdata.length===0){
+    } else {
 
-      setempty(true)
-
-    }else{
-
-      setempty(false)
+      setempty(false);
 
     }
 
-    
-    const userid= localStorage.getItem("library_token") 
+    const userid = localStorage.getItem("library_token");
 
-    
+    axios.delete(`/user/cart_delete?proid=${proid}&userid=${userid}`).then((respo) => {  
 
+      if(respo.data.err){
+        message.error("somthing err")
+      }
 
+     if (respo.data.empty) {
 
-    axios.delete( `/user/cart_delete?proid=${proid}&userid=${userid}`).then((respo)=>{
+      } else {
 
+        const total = respo.data.total
 
-              if(respo.data.empty){
+        settotal(total);
 
-                  }else{
+      }
 
-                     const total= respo.data.total
+    }).catch(err => {
 
-                     settotal(total)
+      props.failed(true);
 
-                  }
-
-           
-
-
-
-    }).catch(err=>{
-
-     props.failed(true)
-   
     })
 
-   }
+  }
 
-   const more_view=(proid)=>{
+  const more_view = (proid) => {
 
-    navigate(`/oneview/${proid}`)
+    navigate(`/oneview/${proid}`);
 
-   }
+  }
 
 
 
   return (
 
     <div className='main-cart'>
-   
+
 
       <div className='container'>
 
-      
-        {   empty ? 
 
-         <div className='empty-cart'>
+        {empty ?
 
-          <img className="empty-img-cart" src='./empty-cart.jpeg' alt='loding...' />
+          <div className='empty-cart'>
 
+            <img className="empty-img-cart" src='./empty-cart.jpeg' alt='loding...' />
 
 
 
 
-         </div>
-
-
-
-
-
-        : 
-
-        loding ?<div className='loding-cat'>
-
-          <img className='loding-img-cart' src='../Book animation.gif' alt='loding..' />
-
-      
-
-
-
-
-      </div>
-
-        
-        
-        :
-        
-        
-        
-        <>
- 
-
-        
-
-       
-      
-      
-
-
-
-
-        <div className='cart-item'>
-
-          <Table striped bordered hover className='table-cart'>
-
-            <tbody>
-
-
-
-              {
-
-                cartdata.map((obj,index) => (
-
-                 
-
-
-                  <tr className='tr-cart'>
-
-                    <td > <img src={`data:${obj.cartitems.contentType};base64,${obj.cartitems.imageBase64}`} alt='Loading....' className='cart-img' /> </td>
-
-                    <td className='cart-td'>{obj.cartitems.name} <br /><br />
-
-                      <a className='tda-cart' onClick={()=>{more_view(obj.cartitems._id)}}   > view</a>
-
-                    </td>
-
-                    <td className='cart-td'>
-
-
-
-                      <br />
-
-                      {obj.cartitems.price} /-
-
-
-                    </td>
-
-                    <td className='btn-td' >
-
-                      <br />
-
-                     <button className='cart-btn' onClick={()=>{countdecriment(index,obj.item)}}       > - </button > 
-
-                     
-                      
-                      
-                      <span> {obj.quantity}     </span> 
-                      
-                       
-                      
-                      
-                      
-                      <button className='cart-btn'   onClick={()=>{countincriment(index,obj.item)}}       >+</button>
-
-
-
-                    </td>
-
-                    <td className='cart-icon' >
-
-                      <br />
-
-                      <BsFillTrash3Fill className='icom' onClick={()=>{pro_delete(index,obj.item)}} />
-
-
-
-                    </td>
-
-                  </tr>
-
-                 
-
-                ))
-
-
-
-              }
-
-            </tbody>
-
-          </Table>
-
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <div className='total-box'>
-
-          <div className='cart-box'>
-
-            <h4 id='h4'> Total Price : <span> {total} </span>  </h4>
-
-            <button onClick={placeoder} id='btn-cart'> Place oder</button>
 
           </div>
 
 
-          
-          
-        
-
-
-        </div>
 
 
 
+          :
+
+          loding ? <div className='loding-cat'>
+
+            <img className='loding-img-cart' src='../Book animation.gif' alt='loding..' />
 
 
 
 
-    </>  }   
+
+
+          </div>
+
+
+
+            :
+
+
+
+            <>
+
+
+
+
+
+
+
+
+
+
+
+              <div className='cart-item'>
+
+                <Table striped bordered hover className='table-cart'>
+
+                  <tbody>
+
+
+
+                    {
+
+                      cartdata.map((obj, index) => (
+
+
+
+
+                        <tr className='tr-cart'>
+
+                          <td > <img src={`data:${obj.cartitems.contentType};base64,${obj.cartitems.imageBase64}`} alt='Loading....' className='cart-img' /> </td>
+
+                          <td className='cart-td'>{obj.cartitems.name} <br /><br />
+
+                            <a className='tda-cart' onClick={() => { more_view(obj.cartitems._id) }}   > view</a>
+
+                          </td>
+
+                          <td className='cart-td'>
+
+
+
+                            <br />
+
+                            {obj.cartitems.price} /-
+
+
+                          </td>
+
+                          <td className='btn-td' >
+
+                            <br />
+
+                            <button className='cart-btn' onClick={() => { countdecriment(index, obj.item) }}       > - </button >
+
+
+
+
+                            <span> {obj.quantity}     </span>
+
+
+
+
+
+                            <button className='cart-btn' onClick={() => { countincriment(index, obj.item) }}       >+</button>
+
+
+
+                          </td>
+
+                          <td className='cart-icon' >
+
+                            <br />
+
+                            <BsFillTrash3Fill className='icom' onClick={() => { pro_delete(index, obj.item) }} />
+
+
+
+                          </td>
+
+                        </tr>
+
+
+
+                      ))
+
+
+
+                    }
+
+                  </tbody>
+
+                </Table>
+
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div className='total-box'>
+
+                <div className='cart-box'>
+
+                  <h4 id='h4'> Total Price : <span> {total} </span>  </h4>
+
+                  <button onClick={placeoder} id='btn-cart'> Place oder</button>
+
+                </div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+            </>}
 
 
       </div>
 
-            
+
 
 
 

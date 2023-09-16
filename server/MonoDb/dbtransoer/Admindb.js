@@ -41,7 +41,7 @@ const addproductsschema = new mongoos.Schema({
     cotegory: String,
     type: String,
 
-})
+});
 
 
 const place_oder_schema = new mongoos.Schema({
@@ -57,7 +57,7 @@ const place_oder_schema = new mongoos.Schema({
     shiping: String
 
 
-})
+});
 
 const user_signup_schema = new mongoos.Schema({
 
@@ -67,7 +67,7 @@ const user_signup_schema = new mongoos.Schema({
     password: String
 
 
-})
+});
 
 
 const master_schema = new mongoos.Schema({
@@ -81,21 +81,19 @@ const master_schema = new mongoos.Schema({
         unique: true
     },
     name: String
-})
+});
 
 
 const signup_Admin_schema = new mongoos.Schema({
-    
-    name:String,
-    email:{
-        type:String,
-        unique:true
+
+    name: String,
+    email: {
+        type: String,
+        unique: true
     },
-    password:String
+    password: String
 
-})
-
-
+});
 
 
 
@@ -103,7 +101,9 @@ const signup_Admin_schema = new mongoos.Schema({
 
 
 
-module.exports.veryfi_master = (data) => {
+
+
+module.exports.veryfi_master = (data) => {     //master verification  Qurey
 
     return new Promise(async (resolve, reject) => {
 
@@ -111,9 +111,9 @@ module.exports.veryfi_master = (data) => {
         try {
 
 
-            const masterDB = mongoos.model("master", master_schema)
+            const masterDB = mongoos.model("master", master_schema);
 
-            const findMaster = await masterDB.findOne({ email: data.email })
+            const findMaster = await masterDB.findOne({ email: data.email });
 
             if (findMaster) {
 
@@ -122,7 +122,7 @@ module.exports.veryfi_master = (data) => {
 
                     if (result) {
 
-                        resolve({ flag: true })
+                        resolve({ flag: true });
 
                     } else {
 
@@ -134,115 +134,95 @@ module.exports.veryfi_master = (data) => {
 
             } else {
 
-                resolve({ nomaster: true })
+                resolve({ nomaster: true });
 
             }
 
         } catch (error) {
 
-            reject()
+            reject();
 
         }
 
-    })
-
-
-
+    });
 
 }
 
 
-module.exports.signup=(data)=>{
+module.exports.signup = (data) => {         //signup Query
 
-    return new Promise(async(resolve,reject)=>{
+    return new Promise(async (resolve, reject) => {
 
-        const signupDB=mongoos.model("Admin",signup_Admin_schema)
+        const signupDB = mongoos.model("Admin", signup_Admin_schema);
 
-        const email_exist=  await signupDB.findOne({email:data.email})
+        const email_exist = await signupDB.findOne({ email: data.email });
 
-        if(email_exist){
-            
-            resolve({email_exit:true})
+        if (email_exist) {
+
+            resolve({ email_exit: true });
             return
 
-        }else{
+        } else {
 
-            data.password= await bcrypt.hash(data.password,10)
+            data.password = await bcrypt.hash(data.password, 10);
 
-            const final= new signupDB(data)
+            const final = new signupDB(data);
 
-            final.save().then(()=>{
+            final.save().then(() => {
 
-                resolve({flag:true})
+                resolve({ flag: true });
 
-            }).catch(err=>{
+            }).catch(err => {
 
-                reject()
+                reject();
 
-            })
-
-
+            });
 
         }
 
-
-
-
-
-    })
+    });
 
 }
 
-module.exports.login=(data)=>{
+module.exports.login = (data) => {       // login Query
+
+    return new Promise(async (resolve, reject) => {
+
+        try {
+
+            const signupDB = mongoos.model("Admin", signup_Admin_schema);
+
+            const findData = await signupDB.findOne({ email: data.email });
+
+            if (findData) {
+
+                bcrypt.compare(data.password, findData.password).then((respo) => {
+
+                    if (respo) {
+
+                        resolve({ flag: true, data: findData });
+                    } else {
+
+                        resolve({ flag: false })
+
+                    }
+
+                });
 
 
-    
+            } else {
 
-    return new Promise(async(resolve,reject)=>{
+                resolve({ flag: false });
 
-         try {
-
-            const signupDB=mongoos.model("Admin",signup_Admin_schema)  
-
-             const findData = await signupDB.findOne({email:data.email})
-
-             if(findData){
-
-                bcrypt.compare(data.password,findData.password).then((respo)=>{
-                       
-                    if(respo){
-
-                        resolve({flag:true,data:findData})
-                        console.log("login ")
-
-                       }else{
-                           
-                        resolve({flag:false})
-                        console.log("login pass ")
-
-                       }
-
-                })
-
-
-             }else{
-
-                resolve({flag:false})
-
-                console.log("login not ")
-
-
-             }
+            }
 
         } catch (error) {
 
-            reject()
+            reject();
 
-            console.log("err ")
-            
-         }
+        }
 
-    })
+    });
 
 
 }
@@ -251,23 +231,13 @@ module.exports.login=(data)=>{
 
 
 
-
-
-
-module.exports.addproducts = (data) => {
+module.exports.addproducts = (data) => {     //addproducts query  
 
 
     return new Promise((resolve, reject) => {
 
-
-
-
-        const image = fs.readFileSync(data.img.path)
-        const img = image.toString("base64")
-
-
-        // console.log(img)
-        // console.log(data.details)
+        const image = fs.readFileSync(data.img.path);
+        const img = image.toString("base64");
 
         const finaldata = {
 
@@ -286,106 +256,82 @@ module.exports.addproducts = (data) => {
         }
 
 
-        const dataadd = mongoos.model("products", addproductsschema)
+        const dataadd = mongoos.model("products", addproductsschema);
 
 
-        const final = new dataadd(finaldata)
+        const final = new dataadd(finaldata);
 
         final.save().then((responce) => {
 
-            console.log("data added")
-            resolve(responce)
-
+            resolve(responce);
 
         }).catch(err => {
 
-            console.log("filed" + err)
-
-            reject(err)
-        })
+            reject(err);
+        });
 
 
-    })
+    });
 
 }
 
 
-module.exports.viewpro = () => {
+module.exports.viewpro = () => {      //viewpro query
 
     return new Promise(async (resolve, reject) => {
 
+        const prodata = mongoos.model("products", addproductsschema);
 
-        const prodata = mongoos.model("products", addproductsschema)
-
-        const result = await prodata.find().lean()
+        const result = await prodata.find().lean();
 
         if (result) {
 
-            resolve(result)
+            resolve(result);
 
         } else {
 
-            reject("errr")
+            reject("errr");
 
         }
 
-
-
-
-
-
-
-
-    })
+    });
 
 }
 
 
-module.exports.onview = (proid) => {
+module.exports.onview = (proid) => {   //onview query
 
     return new Promise(async (resolve, reject) => {
 
         try {
 
-            const productsDb = mongoos.model("products", addproductsschema)
+            const productsDb = mongoos.model("products", addproductsschema);
 
-            const findData = await productsDb.findOne({ _id: proid })
+            const findData = await productsDb.findOne({ _id: proid });
 
             if (findData) {
 
 
-                resolve({ flag: true, data: findData })
+                resolve({ flag: true, data: findData });
 
             } else {
 
-                resolve({ flag: false })
-                console.log("nodata")
-
+                resolve({ flag: false });
             }
-
-
 
         } catch (error) {
 
-            console.log(error)
-
-            reject("err")
-
-
+            reject("err");
 
         }
 
-
-
-    })
-
-
+    });
 
 
 }
 
 
-module.exports.edit_pro = (proid) => {
+module.exports.edit_pro = (proid) => {   //edit products  get  query
 
 
     return new Promise(async (resolve, reject) => {
@@ -394,43 +340,39 @@ module.exports.edit_pro = (proid) => {
 
         try {
 
-            const productsDb = mongoos.model("products", addproductsschema)
+            const productsDb = mongoos.model("products", addproductsschema);
 
-            const finddata = await productsDb.findOne({ _id: proid })
+            const finddata = await productsDb.findOne({ _id: proid });
 
-            resolve({ data: finddata })
+            resolve({ data: finddata });
 
 
         } catch (error) {
 
-            reject("err")
+            reject("err");
 
         }
 
-
-
-    })
-
-
+    });
 
 }
 
 
-module.exports.edit_pro_post = (post_data) => {
+module.exports.edit_pro_post = (post_data) => {   //edit products post query
 
     return new Promise((resolve, reject) => {
 
-        const { file, data, status } = post_data
+        const { file, data, status } = post_data;
 
-        const productsDB = mongoos.model("products", addproductsschema)
+        const productsDB = mongoos.model("products", addproductsschema);
 
 
         try {
 
             if (status) {
 
-                const image = fs.readFileSync(file.path)
-                const img = image.toString("base64")
+                const image = fs.readFileSync(file.path);
+                const img = image.toString("base64");
 
 
                 productsDB.updateOne({ _id: data.proid }, {
@@ -452,11 +394,11 @@ module.exports.edit_pro_post = (post_data) => {
 
                 }).then(() => {
 
-                    resolve()
+                    resolve();
 
                 }).catch(err => {
 
-                    reject()
+                    reject();
                 })
 
 
@@ -480,81 +422,72 @@ module.exports.edit_pro_post = (post_data) => {
                 }).then(() => {
 
 
-                    resolve()
+                    resolve();
 
                 }).catch(err => {
 
-                    reject()
+                    reject();
 
-                })
-
-
-
+                });
             }
 
 
         } catch (error) {
 
-            reject()
-
-
+            reject();
         }
 
 
-    })
+    });
 
 
 
 }
 
 
-module.exports.pro_delete = (proid) => {
+module.exports.pro_delete = (proid) => {   //products delete query
 
     return new Promise((resolve, reject) => {
 
         try {
 
-            const productsDB = mongoos.model("products", addproductsschema)
+            const productsDB = mongoos.model("products", addproductsschema);
 
             productsDB.deleteOne({ _id: proid }).then(() => {
 
-                resolve()
+                resolve();
 
             }).catch(err => {
 
-                reject()
+                reject();
             })
 
 
         } catch (error) {
 
-            reject()
+            reject();
 
         }
-
-
-
-
 
     })
 
 }
 
 
-module.exports.get_all_oders = () => {
+module.exports.get_all_oders = () => {   //all oders query
 
     return new Promise(async (resolve, reject) => {
 
         try {
 
-            const place_oder_DB = mongoos.model("placoder", place_oder_schema)
+            const place_oder_DB = mongoos.model("placoder", place_oder_schema);
 
 
-            const finddata = await place_oder_DB.find()
+            const finddata = await place_oder_DB.find();
 
             if (finddata) {
 
-                resolve({ flag: true, data: finddata })
+                resolve({ flag: true, data: finddata });
 
             } else (
 
@@ -563,29 +496,24 @@ module.exports.get_all_oders = () => {
 
         } catch (error) {
 
-            reject()
+            reject();
 
         }
 
-
-
-
-
-
-    })
+    });
 
 }
 
 
-module.exports.shiping = (data) => {
+module.exports.shiping = (data) => {   //shiping add query
 
-    const { oderid, date } = data
+    const { oderid, date } = data;
 
     return new Promise(async (resolve, reject) => {
 
         try {
 
-            const place_oder_DB = mongoos.model("placoder", place_oder_schema)
+            const place_oder_DB = mongoos.model("placoder", place_oder_schema);
 
             const findData = await place_oder_DB.updateOne({ _id: oderid }, {
 
@@ -599,44 +527,38 @@ module.exports.shiping = (data) => {
 
             }).then(() => {
 
-                console.log("update")
-                resolve()
+                resolve();
 
             }).catch(err => {
 
-                console.log("update errr");
-                reject()
+                reject();
 
             })
 
-
         } catch (error) {
 
-            console.log("update err");
-            reject()
+            reject();
 
 
         }
 
-
-
-    })
+    });
 
 
 }
 
 
 
-module.exports.oder_pro = (oderid) => {
+module.exports.oder_pro = (oderid) => {   // oder products show query
 
-    const oderis_obj = new mongoos.Types.ObjectId(oderid)
+    const oderis_obj = new mongoos.Types.ObjectId(oderid);
 
     return new Promise(async (resolve, reject) => {
 
         try {
 
 
-            const place_oder_DB = mongoos.model("placoder", place_oder_schema)
+            const place_oder_DB = mongoos.model("placoder", place_oder_schema);
 
             const prolist = await place_oder_DB.aggregate([
 
@@ -687,21 +609,13 @@ module.exports.oder_pro = (oderid) => {
 
 
 
-            resolve({ data: prolist })
-
-
-
-
+            resolve({ data: prolist });
 
         } catch (error) {
 
-            reject()
+            reject();
 
         }
-
-
-
-
 
     })
 
@@ -710,24 +624,23 @@ module.exports.oder_pro = (oderid) => {
 
 
 
-module.exports.collect_report = () => {
+module.exports.collect_report = () => {  // report get query 
 
     return new Promise(async (resolve, reject) => {
 
         try {
 
 
-            const place_oder_DB = mongoos.model("placoder", place_oder_schema)
+            const place_oder_DB = mongoos.model("placoder", place_oder_schema);
 
-            const productsDB = mongoos.model("products", addproductsschema)
+            const productsDB = mongoos.model("products", addproductsschema);
 
-            const userdata = mongoos.model("user", user_signup_schema)
+            const userdata = mongoos.model("user", user_signup_schema);
 
 
-
-            const plceoder_count = await place_oder_DB.countDocuments()
-            const products_count = await productsDB.countDocuments()
-            const users_count = await userdata.countDocuments()
+            const plceoder_count = await place_oder_DB.countDocuments();
+            const products_count = await productsDB.countDocuments();
+            const users_count = await userdata.countDocuments();
 
 
 
@@ -740,26 +653,19 @@ module.exports.collect_report = () => {
 
             }
 
-            resolve(data)
-            console.log(data)
-
-
-
+            resolve(data);
 
         } catch (error) {
 
-            reject()
+            reject();
 
 
         }
 
-
-
-
-
-
-
-
-    })
+    });
 
 }
+
+
+
+                                                              //end 

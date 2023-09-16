@@ -3,61 +3,62 @@
 
 import React, { useState } from 'react'
 import "./Admin_home.css"
-
 import Table from 'react-bootstrap/Table';
 import { BiEditAlt } from "react-icons/bi";
 import { BsFillTrash3Fill } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import ReactPaginate from "react-paginate"
-import axios from "../../Constant/Axios"
-import Swal from 'sweetalert2'
-import {message } from "antd"
+import ReactPaginate from "react-paginate";
+import axios from "../../Constant/Axios";
+import Swal from 'sweetalert2';
+import { message } from "antd";
 
 
 
 
 
-function Admin_home() {
+function Admin_home(props) {
 
-  const navigate = useNavigate()
-  const [prodata, setprodata] = useState([])
-  
+  const navigate = useNavigate();
+  const [prodata, setprodata] = useState([]);
+  const [loding, setloding] = useState(true);
+
 
 
   useEffect(() => {
 
     axios("/admin/viewproadmin").then((responce) => {
 
-      console.log(responce.data)
+     
 
-      setprodata(responce.data)
+      setprodata(responce.data);
 
+      setloding(false);
 
+    }).catch(err => {
 
-    })
+      props.failed(true);
+
+    });
 
 
 
 
   }, [])
 
-  const moreview=(proid)=>{
+  const moreview = (proid) => {
 
-    navigate("/admin/oneview",{state:proid})
-
-
+    navigate("/admin/oneview", { state: proid });
 
   }
 
-  const proedit=(proid)=>{
+  const proedit = (proid) => {
 
-       navigate("/admin/edit",{state:proid})
+    navigate("/admin/edit", { state: proid });
 
   }
 
-  const proDelete=(proid,index)=>{
-
+  const proDelete = (proid, index) => {
 
     Swal.fire({
       title: 'Are you sure?',
@@ -70,61 +71,47 @@ function Admin_home() {
     }).then((result) => {
       if (result.isConfirmed) {
 
-          prodata.splice(index,1)
-          setprodata([...prodata])
+        prodata.splice(index, 1);
+        setprodata([...prodata]);
 
-          const jwt= localStorage.getItem("library_admin_token")
+        const jwt = localStorage.getItem("library_admin_token");
 
-          const data={
-            proid,
-            jwt
+        axios.delete("/admin/pro_delete?proid=" + proid, {
+          headers: {
+            "token": jwt
+
+          }
+        }).then((result) => {
+
+          if (result.data.login_failed) {
+
+            navigate("/admin/login");
+            return
+
           }
 
-          axios.delete("/admin/pro_delete?proid="+data).then((result)=>{
+          if (result.data.flag) {
 
-            if(result.data.flag){
+            Swal.fire(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+            )
 
-              Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-                )
+          } else {
 
-               }else{
+            message.error("somthing worng")
 
-                 message.error("somthing worng")
-
-
-               }
-
-            
-          
-            }).catch(err=>{
-
-              console.log("err")
-
-            })
-          
-
-
-          
-        
           }
-   
-   
-   
-   
-   
-   
-   
-    })
 
+        }).catch(err => {
 
+          props.failed(true);
 
+        })
+      }
 
-
-
-
+    });
 
   }
 
@@ -135,7 +122,6 @@ function Admin_home() {
 
   const userPrePage = 3;
   const pageVisited = pageNumber * userPrePage;
-
   const pageCount = Math.ceil(prodata.length / userPrePage);
 
   const changePage = ({ selected }) => {
@@ -144,24 +130,20 @@ function Admin_home() {
 
   }
 
-
   const displyaData = prodata.slice(pageVisited, pageVisited + userPrePage)
     .map((obj, index) =>
 
     (
       <tr className='tr-admin'  >
         {/* <td>{index+1}</td>   */}
-       
+
         <td className='td-admin'> {obj.name}</td>
         <td className='td-admin'> {obj.cotegory}</td>
         <td className='td-admin'>{obj.price}</td>
-      
-        <td className='td-admin'>  <img  className='img-admin' src={`data:${obj.contentType};base64,${obj.imageBase64}`}  alt='loding...' />   </td>
-        <td className='td-admin' onClick={()=>{moreview(obj._id)}}>  <button className='view-btn-admin'> view</button>     </td>
-        
-        <td className='td-admin'><BiEditAlt className='edit-admin' onClick={()=>{proedit(obj._id)}}    />   <BsFillTrash3Fill className='delete-admin'  onClick={()=>{proDelete(obj._id,index)}}   />   </td>
 
-
+        <td className='td-admin'>  <img className='img-admin' src={`data:${obj.contentType};base64,${obj.imageBase64}`} alt='loding...' />   </td>
+        <td className='td-admin' onClick={() => { moreview(obj._id) }}>  <button className='view-btn-admin'> view</button>     </td>
+        <td className='td-admin'><BiEditAlt className='edit-admin' onClick={() => { proedit(obj._id) }} />   <BsFillTrash3Fill className='delete-admin' onClick={() => { proDelete(obj._id, index) }} />   </td>
 
 
       </tr>
@@ -170,21 +152,7 @@ function Admin_home() {
     ))
 
 
-      // react pagination end //
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  // react pagination end //
 
   function proadd() {
 
@@ -195,64 +163,88 @@ function Admin_home() {
 
 
 
-
-
   return (
-    <div className='admin-main'>
+
+    <div>
 
 
-      <h1 className='title-adimn'> All Products</h1>
 
-      <button className='add-pro-admin '  onClick={()=>{navigate("/admin/proadd")}}> Add New Products</button>
+      {loding ? <div className='loding-pro-admin'>
 
-      <div className='container'>
-
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              
-              <th className='th-admin'> Name</th>
-              <th className='th-admin'>catagori</th>
-              <th className='th-admin'>price</th>
-              <th className='th-admin'>img</th>
-              <th className='th-admin'> More View</th>
-              <th className='th-admin'> Edit & Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-
-            {displyaData}
-
-
-          </tbody>
-        </Table>
-
-        <ReactPaginate
-
-          previousLabel={"<"}
-
-          nextLabel={">"}
-
-          pageCount={pageCount}
-
-          onPageChange={changePage}
-
-          containerClassName={"paginationBttns"}
-          pageLinkClassName={"previousBttn"}
-          nextLinkClassName={"nextBttn"}
-          disabledClassName={"paginationDisabled"}
-          activeClassName={"paginationActive"}
-        />
-
-
+        <img className='loding-gif-pro-admin' src='../Book animation.gif' alt='loding...' />
 
       </div>
 
 
 
 
+        :
+
+        <div className='admin-main'>
+
+
+          <h1 className='title-adimn'> All Products</h1>
+
+          <button className='add-pro-admin ' onClick={() => { navigate("/admin/proadd") }}> Add New Products</button>
+
+          <div className='container'>
+
+
+
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+
+                  <th className='th-admin'> Name</th>
+                  <th className='th-admin'>catagori</th>
+                  <th className='th-admin'>price</th>
+                  <th className='th-admin'>img</th>
+                  <th className='th-admin'> More View</th>
+                  <th className='th-admin'> Edit & Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {displyaData}
+
+
+              </tbody>
+            </Table>
+
+            <ReactPaginate
+
+              previousLabel={"<"}
+
+              nextLabel={">"}
+
+              pageCount={pageCount}
+
+              onPageChange={changePage}
+
+              containerClassName={"paginationBttns"}
+              pageLinkClassName={"previousBttn"}
+              nextLinkClassName={"nextBttn"}
+              disabledClassName={"paginationDisabled"}
+              activeClassName={"paginationActive"}
+            />
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+        </div>
+
+      }
 
     </div>
+
   )
 }
 

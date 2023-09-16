@@ -3,18 +3,34 @@
 import React from 'react'
 import Moreview_admin from '../Admin componts/more_view/Moreview_admin'
 import Admin_navbar from '../Admin componts/navbar-admin/Admin_navbar'
+import Failed from '../UserComponts/Failed/Failed'
+import { useState } from 'react'
 
 function Moreviewpageadmin() {
-  
-    return (
+
+  const [failed, setfailed] = useState(false)
+
+  return (
     <div>
 
-      <Admin_navbar />
+     {
+      failed ?   <Failed />
 
-        <Moreview_admin />
+      : 
 
-        
-      
+      <>
+
+      <Admin_navbar failed={setfailed} />
+
+      <Moreview_admin failed={setfailed} />
+
+
+    </>
+     }
+
+
+
+
     </div>
   )
 }

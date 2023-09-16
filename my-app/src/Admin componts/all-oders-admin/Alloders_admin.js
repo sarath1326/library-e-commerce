@@ -2,103 +2,102 @@
 
 
 import React from 'react'
-
 import "./Alloders_admin.css"
 
 import Table from 'react-bootstrap/Table';
 import { BsFillTrash3Fill } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import axios from "../../Constant/Axios"
-import ReactPaginate from "react-paginate"
-import {message } from "antd"
+import axios from "../../Constant/Axios";
+import ReactPaginate from "react-paginate";
+import { message } from "antd";
 
 
-function Alloders_admin() {
+function Alloders_admin(props) {
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [finddata, setfinddata] = useState([])
+  const [loding, setloding] = useState(true);
 
-  const [date,setdate]=useState("")
+  const [finddata, setfinddata] = useState([]);
+
+  const [date, setdate] = useState("");
 
 
   useEffect(() => {
 
-    axios("/admin/all_oders").then((result) => {
+    const jwt = localStorage.getItem("library_admin_token");
+
+    axios("/admin/all_oders", {
+
+      headers: {
+        "token": jwt
+      }
+    }).then((result) => {
+
+      if (result.data.login_failed) {
+        navigate("/admin/login");
+        return
+      }
 
       if (result.data.flag) {
 
-        console.log("all oders", result.data.data)
-
-        setfinddata(result.data.data)
+        setfinddata(result.data.data);
+        setloding(false);
 
 
       } else if (result.data.err) {
 
-        console.log("errr")
+        message.error("somthin worng");
 
       } else {
 
-        console.log("no data")
+        console.log("no data");
 
       }
-
 
     }).catch(err => {
 
-      console.log("err")
+      props.failed(true);
 
     })
 
-
-
   }, [])
 
-    const shiping=(oderid)=>{
+  const shiping = (oderid) => {
 
-      if(date){
+    if (date) {
 
-        const update={
-          oderid,
-          date
-        }
-
-      axios.post("/admin/shiping",update).then((result)=>{
-
-          if(result.data.flag){
-
-            message.success("product ready for shipping")
-          }else{
-
-            message.error("products not shipping")
-          }
-
-         }).catch(err=>{
-
-          message.error("server err")
-
-        })
-      
-
-
-      }else{
-
-        message.warning("plz add delevary date")
-      
+      const update = {
+        oderid,
+        date
       }
 
-     
+      axios.post("/admin/shiping", update).then((result) => {
 
+        if (result.data.flag) {
 
+          message.success("product ready for shipping");
+        } else {
+
+          message.error("products not shipping");
+        }
+
+      }).catch(err => {
+
+        props.failed(true);
+      })
+
+    } else {
+
+      message.warning("plz add delevary date");
 
     }
 
+  }
 
 
-
-
-
+  //react paginatioon start//
 
 
   const [pageNumber, setPageNumber] = useState(0);
@@ -130,13 +129,13 @@ function Alloders_admin() {
 
         <td className='td-oder'>{obj.pyment_method}</td>
 
-        <td className='td-oder'> <button onClick={() => { navigate("/admin/moreview",{state:obj}) }} className='btn-allod' >  View </button>  </td>
+        <td className='td-oder'> <button onClick={() => { navigate("/admin/moreview", { state: obj }) }} className='btn-allod' >  View </button>  </td>
 
         <td className='td-oder'>{obj.status} </td>
 
-        <td className='td-oder'> {obj.shiping ?  obj.delevary_date :  <input type='date' onChange={(e)=>{setdate(e.target.value)}} />    }  </td>
+        <td className='td-oder'> {obj.shiping ? obj.delevary_date : <input type='date' onChange={(e) => { setdate(e.target.value) }} />}  </td>
 
-        <td className='td-oder'> { obj.shiping ? <input type='checkbox' checked />    :   <input type='checkbox' onClick={()=>{shiping(obj._id)}}  />  } </td>
+        <td className='td-oder'> {obj.shiping ? <input type='checkbox' checked /> : <input type='checkbox' onClick={() => { shiping(obj._id) }} />} </td>
 
         <td className='td-oder'> <BsFillTrash3Fill className='icon-allod' />  </td>
 
@@ -147,7 +146,7 @@ function Alloders_admin() {
     ))
 
 
-
+  // react pagination end //
 
 
 
@@ -163,36 +162,42 @@ function Alloders_admin() {
 
   return (
     <div>
-     
 
-      <div className='main-allod'>
+      {loding ?
 
+        <div className='loding-allod'>  <img className='loding-icon' src='../Book animation.gif' alt='loding...' />             </div>
 
-        <div className=' container   tabilmain-allod'>
-
-          <Table striped bordered hover>
-            <thead >
-              <tr >
-                <th >Oder id</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Pyment Method</th>
-                <th>More View </th>
-                <th> Status</th>
-                <th> Delevery Date</th>
-                <th> Shiping </th>
-                <th> Delete  </th>
-              </tr>
-            </thead>
-            <tbody>
+        :
 
 
-              {
-
-                displyaData
+        <div className='main-allod'>
 
 
-              }
+          <div className=' container   tabilmain-allod'>
+
+            <Table striped bordered hover>
+              <thead >
+                <tr >
+                  <th >Oder id</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Pyment Method</th>
+                  <th>More View </th>
+                  <th> Status</th>
+                  <th> Delevery Date</th>
+                  <th> Shiping </th>
+                  <th> Delete  </th>
+                </tr>
+              </thead>
+              <tbody>
+
+
+                {
+
+                  displyaData
+
+
+                }
 
 
 
@@ -200,25 +205,35 @@ function Alloders_admin() {
 
 
 
-            </tbody>
-          </Table>
+              </tbody>
+            </Table>
 
-          <ReactPaginate
+            <ReactPaginate
 
-            previousLabel={"<"}
+              previousLabel={"<"}
 
-            nextLabel={">"}
+              nextLabel={">"}
 
-            pageCount={pageCount}
+              pageCount={pageCount}
 
-            onPageChange={changePage}
+              onPageChange={changePage}
 
-            containerClassName={"paginationBttns"}
-            pageLinkClassName={"previousBttn"}
-            nextLinkClassName={"nextBttn"}
-            disabledClassName={"paginationDisabled"}
-            activeClassName={"paginationActive"}
-          />
+              containerClassName={"paginationBttns"}
+              pageLinkClassName={"previousBttn"}
+              nextLinkClassName={"nextBttn"}
+              disabledClassName={"paginationDisabled"}
+              activeClassName={"paginationActive"}
+            />
+
+
+
+
+
+
+
+          </div>
+
+
 
 
 
@@ -235,17 +250,7 @@ function Alloders_admin() {
 
 
 
-
-      </div>
-
-
-
-
-
-
-
-
-
+      }
 
     </div>
   )

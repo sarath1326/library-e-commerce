@@ -2,12 +2,10 @@
 
 const express = require("express");
 const router = express.Router();
-const db = require("../../MonoDb/dbtransoer/Userdb")
-const otp = require("../../email/Otp/Otpgenerate")
-const jwt = require("jsonwebtoken")
-
-const Razorpay=require("../../Razorpay/genarate_oder")
-
+const db = require("../../MonoDb/dbtransoer/Userdb");
+const otp = require("../../email/Otp/Otpgenerate");
+const jwt = require("jsonwebtoken");
+const Razorpay = require("../../Razorpay/genarate_oder");
 
 
 
@@ -16,14 +14,15 @@ const Razorpay=require("../../Razorpay/genarate_oder")
 
 
 
-const verifiLogin = (req, res, next) => {
 
-    const token = req.headers["jwt-token"]
+const verifiLogin = (req, res, next) => {    //user login verification 
+
+    const token = req.headers["jwt-token"];
 
     if (!token) {
 
-        res.json({ authfaild: true })
-        console.log("mmmmmm")
+        res.json({ authfaild: true });
+
 
     } else {
 
@@ -31,15 +30,13 @@ const verifiLogin = (req, res, next) => {
 
             if (result) {
 
-                console.log("hiii");
-
-                next()
+                next();
 
             } else {
 
-                res.json({ authfaild: true })
+                res.json({ authfaild: true });
 
-                console.log("oooo");
+
 
             }
 
@@ -62,7 +59,7 @@ const verifiLogin = (req, res, next) => {
 
 
 
-router.get("/view/lit", (req, res) => {
+router.get("/view/lit", (req, res) => {    // lit products get api 
 
     let num = req.query.limit
 
@@ -74,9 +71,14 @@ router.get("/view/lit", (req, res) => {
 
         } else {
 
-            res.sendStatus(404)
+            res.json({ flag: false });
 
         }
+
+    }).catch(err => {
+
+        res.json({ err: true });
+
 
     })
 
@@ -85,12 +87,9 @@ router.get("/view/lit", (req, res) => {
 
 
 
-router.get("/view/edu", (req, res) => {
+router.get("/view/edu", (req, res) => {   //edu products get api 
 
     let num = req.query.limit
-
-
-
 
     db.viewpro_edu(num ? num : null).then((respo) => {
 
@@ -100,9 +99,13 @@ router.get("/view/edu", (req, res) => {
 
         } else {
 
-            res.sendStatus(404)
+            res.json({ flag: false });
 
         }
+
+    }).catch(err => {
+
+        res.json({ err: true });
 
 
 
@@ -111,7 +114,7 @@ router.get("/view/edu", (req, res) => {
 })
 
 
-router.get("/view/gen", (req, res) => {
+router.get("/view/gen", (req, res) => {  //gen products get api   
 
     let num = req.query.limit
 
@@ -123,25 +126,24 @@ router.get("/view/gen", (req, res) => {
 
         } else {
 
-            res.sendStatus(404)
-
+            res.json({ flag: false });
 
         }
 
+    }).catch(err => {
+
+        res.json({ err: true });
     })
-
-
 })
 
 
-router.get("/oneview", (req, res) => {
+router.get("/oneview", (req, res) => {  // products oneview api 
 
-    let proid = req.query.proid
+    let proid = req.query.proid;
 
     db.oneview(proid).then((respo) => {
 
         if (respo.flag) {
-
 
             db.bestchoise(respo.data.type).then((bestdata) => {
 
@@ -152,22 +154,24 @@ router.get("/oneview", (req, res) => {
                     subdata: bestdata
                 }
 
-                res.json(result)
-
+                res.json(result);
             })
 
         } else {
 
-            res.sendStatus(404)
-
+            console.log("err")
 
         }
+    }).catch(err => {
+
+        res.json({ err: true });
+
     })
 
 })
 
 
-router.post("/signup", (req, res) => {
+router.post("/signup", (req, res) => {   //signup api
 
     const data = req.body;
 
@@ -178,9 +182,7 @@ router.post("/signup", (req, res) => {
 
             if (respo.exsist) {
 
-
-
-                res.json({ flag: false });
+                res.json({ exit: true });
 
             } else {
 
@@ -189,43 +191,45 @@ router.post("/signup", (req, res) => {
 
                     if (respo.flag) {
 
-                        res.json({ flag: true })
-
+                        res.json({ flag: true });
 
                     } else {
 
-                        res.json({ flag: false })
+                        res.json({ flag: false });
                     }
-
-
 
                 }).catch(err => {
 
-                    res.status(500).send("somthing worng...!" + err)
-
+                    res.json({ flag: false });
                 })
             }
 
         })
 
+    } else {
+        res.json({ flag: false });
     }
 })
 
 
-router.post("/otp", (req, res) => {
+router.post("/otp", (req, res) => {  //otp api
 
-    const oto = req.body.otp
+    const oto = req.body.otp;
 
     db.otpVarification(oto).then((respo) => {
 
         if (respo.flag) {
 
-            res.json({ flag: true })
+            res.json({ flag: true });
         } else {
 
-            res.json({ flag: false })
+            res.json({ flag: false });
 
         }
+
+    }).catch(err => {
+
+        res.json({ err: true });
 
     })
 
@@ -237,42 +241,28 @@ router.post("/otp", (req, res) => {
 
 
 
+router.post("/login", (req, res) => {  // login api
 
-
-
-
-
-
-router.post("/login", (req, res) => {
-
-    const data = req.body
+    const data = req.body;
 
     db.login(data).then((result) => {
 
         if (result.flag) {
 
-            // req.session.loginok = true
-            // req.session.user = result.user
+            const { name, _id } = result.user;
 
-            // // console.log(req.session.user)
+            const token = jwt.sign({ name: name, id: _id }, "sarath1937", { expiresIn: 300 });
 
-            const { name, _id } = result.user
-
-
-            const token = jwt.sign({ name: name, id: _id }, "sarath1937", { expiresIn: 300 })
-
-
-
-            res.json({ flag: true, jwtToken: token })
+            res.json({ flag: true, jwtToken: token });
 
         } else {
 
-
-            console.log("login err")
-            res.json({ flag: false })
-
+            res.json({ flag: false });
         }
 
+    }).catch(err => {
+
+        res.json({ err: true });
 
     })
 
@@ -280,49 +270,24 @@ router.post("/login", (req, res) => {
 
 
 
-router.get("/navbar/username", (req, res) => {
+router.get("/navbar/username", (req, res) => {   //navbar user name get api
 
     const token = req.headers["jwt-token"]
-
-
-
-
 
     if (!token) {
 
         res.json({ login: false })
-
 
     } else {
 
         jwt.verify(token, "sarath1937", (err, result) => {
 
             if (result) {
-
-
-
                 db.get_Cartcount(result.id).then((respo) => {
-
-
-
 
                     res.json({ login: true, user: result, count: respo.cartCount })
 
-                    console.log(result.name)
-
-
-
                 })
-
-
-
-
-
-
-
-
-
-
             } else {
 
                 res.json({ login: false })
@@ -337,49 +302,38 @@ router.get("/navbar/username", (req, res) => {
 })
 
 
-router.get("/cart", verifiLogin, (req, res) => {
+router.get("/cart", verifiLogin, (req, res) => { //cart api
 
 
-    const token = req.headers["jwt-token"]
+    const token = req.headers["jwt-token"] ;
 
-    jwt.verify(token,"sarath1937",(err,result)=>{
+    jwt.verify(token, "sarath1937", (err, result) => {
 
-            const userid=result.id
+        const userid = result.id ;
 
-           db.show_cart(userid).then((respo)=>{
+        db.show_cart(userid).then((respo) => {
 
-            if(respo.flag){
+            if (respo.flag) {
 
-                db.cart_total_price(userid).then((result)=>{
+                db.cart_total_price(userid).then((result) => {
 
-
-                    const total= result.total_price 
-
-
-                    res.json({flag:true,cartdata:respo.cartdata,total_price:total})
-
-
-
-
+                  const total = result.total_price
+   
+                  res.json({ flag: true, cartdata: respo.cartdata, total_price: total })
+                
                 })
+            
+             } else {
 
-               
-           
-           
-           
-           
-            }else{
-
-                res.json({flag:false})
+                res.json({ flag: false })
 
             }
 
 
-           }).catch(err=>{
+        }).catch(err => {
 
-            res.send("somthing worng.....!",err)
-           
-        
+           res.json({err:true});
+
         })
 
 
@@ -400,54 +354,50 @@ router.get("/cart", verifiLogin, (req, res) => {
 
 
 
-    
+
 
 
 })
 
 
 
-router.get("/add_cart", verifiLogin, (req, res) => {
+router.get("/add_cart", verifiLogin, (req, res) => { //add cart api
 
-    const proid = req.query.proid
-    const token = req.headers["jwt-token"]
+    const proid = req.query.proid;
+    const token = req.headers["jwt-token"];
 
     jwt.verify(token, "sarath1937", (err, result) => {
 
-        const userid = result.id
+        const userid = result.id;
 
-        console.log("proid:", proid)
-        console.log("userid:", userid)
-
-        db.add_cart(proid, userid).then((respo) => {
+       db.add_cart(proid, userid).then((respo) => {
 
 
             if (respo.proexit) {
 
-                res.json({ proexit: true })
+                res.json({ proexit: true });
 
                 return
 
             } else if (respo.update) {
 
-                res.json({ update: true, count: respo.count })
+                res.json({ update: true, count: respo.count });
 
             }
 
             if (respo.flag) {
 
-                res.json({ flag: true, count: respo.count })
+                res.json({ flag: true, count: respo.count });
 
             } else {
 
-                res.send("somthing worng")
+                res.send("somthing worng");
 
             }
 
         }).catch(err => {
 
-            console.log("errr", err)
-
+            res.json({err:true});
 
         })
 
@@ -460,116 +410,41 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
 
 
-    router.post("/cart_count_change",(req,res)=>{
-
-        
-
-        const token= req.body.userid
-
-        jwt.verify(token,"sarath1937",(err,result)=>{
-
-            const userid=result.id
-            const proid=req.body.proid
-            const count=req.body.count
-
-            db.cart_count_change(userid,proid,count).then((result)=>{
-
-                if(result.flag){
-
-                    db.cart_total_price(userid).then((result)=>{
-
-                        const total= result.total_price 
-
-                        
-                        res.json({flag:true ,total_price:total})
+router.post("/cart_count_change", (req, res) => { //cart count change api 
 
 
 
-                    })
+    const token = req.body.userid;
 
+    jwt.verify(token, "sarath1937", (err, result) => {
 
+        const userid = result.id;
+        const proid = req.body.proid;
+        const count = req.body.count;
 
-                  
+        db.cart_count_change(userid, proid, count).then((result) => {
 
-                }else{
+            if (result.flag) {
 
-                    res.json({flag:false})
+                db.cart_total_price(userid).then((result) => {
 
-                   
-                }
-
-            }).catch(err=>{
-
-                console.log("cart incriment err",err)
-
-            })
-          
-
-
-
-
-
-        })
-
-
-
-
-
-    })
-
-    router.delete("/cart_delete",(req,res)=>{
-
-        const proid= req.query.proid;
-        const token=req.query.userid
-
-        jwt.verify(token,"sarath1937",(err,result)=>{
-
-            if(result){
-
-                const userid= result.id
-
-                db.cart_delete(proid,userid).then(()=>{
-
-                  db.cart_total_price(userid).then((respo)=>{
-
-                    if(respo.empty){
-
-                        res.json({empty:true})
-
-                    }else{
-
-
-                        const total=respo.total_price
-
-                        console.log(total)
-
-                        res.json({empty:false,total:total})
-
-
-                    }
-
-                    
-
-                  })
-
-                     
-                  
-
-
-
-
-                })
-
+                    const total = result.total_price ;
+                    res.json({ flag: true, total_price: total });
                 
+                })
+            
+            } else {
 
-
-
+                res.json({ flag: false });
             }
 
+        }).catch(err => {
+
+           res.json({err:true});
         })
 
-       
-        
+
+
 
 
 
@@ -579,85 +454,101 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
 
 
-        router.post("/place_oder",(req,res)=>{
+})
 
-                console.log(req.body)
+router.delete("/cart_delete", (req, res) => {   //cart delete api
 
-                const token= req.body.userid;
-                
-                jwt.verify(token,"sarath1937",(err,result)=>{
+    const proid = req.query.proid;
+    const token = req.query.userid
 
-                    console.log(result.id)
+    jwt.verify(token, "sarath1937", (err, result) => {
 
-                    const id= result.id
+        if (result) {
 
-                    const data={
-                        detailes:req.body,
-                        userid:id
-                    }
+            const userid = result.id ;
 
-                   
-                    db.place_oder_cart(data).then((result)=>{
+            db.cart_delete(proid, userid).then(() => {
 
-                        if(result.flag){
+                db.cart_total_price(userid).then((respo) => {
 
-                            const pyment_method=req.body.pyment
+                    if (respo.empty) {
 
-                            if(pyment_method==="cod"){
+                        res.json({ empty: true });
 
-                                 
-
-                                
-                                db.cart_full_delete(id).then(()=>{})
-
-                                res.json({cod:true})
-                                console.log("cod")
-
-                                
-
-
-                            
-                            }else{
-
-                                 
-
-
-                                Razorpay.generateRazorpay(result.oderid,result.total).then((order)=>{
-
-
-                                    res.json({razorpay_order:order})
-
-                                //    console.log(order);
-    
-                                   
-
-
-                                }).catch(err=>{
-
-                                    console.log("razorpay err");
-
-                                })
-
-
-
-
-                             
-
-
-                            }
-
-                           
-
-                        }else{
-
-                            res.json({flag:false})
+                    } else {
+                         const total = respo.total_price;
+                         
+                         res.json({ empty: false, total: total });
+                        
                         }
-
-
-
+                     })
+                    
                     }).catch(err=>{
 
-                        console.log("place oder err ", err)
+                        res.json({err:true});
+                    })
+                }
+             })
+            
+            
+            })
+
+
+
+
+
+router.post("/place_oder", (req, res) => {  //place oder api 
+
+   
+    const token = req.body.userid;
+
+    jwt.verify(token, "sarath1937", (err, result) => {
+
+        console.log(result.id);
+
+        const id = result.id;
+
+        const data = {
+            detailes: req.body,
+            userid: id
+        }
+
+
+        db.place_oder_cart(data).then((result) => {
+
+            if (result.flag) {
+
+                const pyment_method = req.body.pyment
+
+                if (pyment_method === "cod") {
+
+                     db.cart_delete(id).then(() => { })
+
+                    res.json({ cod: true })
+                    console.log("cod")
+
+
+
+
+
+                } else {
+
+
+
+
+                    Razorpay.generateRazorpay(result.oderid, result.total).then((order) => {
+
+
+                        res.json({ razorpay_order: order })
+
+                        //    console.log(order);
+
+
+
+
+                    }).catch(err => {
+
+                        console.log("razorpay err");
 
                     })
 
@@ -667,199 +558,75 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
 
 
-
-
-
-
-
-                })
-
-
-
-       
-       
-       
-            })
-
-
-
-
-
-    router.post("/verify_pyment",(req,res)=>{
-
-        const {token,order}=req.body
-        
-
-        
-
-        Razorpay.pyment_verify(req.body).then(()=>{
-
-            jwt.verify(token,"sarath1937",(err,reslt)=>{
-
-                const id= reslt.id 
-
-                db.cart_full_delete(id).then(()=>{}).catch(err=>{
-
-                    console.log("cart cler err")
-
-                })
-
-                
-                db.place_oder_status_change(order).then(()=>{}).catch(err=>{
-
-                    console.log("place oder status change err")
-
-                })
-
-
-                res.json({flag:true})
-
-
-
-            })
-
-           
-
-
-
-        }).catch(err=>{
-
-            console.log("pyment err:",err)
-           
-            res.json({flag:false})
-
-        })
-    
-    
-    })
-
-
-
-
-
-    router.post("/single_buy",(req,res)=>{
-
-           console.log("single buy")
-        const token=req.body.userid
-
-        jwt.verify(token,"sarath1937",(err,result)=>{
-
-            if(result){
-
-                const id= result.id
-
-                const data={
-                    detailes:req.body,
-                    userid:id
                 }
-               
-                 console.log("db connecting")
-
-                db.single_buy(data).then((result)=>{
-
-                    if(result.flag){
-
-                        const pyment_method=req.body.pyment
-
-                        if(pyment_method==="cod"){
-
-                            
-                            
-
-                           res.json({cod:true})
-                            console.log("cod")
-
-                            
-
-
-                        
-                        }else{
-
-                                 
-
-
-                            Razorpay.generateRazorpay(result.oderid,result.total).then((order)=>{
-
-
-                                res.json({razorpay_order:order})
-
-                         
-
-                               
-
-
-                            }).catch(err=>{
-
-                                console.log("razorpay err");
-
-                            })
 
 
 
+            } else {
 
-                         
-
-
-                        }
-
-
-
-
-
-                    }else{
-
-                        res.json({flag:false})
-                    }
-
-                }).catch(err=>{
-
-                    console.log("place oder err ", err)
-
-                })
-
-
-
-
-
+                res.json({ flag: false })
             }
 
+
+
+        }).catch(err => {
+
+            console.log("place oder err ", err)
+
         })
+
+
+
+
+
+
+
+
+
+
 
 
     })
 
 
-    router.post("/single_buy/verify_pyment",(req,res)=>{
 
 
-         Razorpay.pyment_verify(req.body).then(()=>{
-
-            const {order}=req.body
-
-            db.place_oder_status_change(order).then(()=>{
-
-                
-                res.json({flag:true})
 
 
-            }).catch(err=>{
+})
 
-                console.log("online pyment status change err")
+
+
+
+
+router.post("/verify_pyment", (req, res) => {
+
+    const { token, order } = req.body
+
+
+
+
+    Razorpay.pyment_verify(req.body).then(() => {
+
+        jwt.verify(token, "sarath1937", (err, reslt) => {
+
+            const id = reslt.id
+
+            db.cart_full_delete(id).then(() => { }).catch(err => {
+
+                console.log("cart cler err")
 
             })
 
 
+            db.place_oder_status_change(order).then(() => { }).catch(err => {
 
-               }).catch(err=>{
+                console.log("place oder status change err")
 
-                console.log("pyment err:",err)
-               
-                res.json({flag:false})
-    
             })
-    
 
-           
+
+            res.json({ flag: true })
 
 
 
@@ -869,7 +636,148 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
 
 
-   
+    }).catch(err => {
+
+        console.log("pyment err:", err)
+
+        res.json({ flag: false })
+
+    })
+
+
+})
+
+
+
+
+
+router.post("/single_buy", (req, res) => {
+
+    console.log("single buy")
+    const token = req.body.userid
+
+    jwt.verify(token, "sarath1937", (err, result) => {
+
+        if (result) {
+
+            const id = result.id
+
+            const data = {
+                detailes: req.body,
+                userid: id
+            }
+
+            console.log("db connecting")
+
+            db.single_buy(data).then((result) => {
+
+                if (result.flag) {
+
+                    const pyment_method = req.body.pyment
+
+                    if (pyment_method === "cod") {
+
+
+
+
+                        res.json({ cod: true })
+                        console.log("cod")
+
+
+
+
+
+                    } else {
+
+
+
+
+                        Razorpay.generateRazorpay(result.oderid, result.total).then((order) => {
+
+
+                            res.json({ razorpay_order: order })
+
+
+
+
+
+
+                        }).catch(err => {
+
+                            console.log("razorpay err");
+
+                        })
+
+
+
+
+
+
+
+                    }
+
+
+
+
+
+                } else {
+
+                    res.json({ flag: false })
+                }
+
+            }).catch(err => {
+
+                console.log("place oder err ", err)
+
+            })
+
+
+
+
+
+        }
+
+    })
+
+
+})
+
+
+router.post("/single_buy/verify_pyment", (req, res) => {
+
+
+    Razorpay.pyment_verify(req.body).then(() => {
+
+        const { order } = req.body
+
+        db.place_oder_status_change(order).then(() => {
+
+
+            res.json({ flag: true })
+
+
+        }).catch(err => {
+
+            console.log("online pyment status change err")
+
+        })
+
+
+
+    }).catch(err => {
+
+        console.log("pyment err:", err)
+
+        res.json({ flag: false })
+
+    })
+
+
+
+
+
+
+})
 
 
 
@@ -886,41 +794,47 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
 
 
-   router.get("/myorder",verifiLogin,(req,res)=>{
+
+
+
+
+
+
+router.get("/myorder", verifiLogin, (req, res) => {
 
     const token = req.headers["jwt-token"]
 
-    jwt.verify(token,"sarath1937",(err,result)=>{
+    jwt.verify(token, "sarath1937", (err, result) => {
 
-        if(result){
+        if (result) {
 
 
 
-            db.my_oder(result.id).then((respo)=>{
+            db.my_oder(result.id).then((respo) => {
 
-                if(respo.flag){
+                if (respo.flag) {
 
-                    res.json({flag:true,data:respo.data})
+                    res.json({ flag: true, data: respo.data })
 
-                }else{
+                } else {
 
-                    res.json({flag:false})
+                    res.json({ flag: false })
 
                     console.log("no data")
                 }
 
-           
-            }).catch(err=>{
+
+            }).catch(err => {
 
                 console.log("my oder errr")
             })
 
-        
-        
-        
-        
-        
-        }else{
+
+
+
+
+
+        } else {
 
             console.log("err");
 
@@ -934,26 +848,26 @@ router.get("/add_cart", verifiLogin, (req, res) => {
 
 
 
-router.get("/plcepro",async(req,res)=>{
+router.get("/plcepro", async (req, res) => {
 
-    
+
     console.log(req.query.cartid)
 
-    const result=await db.plce_products(req.query.cartid)
+    const result = await db.plce_products(req.query.cartid)
 
-    if(result.flag){
+    if (result.flag) {
 
-        res.json({flag:true,data:result.data})
+        res.json({ flag: true, data: result.data })
 
 
-    }else{
-        
-        res.json({flag:false})
-    
+    } else {
+
+        res.json({ flag: false })
+
     }
 
 
-    
+
 
 })
 
@@ -963,12 +877,12 @@ router.get("/plcepro",async(req,res)=>{
 
 
 
-   
 
 
 
-      
-    
+
+
+
 
 
 

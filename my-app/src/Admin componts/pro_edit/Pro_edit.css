@@ -98,3 +98,18 @@
     font-size: 15px;
 
 }
+
+.loding-admin-edit{
+
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loding-icon-edit{
+
+    width: 200px;
+    height: 200px;
+}

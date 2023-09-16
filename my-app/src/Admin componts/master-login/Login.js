@@ -2,124 +2,123 @@
 
 import React, { useState } from 'react'
 import "./Login.css"
-import  axios from "../../Constant/Axios"
-import { PiWarningCircleBold } from "react-icons/pi"
-import {message } from "antd"
+import axios from "../../Constant/Axios";
+import { PiWarningCircleBold } from "react-icons/pi";
+import { message } from "antd";
+import { useNavigate } from 'react-router-dom';
+import Failed from '../../UserComponts/Failed/Failed';
 
 function Login() {
 
-  const [email,setemail]=useState("")
-  
-  const [password,setpassword]=useState("")
-  
-  const [err,seterr]=useState(false)
+  const navigate = useNavigate();
 
-  const login=(e)=>{
+  const [email, setemail] = useState("");
 
-    e.preventDefault()
+  const [password, setpassword] = useState("");
 
-    if(email&&password){
+  const [err, seterr] = useState(false);
 
-      seterr(false)
+  const [failed, setfailed] = useState(false);
 
-       const data= {
+  const login = (e) => {
 
-      email,
-      password
+    e.preventDefault();
+
+    if (email && password) {
+
+      seterr(false);
+
+      const data = {
+
+        email,
+        password
+      }
+
+
+      axios.post("/admin/master/login", data).then((respo) => {
+
+
+        const result = respo.data;
+
+        if (result.flag) {
+
+          navigate("/admin/signup");
+
+        } else if (result.nomaster) {
+
+          message.error("can't add new person. you are not master ");
+          seterr(true);
+
+        } else if (result.err) {
+
+          message.error("somthing worng");
+
+        } else {
+
+          message.error("email and password does  not match");
+          seterr(true);
+        }
+
+      }).catch(err => {
+
+        setfailed(true);
+
+      })
+
+    } else {
+
+      seterr(true);
     }
-
-    
-    axios.post("/admin/master/login",data).then((respo)=>{
-
-       
-    const  result= respo.data   
-
-    if(result.flag){
-
-         message.success("ready for add new person")
-
-    }else if(result.nomaster){
-
-      message.error("can't add new person. you are not master ")
-      seterr(true)
-    
-    }else if(result.err){
-
-      message.error("server err")
-
-    }else{
-
-      message.error("email and password does  not match")
-      seterr(true)
-    }
-
-
-
-
-
-    }).catch(err=>{
-
-      console.log("err")
-   
-    })
-
-    }else{
-
-      seterr(true)
-    }
-
-
-
-
-   
-
-
 
   }
 
- 
+
 
   return (
     <div>
 
-<div className='main-adminlog'>
+      {failed ? <Failed />
 
-    <div className='loginbox-adminlog' >
+        :
 
-        <h2 className='title-adminlog'> Master Login</h2>
+        <div className='main-adminlog'>
 
-        <form className='form-adminlog' onSubmit={login} >
+          <div className='loginbox-adminlog' >
 
-            <input type='text' name='emailid' placeholder='email id' onChange={(e)=>{setemail(e.target.value)}} />  
-            
-           {err?  <PiWarningCircleBold className='err-login'  /> :null }  <br/>     <br/>
+            <h2 className='title-adminlog'> Master Login</h2>
 
-            <input type='text' name='password' placeholder='password' onChange={(e)=>{setpassword(e.target.value)} }/>
-            
-         { err ?   <PiWarningCircleBold className='err-login'  /> :null  }   <br/><br/>
+            <form className='form-adminlog' onSubmit={login} >
 
-            <button className='btn-adminlog'> Login </button>
+              <input type='text' name='emailid' placeholder='email id' onChange={(e) => { setemail(e.target.value) }} />
 
-           </form>
+              {err ? <PiWarningCircleBold className='err-login' /> : null}  <br />     <br />
 
-           <p className='p-adminlog'> are you master..?  master can only add new person !  </p>
+              <input type='text' name='password' placeholder='password' onChange={(e) => { setpassword(e.target.value) }} />
 
+              {err ? <PiWarningCircleBold className='err-login' /> : null}   <br /><br />
 
+              <button className='btn-adminlog'> Login </button>
 
-    </div>
+            </form>
 
-
+            <p className='p-adminlog'> are you master..?  master can only add new person !  </p>
 
 
 
-</div>
-
-      
+          </div>
 
 
 
 
 
+        </div>
+
+
+
+
+
+
+      }
 
     </div>
   )

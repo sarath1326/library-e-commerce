@@ -12,7 +12,7 @@ import {message } from "antd"
 
 
 
-function Proadd_admin() {
+function Proadd_admin(props) {
 
  const [image,setimage]=useState("")
  const [name,setname]=useState("")
@@ -22,6 +22,7 @@ function Proadd_admin() {
  const [publisher,setpublisher]=useState("")
  const [cotegory,setcotegory]=useState("")
  const [type,settype]=useState("")
+ 
 
 
  const navigate=useNavigate()
@@ -47,14 +48,27 @@ function Proadd_admin() {
 
          function addproduct(){
 
+          const jwt= localStorage.getItem("library_admin_token")
 
-            axios.post( "/admin/addproducts" ,formdata ).then((responce)=>{
+
+            axios.post( "/admin/addproducts" ,formdata,{
+              headers:{
+                "token":jwt
+      
+              }
+
+            } ).then((responce)=>{
+
+              if(responce.data.login_failed){
+                navigate("/admin/login")
+                return
+              }
 
                message.success("product add sucssfully")
 
               }).catch(err=>{
 
-                message.error("server err")
+               props.failed(true)
 
               })
 
@@ -70,6 +84,14 @@ function Proadd_admin() {
 
  
     return (
+
+      <div>
+        
+
+
+
+
+        
         <div className='main-add'>
 
         <div className='container mainbox-add'>
@@ -171,6 +193,10 @@ function Proadd_admin() {
   
   
   
+      </div>
+
+        
+
       </div>
       
   )

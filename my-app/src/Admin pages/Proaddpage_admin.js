@@ -4,15 +4,32 @@
 import React from 'react'
 import Proadd_admin from '../Admin componts/pro-add-admin/Proadd_admin'
 import Admin_navbar from '../Admin componts/navbar-admin/Admin_navbar'
+import Failed from '../UserComponts/Failed/Failed'
+import { useState } from 'react'
 
 function Proaddpage_admin() {
-  
-    return (
+
+  const [failed, setfailed] = useState(false)
+
+  return (
     <div>
 
-     <Admin_navbar />
-        <Proadd_admin />
-      
+
+      {
+        failed ? <Failed />
+          :
+          <>
+
+            <Admin_navbar  failed={setfailed} />
+            <Proadd_admin failed={setfailed} />
+
+          </>
+      }
+
+
+
+
+
 
 
 

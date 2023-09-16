@@ -3,99 +3,139 @@
 const express = require("express");
 
 const router = express.Router();
-const store = require("../../image/multer")
-const db = require("../../MonoDb/dbtransoer/Admindb")
-const jwt =require("jsonwebtoken")
+const store = require("../../image/multer");
+const db = require("../../MonoDb/dbtransoer/Admindb");
+const jwt =require("jsonwebtoken");
 
 
 
+ const verifiLogin= (req,res,next)=>{    // login veification midilware //
+
+           const token= req.headers["token"]
+
+           if(token){
+
+            jwt.verify(token,"sarath1937admin",(err,result)=>{
+              if(result){
+               
+                next();
+              
+              }else{
+                res.json({login_failed:true});
+              }
+
+            });
 
 
+           }else{
+            res.json({login_failed:true});
+           }
 
-router.post("/master/login",(req,res)=>{
+ 
+          }
 
-  const data=req.body
+
+ router.get("/getname",(req,res)=>{    //  navbar name get api //
+
+  const token= req.headers["token"] ;
+
+
+   jwt.verify(token,"sarath1937admin",(err,result)=>{
+
+    if(result){
+
+      res.json({name:result.name});
+
+    }else{
+      
+      res.json({not_login:true});
+    
+    }
+
+  });
+
+})
+
+
+router.post("/master/login",(req,res)=>{   //master login api //
+
+  const data=req.body ;
 
   db.veryfi_master(data).then((respo)=>{
 
     if(respo.flag){
 
-        res.json({flag:true})
+        res.json({flag:true});
     
       }else if(respo. nomaster){
 
-        res.json({nomaster:true})
+        res.json({nomaster:true});
  
 
     }else{
      
-      res.json({flag:false})
+      res.json({flag:false});
     
     }
 
-    
-
   }).catch(err=>{
 
-    res.json({err:true})
+    res.json({err:true});
 
   })
-
-
-     
 
 })
 
 
-  router.post("/signup",(req,res)=>{
+  router.post("/signup",(req,res)=>{  //signup api
 
-    const data=req.body
+    const data=req.body ;
 
     db.signup(data).then((respo)=>{
 
       if(respo.flag){
        
-        res.json({flag:true})
+        res.json({flag:true});
       
       }else if(respo.email_exit){
 
-        res.json({exist:true})
+        res.json({exist:true});
 
       }
 
     }).catch(err=>{
 
-      res.json({err:true})
+      res.json({err:true});
 
     })
 
 
 })
 
-router.post("/login",(req,res)=>{
+router.post("/login",(req,res)=>{   //login api
 
-      const data= req.body
+      const data= req.body ;
 
       db.login(data).then((respo)=>{
 
         if(respo.flag){
 
-          const {_id,name}=respo.data
+          const {_id,name}=respo.data;
 
-           const token= jwt.sign({id:_id,name:name},"sarath1937admin",{expiresIn:300})
+           const token= jwt.sign({id:_id,name:name},"sarath1937admin",{expiresIn:300}) ;
 
-            res.json({flag:true, jwt:token ,admin:name})
+            res.json({flag:true, jwt:token ,admin:name}) ;
           
           }else{
 
-            res.json({flag:false})
+            res.json({flag:false});
 
           }
 
 
       }).catch(err=>{
 
-        res.json({err:true})
+        res.json({err:true});
 
       })
 
@@ -105,12 +145,9 @@ router.post("/login",(req,res)=>{
 
 
 
-router.post("/addproducts", store.single("image"), (req, res) => {
+router.post("/addproducts",verifiLogin, store.single("image"), (req, res) => {  //add products api
 
-  console.log("hello")
-  console.log(req.file)
-
-  const data = {
+   const data = {
     img: req.file,
     details: req.body
 
@@ -120,102 +157,93 @@ router.post("/addproducts", store.single("image"), (req, res) => {
 
     db.addproducts(data).then((respo) => {
 
-      res.json("data added sucssfully")
+      res.json("data added sucssfully");
 
     }).catch(err => {
 
-      res.json("filed" + err)
+      res.json("filed" + err);
     })
   } else {
 
-    res.json("data not receved in server")
+    res.json("data not receved in server");
   }
 
 })
 
 
-router.get("/viewproadmin", (req, res) => {
+router.get("/viewproadmin", (req, res) => {  //product view api
 
   db.viewpro().then((responce) => {
 
-    res.json(responce)
+    res.json(responce);
 
   }).catch(err => {
 
-    res.sendStatus(404)
+    console.log("err");
 
+  });
 
-
-  })
-
-
-
-})
+});
 
 
 
 
-router.get("/oneview", (req, res) => {
+router.get("/oneview", (req, res) => {   //products details view api 
 
-  const proid = req.query.proid
+  const proid = req.query.proid ;
   db.onview(proid).then((responce) => {
 
     if (responce.flag) {
 
-      res.json({ flag: true, data: responce.data })
+      res.json({ flag: true, data: responce.data });
 
     } else {
-      console.log("no data ")
-      req.json({ flag: false })
+      
+      req.json({ flag: false }); 
     }
-
 
   }).catch(err => {
 
-    res.json({ err: true })
+    res.json({ err: true });
 
-    console.log("err find")
-
-  })
+   });
 
 
-})
+});
 
 
-router.get("/edit_pro", (req, res) => {
+router.get("/edit_pro",verifiLogin, (req, res) => {    //edit products get data api
 
-  const proid = req.query.proid
+  const proid = req.query.proid ;
 
   db.edit_pro(proid).then((respo) => {
 
-    res.json({ flag: true, data: respo.data })
+    res.json({ flag: true, data: respo.data }) ;
 
   }).catch(err => {
 
-    res.json({ flag: false })
+    res.json({ flag: false }) ;
 
   })
 
 })
 
 
-router.post("/edit_pro", store.single("image"), (req, res) => {
+router.post("/edit_pro", store.single("image"), (req, res) => {  //edit products post api 
 
-  let flag = ""
+  let flag = "" ;
 
-  const status = req.body.image_status
+  const status = req.body.image_status  ;
 
   if (status === "true") {
 
-    flag = true
+    flag = true ;
 
   } else {
 
-    flag = false
+    flag = false ;
 
   }
-
-
   const data = {
 
     file: req.file,
@@ -223,39 +251,30 @@ router.post("/edit_pro", store.single("image"), (req, res) => {
     status: flag
 
   }
-
-
   db.edit_pro_post(data).then(() => {
-
-
-    res.json({flag:true})
-    console.log("erdit ok")
-
-     
-
+ 
+    res.json({flag:true});
+    
   }).catch(err => {
 
-    res.json({flag:false})
-    console.log("edit err")
-
-       
-  })
+    res.json({flag:false});
+    })
 
 })
 
 
 
-  router.delete("/pro_delete",(req,res)=>{
+  router.delete("/pro_delete",verifiLogin,(req,res)=>{  //delete products api
 
-    const proid=req.query.proid
+    const proid=req.query.proid ;
+    
+    db.pro_delete(proid).then(()=>{
 
-        db.pro_delete(proid).then(()=>{
-
-            res.json({flag:true})
+        res.json({flag:true}) ;
 
         }).catch(err=>{
 
-          res.json({flag:false})
+          res.json({flag:false}) ;
 
         })
 
@@ -268,23 +287,23 @@ router.post("/edit_pro", store.single("image"), (req, res) => {
 
 
 
-   router.get("/all_oders",(req,res)=>{
+   router.get("/all_oders",verifiLogin,(req,res)=>{  //all oders view api 
 
            db.get_all_oders().then((respo)=>{
 
             if(respo.flag){
 
-              res.json({flag:true,data:respo.data})
+              res.json({flag:true,data:respo.data}) ;
 
             }else{
               
-              res.json({flag:false})
+              res.json({flag:false}) ;
             
             }
 
            }).catch(err=>{
 
-              res.json({err:true})
+              res.json({err:true}) ;
 
            })
 
@@ -292,17 +311,17 @@ router.post("/edit_pro", store.single("image"), (req, res) => {
 
 
 
-     router.post("/shiping",(req,res)=>{
+     router.post("/shiping",(req,res)=>{   //shiping markng api 
 
-            const data= req.body
+            const data= req.body ;
 
             db.shiping(data).then((respo)=>{
 
-              res.json({flag:true})
+              res.json({flag:true}) ;
 
                }).catch(err=>{
 
-                res.json({flag:false})
+                res.json({flag:false}) ;
 
                })
 
@@ -312,46 +331,42 @@ router.post("/edit_pro", store.single("image"), (req, res) => {
 
 
 
-          router.get("/oder_pro",(req,res)=>{
+          router.get("/oder_pro",(req,res)=>{   // oder products show 
 
-              const oderid= req.query.oderid
+              const oderid= req.query.oderid ;
               
+              db.oder_pro(oderid).then((respo)=>{
 
-             db.oder_pro(oderid).then((respo)=>{
+              res.json({flag:true,data:respo.data}) ;
+            
+            }).catch(err=>{
 
-              res.json({flag:true,data:respo.data})
-
-
-             }).catch(err=>{
-
-               res.json({flag:false})
+             res.json({flag:false});
 
              })
-              
+            
+            })
 
 
+          router.get("/report",verifiLogin,(req,res)=>{  // report api 
 
-
-          })
-
-
-          router.get("/report",(req,res)=>{
-
-            console.log('jh[[[[[')
+            console.log('jh[[[[[') ;
 
              db.collect_report().then((respo)=>{
 
-              res.json({data:respo})
+              res.json({data:respo}) ;
 
              }).catch(err=>{
 
-              res.json({err:true})
+              res.json({err:true}) ;
+            }) ;
+
+          }) ;
 
 
 
-             })
 
-          })
+                                                            //end 
 
 
 

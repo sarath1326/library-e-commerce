@@ -12,17 +12,18 @@ import Myoderpage from './Userpage/Myoderpage';
 import Oneviewpage from './Userpage/Oneviewpage';
 import View from './Userpage/Context/Viewcontext';
 import Username from "./Userpage/Context/Usernamecontext"
-
-
-
 import Placeoderpage from './Userpage/Placeoderpage';
 import Signuppage from './Userpage/Signuppage';
-import AddAdresspage from './Userpage/AddAdresspage';
 import Loginpage from './Userpage/Loginpage';
 import Placeoderpropage from './Userpage/Placeoderpropage';
 import Proaddpage_admin from './Admin pages/Proaddpage_admin';
 import Categorypage from './Userpage/Categorypage';
 import Signle_buypage from './Userpage/Signle_buypage';
+import Lodingpage from './Userpage/Lodingpage';
+import Otp_page from './Userpage/Otp_page';
+
+
+//admin port pages //
 
 import Admin_home_page from './Admin pages/Admin_home_page';
 import Alloderspage from './Admin pages/Alloderspage';
@@ -34,14 +35,10 @@ import Report_page from './Admin pages/Report_page';
 import Signup_Admin from './Admin componts/signup-admin/Signup';
 import Login_Admin from './Admin componts/login/Login_normal';
 
-import Lodingpage from './Userpage/Lodingpage';
-import Otp_page from './Userpage/Otp_page';
-
-// import Plc from './UserComponts/Plc';
 
 
 
-import Text from './UserComponts/Text';
+
 
 
 
@@ -61,7 +58,7 @@ function App() {
 
       setTimeout(()=>{
         
-        setloding(false)
+        setloding(false);
 
       },3000)
 
@@ -82,7 +79,7 @@ function App() {
       <Routes>
 
        
-      {/* <Route element={<Lodingpage />} path='/' />
+       <Route element={<Lodingpage />} path='/' />
 
         <Route element={<Homepage/>} path='/home'   />
 
@@ -98,19 +95,18 @@ function App() {
 
         <Route element={<Signle_buypage />} path='/single_buy' />
 
-       
-
-       
-
-        <Route element={ <Placeoderpage />} path='/plo/:total'    />
+       <Route element={ <Placeoderpage />} path='/plo/:total'    />
 
         <Route element={<Signuppage />  } path='/sig' />
 
-        <Route element={<AddAdresspage /> } path='/Adress' />
+       <Route element={<Loginpage />} path='/Login' />
 
-        <Route element={<Loginpage />} path='/Login' />
+        <Route element={<Placeoderpropage/>} path='/placepro/:cartid' /> 
 
-        <Route element={<Placeoderpropage/>} path='/placepro/:cartid' />  */}
+
+         
+
+
 
         <Route element={<Admin_home_page />} path='/admin' />
 
@@ -134,19 +130,7 @@ function App() {
 
 
 
-        
-
-
-
-        
-        
-
-        
-
-        
-
-
-      </Routes>
+    </Routes>
 
       
       

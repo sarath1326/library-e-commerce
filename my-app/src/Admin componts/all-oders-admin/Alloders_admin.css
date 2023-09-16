@@ -44,3 +44,19 @@
     text-align: center;
 }
 
+
+.loding-allod{
+
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items:center ;
+
+   }
+
+   .loding-icon{
+
+    width: 200px;
+    height: 200px;
+   }

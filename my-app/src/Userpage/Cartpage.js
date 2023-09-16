@@ -27,7 +27,6 @@ function Cartpage() {
 
       <Navbars failed={setfailed}   />
      
-     
       <Cart failed={setfailed}  />
 
       

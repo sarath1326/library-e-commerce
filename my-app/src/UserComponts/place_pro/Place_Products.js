@@ -3,88 +3,72 @@
 
 
 import React from 'react'
-// import Navbars from './Navbars'
 import "./Place_Products.css"
-import Failed from "../Failed/Failed"
 import axios from "../../Constant/Axios"
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-
-
-
-
-
-
-
 
 
 function Place_Products(props) {
 
-  const {cartid}=useParams()
+  const { cartid } = useParams();
 
-  const [fetchdata,setfetchdata]=useState([])
+  const [fetchdata, setfetchdata] = useState([]);
 
 
-      useEffect(()=>{
+  useEffect(() => {
 
-        axios("/user/plcepro?cartid="+cartid).then((respo)=>{
+    axios("/user/plcepro?cartid=" + cartid).then((respo) => {
 
-        
+      if (respo.data.flag) {
 
-       if(respo.data.flag){
-        
-        console.log(respo.data.data)
+        setfetchdata(respo.data.data);
 
-        setfetchdata(respo.data.data)
-       
-      }else{
+      } else {
 
         console.log("plce pro empty");
 
-      
       }
 
-    }).catch(err=>{
+    }).catch(err => {
 
-      props.failed(true)
+      props.failed(true);
 
     })
-       
-      
 
-      },[])
+  }, [])
 
- 
-  
-    return (
+
+
+  return (
     <div>
 
-        
-
-        <div className='main-plcepro'>
 
 
-          {  
+      <div className='main-plcepro'>
 
-          fetchdata.map((obj)=>(
+
+        {
+
+          fetchdata.map((obj) => (
 
             <div className='itembox-plcepro'>
 
-                <div className='imgbox-plcepro'>
-                    <img className='proimg-plcepro' src={`data:${obj.prodata.contentType};base64,${obj.prodata.imageBase64}`} alt='lodig...'/>
+              <div className='imgbox-plcepro'>
+                <img className='proimg-plcepro' src={`data:${obj.prodata.contentType};base64,${obj.prodata.imageBase64}`} alt='lodig...' />
 
-                </div>
+              </div>
 
-                <div className='textbox-plcepro'>
+              <div className='textbox-plcepro'>
 
                 <p className='titile-plcepro' >{obj.prodata.name}</p>
                 <p> Language : {obj.prodata.language}</p>
                 <p> Quuntity : {obj.quantity}</p>
                 <p> Price : {obj.prodata.price}/-</p>
 
-                </div>
-                
               </div>
+
+            </div>
 
 
 
@@ -93,48 +77,48 @@ function Place_Products(props) {
 
           ))
 
-            
-
-
-          }
 
 
 
-
-              
-
-
-
-
-                  
-
-           
-
-           
-            
-            
-            
-           
-
-            
+        }
 
 
 
 
 
 
-        </div>
 
 
-        
 
 
-      
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
     </div>
   )
 }
