@@ -93,7 +93,7 @@ function Login() {
 
               {err ? <PiWarningCircleBold className='err-login' /> : null}  <br />     <br />
 
-              <input type='text' name='password' placeholder='password' onChange={(e) => { setpassword(e.target.value) }} />
+              <input type='password' name='password' placeholder='password' onChange={(e) => { setpassword(e.target.value) }} />
 
               {err ? <PiWarningCircleBold className='err-login' /> : null}   <br /><br />
 

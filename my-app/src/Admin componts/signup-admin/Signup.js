@@ -88,7 +88,7 @@ function Signup() {
                     /> <br/><br/>
 
                     <input className='input-signup-admin' 
-                    type='text' 
+                    type='password' 
                     placeholder='password'
                     required={true} 
                     onChange={(e)=>{setpassword(e.target.value)}}

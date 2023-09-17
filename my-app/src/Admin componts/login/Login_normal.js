@@ -94,7 +94,7 @@ function Login_normal() {
             <br /> <br />
 
             <input className='input-login-admin-nor'
-              type='text'
+              type='password'
               placeholder='enter password '
               name='password'
               required={true}

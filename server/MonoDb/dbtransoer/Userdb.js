@@ -1,20 +1,13 @@
 
 
 
-const mongoos=require("mongoose")
-const bcrypt=require("bcrypt")
-const { promises } = require("nodemailer/lib/xoauth2")
+const mongoos=require("mongoose");
+const bcrypt=require("bcrypt");
 
 
+const viewproductschema=new mongoos.Schema({     // products schema
 
-
-
-
-const viewproductschema=new mongoos.Schema({
-
-
-
-    filename:{
+       filename:{
         type: String,
         unique:true,
         require: true
@@ -44,10 +37,7 @@ const viewproductschema=new mongoos.Schema({
 })
 
 
-
-
-
-    const user_signup_schema= new mongoos.Schema({
+const user_signup_schema= new mongoos.Schema({ //user schema
 
         name:String,
         mobile:String,
@@ -58,8 +48,7 @@ const viewproductschema=new mongoos.Schema({
     })
 
 
-
-   const otp_schema=new mongoos.Schema({
+const otp_schema=new mongoos.Schema({    //otp schema
 
        
       otp:{
@@ -80,7 +69,7 @@ const viewproductschema=new mongoos.Schema({
     
     })
 
-    const cart_schema= new mongoos.Schema({
+const cart_schema= new mongoos.Schema({  //cart schma 
 
         user:{
             type:String,
@@ -94,7 +83,7 @@ const viewproductschema=new mongoos.Schema({
     })
 
 
-    const place_oder_schema=new mongoos.Schema({
+ const place_oder_schema=new mongoos.Schema({    //place oder schma
 
        userid:String,
         userAdress:Object,
@@ -117,183 +106,132 @@ const viewproductschema=new mongoos.Schema({
    module.exports={
 
 
-          viewpro_lit:(limit)=>{
+          viewpro_lit:(limit)=>{  //lit pro get query
 
             return new Promise( async(resolve,reject)=>{
-
                 
+                const obj={};
 
-                const obj={}
+                const viewprolit=mongoos.model("products",viewproductschema);
 
-                const viewprolit=mongoos.model("products",viewproductschema)
-
-
-                    
-                
-                
-                const result = await  viewprolit.find({cotegory:"literacher"}).limit(limit)
-
-
-                    
-
-
+                 const result = await  viewprolit.find({cotegory:"Literacher"}).limit(limit);
                  
-
-
-
-                 
-
-                   
-                  
                  if (result){
 
                     obj.flag=true
                     obj.data=result
                    
-                    resolve(obj)
+                    resolve(obj); 
 
                  
                  }else{
                     
-                   resolve({flag:false})
+                   resolve({flag:false});
                  
                 }
 
-              })
+              });
 
             },
 
-            viewpro_edu:(limit)=>{
+            viewpro_edu:(limit)=>{    // edu pro get query 
 
 
                 return new  Promise (async(resolve,reject)=>{
 
-                    const obj={}
+                    const obj={};
+                    
+                    const viewproedu=mongoos.model("products",viewproductschema);
 
-                       
-                    const viewproedu=mongoos.model("products",viewproductschema)
-
-                    const result= await  viewproedu.find({cotegory:"education"}).limit(limit)
+                    const result= await  viewproedu.find({cotegory:"Education"}).limit(limit);
 
                     if(result){
 
                        obj.flag=true
                         obj.data=result
 
-                        resolve(obj)
+                        resolve(obj);
 
                     }else{
 
-                        resolve({flag:false})
+                        resolve({flag:false});
                     }
 
                  })
 
             },
 
-            view_gen:(limit)=>{
+            view_gen:(limit)=>{   // gen pro get query
 
                 return new Promise( async(resolve,reject)=>{
+                    const obj={};
+                    
+                    const viewprogen=mongoos.model("products",viewproductschema);
 
-                    const obj={}
-
-
-                    const viewprogen=mongoos.model("products",viewproductschema)
-
-                    const result= await viewprogen.find({cotegory:"genarl" }).limit(limit)
-
+                    const result= await viewprogen.find({cotegory:"Genarl" }).limit(limit);
                     
                     if(result){
 
                         obj.flag=true
                         obj.data=result
 
-                        resolve(obj)
-
-
-
+                        resolve(obj);
                     }else{
 
-                        resolve({flag:false})
+                        resolve({flag:false});
 
                     }
-
-
-
-
-
                 })
-
-
-
+            
             },
 
 
-            oneview:(proid)=>{
+            oneview:(proid)=>{   // pro one view query
 
-                const obj={}
+                const obj={};
 
                 return new Promise (async(resolve,reject)=>{
 
-                    const prodectes=mongoos.model("products",viewproductschema)
+                    const prodectes=mongoos.model("products",viewproductschema);
 
-                    const result= await prodectes.findOne({_id:proid})
-
+                    const result= await prodectes.findOne({_id:proid});
                     
-
-                  if(result) {
+                    if(result) {
 
                     obj.flag=true
                     obj.data=result
 
-                    resolve(obj)
+                    resolve(obj);
+                
+                }else{
 
-
-                  }else{
-
-                    resolve({flag:false})
-
-
-                  }
-
-
-
+                    resolve({flag:false});
+                 }
+                
                 })
-
-
-
-
             },
 
-            bestchoise:(protype)=>{
+            bestchoise:(protype)=>{    //bst choice products get query
 
+                 return new Promise( async(resolve,reject)=>{
 
-                return new Promise( async(resolve,reject)=>{
+                    const prodectes=mongoos.model("products",viewproductschema);
 
-                    const prodectes=mongoos.model("products",viewproductschema)
+                    const result=await prodectes.find({type:protype});
 
-                    const result=await prodectes.find({type:protype})
-
-                   resolve(result)
-
-
-                })
-
-
-              
-
-
-
+                   resolve(result);
+                });
+            
             },
 
 
-            emailexist:(email)=>{
+            emailexist:(email)=>{   //email exist query
 
                 return new Promise(async(resolve ,reject)=>{
 
                     const signup=mongoos.model("user",user_signup_schema);
 
-                    const result= await signup.findOne({email:email})
+                    const result= await signup.findOne({email:email});
 
                     if(result){
 
@@ -302,24 +240,18 @@ const viewproductschema=new mongoos.Schema({
 
                         resolve({exsist:false});
                     }
+                   });
+                
+                },
 
 
 
-
-                });
-
-
-
-            },
-
-
-
-            otpData:(data)=>{
+            otpData:(data)=>{  //otp query
 
                return new Promise( async(resolve,reject)=>{
 
 
-                const otpDb=mongoos.model("otp",otp_schema)
+                const otpDb=mongoos.model("otp",otp_schema);
 
               const dataUplode={
 
@@ -330,12 +262,7 @@ const viewproductschema=new mongoos.Schema({
                   password:data.userDetailes.password
 
                  }
-
-
-
-
-
-                const final= new  otpDb(dataUplode)
+                 const final= new  otpDb(dataUplode);
 
                 final.save().then(()=>{
 
@@ -345,39 +272,27 @@ const viewproductschema=new mongoos.Schema({
                         
                 })
 
-                
+            })
+        
+         },
 
 
-
-
-
-               })
-
-
-
-
-            },
-
-
-            otpVarification:(otp)=>{
+            otpVarification:(otp)=>{  //otp veification query
 
                 return new Promise( async(resolve,reject)=>{
 
-                    const otpDb=mongoos.model("otp",otp_schema)
+                    const otpDb=mongoos.model("otp",otp_schema);
 
-                  const result= await otpDb.findOne({otp:otp})
+                  const result= await otpDb.findOne({otp:otp});
 
-                  console.log(result)
-
-                  
-                  if(result){
+                 if(result){
 
                
-                     otpDb.deleteOne({otp: otp}).then(()=>{})
+                     otpDb.deleteOne({otp: otp}).then(()=>{});
                   
-                    const signup=mongoos.model("user",user_signup_schema)
+                    const signup=mongoos.model("user",user_signup_schema);
 
-                    result.password= await   bcrypt.hash(result.password,10)
+                    result.password= await   bcrypt.hash(result.password,10);
 
                     const signupData={
 
@@ -392,102 +307,59 @@ const viewproductschema=new mongoos.Schema({
 
                     final.save().then(()=>{
 
-                        resolve({flag:true})
+                        resolve({flag:true});
 
                     })
                 
                 }else{
 
-                   resolve({flag:false})
+                   resolve({flag:false});
 
                 }
-
-
-
-
-                })
-
-
-
-
-            },
+            
+            })
+        
+        },
             
             
-            login:(data)=>{
+            login:(data)=>{ //login query
 
-                const responce={}
+                const responce={};
 
+             const userdata=mongoos.model("user",user_signup_schema);
 
-                const userdata=mongoos.model("user",user_signup_schema)
+               return new Promise ( async (resolv,reject)=>{
 
-
-                return new Promise ( async (resolv,reject)=>{
-
-
-                  const fetchdata= await userdata.findOne({email:data.email})
-
-
+                  const fetchdata= await userdata.findOne({email:data.email});
                   if(fetchdata){
 
                     bcrypt.compare(data.password,fetchdata.password).then((result)=>{
 
-                        
                         if(result){
 
-                            console.log("login sucss");
-
-                            responce.flag=true
+                           responce.flag=true
                             responce.user=fetchdata
 
-                            resolv(responce)
+                            resolv(responce);
+                         }else{
 
-
-
-                        }else{
-
-                            console.log("password wong");
-                            
-                            resolv({flag:false})
-
-
-                        }
-
-
-
-
-
+                        resolv({flag:false});
+                    }
                     })
-
-
-
-
-
-
-                  }else{
-
+                 }else{
                     
-                    console.log("username invalig");
-                    resolv({flag:false})
-
-
-                  }
-
-
-
-
-                        
-
-                })
+                    resolv({flag:false});
+                }
+                 })
 
 
 
             },
 
-            add_cart:(proid,userid)=>{
+            add_cart:(proid,userid)=>{ ///add cart query
 
 
-              const  pro_objid= new mongoos.Types.ObjectId(proid)
-              
+              const  pro_objid= new mongoos.Types.ObjectId(proid);
               
               const data={
 
@@ -496,27 +368,22 @@ const viewproductschema=new mongoos.Schema({
                 
                 }
 
+             return new Promise(async(resolve,reject)=>{
 
-              return new Promise(async(resolve,reject)=>{
-
-
-              const cartDB=mongoos.model("cart",cart_schema)
-
-                 const findUser= await cartDB.findOne({user:userid})
+                  const cartDB=mongoos.model("cart",cart_schema);
+              
+                  const findUser= await cartDB.findOne({user:userid});
 
                  if (findUser){
 
                     
-              let proExist=findUser.products.findIndex(docObj=>docObj.item==proid)
+              let proExist=findUser.products.findIndex(docObj=>docObj.item==proid);
 
                 if(proExist !=-1){
 
-                    resolve({proexit:true})
-
-
-                }else{
-
-
+                    resolve({proexit:true});
+                 }else{
+                    
                     cartDB.updateOne({user:userid},{
 
                         $push:{
@@ -528,17 +395,16 @@ const viewproductschema=new mongoos.Schema({
                     }).then( async(result)=>{
 
 
-                        const findData= await  cartDB.findOne({user:userid})
+                        const findData= await  cartDB.findOne({user:userid});
 
                         const arrya= findData.products
 
                         const count= arrya.length
 
                          resolve({update:true,count:count})
-
-
-
-                    }).catch(err=>{
+                        
+                        }).catch(err=>{
+                            reject()
 
                         console.log("errr", err);
                     })
@@ -601,46 +467,23 @@ const viewproductschema=new mongoos.Schema({
 
             },
 
-            get_Cartcount:(userid)=>{
-
+            get_Cartcount:(userid)=>{ // cart count get query
                 
-
-                
-
                 return new Promise(async(resolve,reject)=>{
-
-                    console.log("inn")
-
+                    
                     let  count = 0
-                   
+                   const cartDB=mongoos.model("cart",cart_schema);
 
-                    const cartDB=mongoos.model("cart",cart_schema)
-
-                    const cartData= await cartDB.findOne({user:userid})
-
-                
-
-
-
+                    const cartData= await cartDB.findOne({user:userid});
+                    
                     if(cartData){
-
-                        console.log("call")
-
-
+                        
                         const arrya= cartData.products  
-
-                         count = arrya.length 
-
-                        console.log(count)
-
-                        resolve({cartCount:count})
-                     
-            
-                    }else{
-
-                        console.log("helooo")
-
-                        resolve({cartCount:count})
+                        count = arrya.length 
+                         resolve({cartCount:count});
+                         }else{
+                            
+                            resolve({cartCount:count});
 
 
              }
@@ -649,7 +492,7 @@ const viewproductschema=new mongoos.Schema({
         
         },
 
-        show_cart:(userid)=>{
+        show_cart:(userid)=>{  // show cart get query
 
 
             return new Promise( async(resolve,reject)=>{
@@ -754,7 +597,7 @@ const viewproductschema=new mongoos.Schema({
         
         },
 
-        cart_count_change:(userid,proid,count)=>{
+        cart_count_change:(userid,proid,count)=>{  //cart count change query
 
             const countnum=parseInt(count)
 
@@ -814,7 +657,7 @@ const viewproductschema=new mongoos.Schema({
 
         },
 
-        cart_total_price:(userid)=>{
+        cart_total_price:(userid)=>{  // cart total price get queri
 
             return new Promise( async(resolve,reject)=>{
 
@@ -833,14 +676,8 @@ const viewproductschema=new mongoos.Schema({
 
 
                     }else{
-
-                    
-
-
-
-
-
-                    const cartdata= await cartDB.aggregate([
+                        
+                        const cartdata= await cartDB.aggregate([
 
                         {
                             $match :{user:userid}
@@ -937,7 +774,7 @@ const viewproductschema=new mongoos.Schema({
         },
 
 
-        place_oder_cart:(data)=>{
+        place_oder_cart:(data)=>{    //place oder query
 
             return new Promise( async(resolve,reject)=>{
 
@@ -1044,7 +881,7 @@ const viewproductschema=new mongoos.Schema({
 
         },
 
-        single_buy:(data)=>{
+        single_buy:(data)=>{   //single buy query
 
             const { userid,detailes}=data
 
@@ -1145,7 +982,7 @@ const viewproductschema=new mongoos.Schema({
         },
 
 
-        place_oder_status_change:(order)=>{
+        place_oder_status_change:(order)=>{  //place oder status change queri
 
             const orderid=order.receipt
 
@@ -1185,26 +1022,9 @@ const viewproductschema=new mongoos.Schema({
 
 
         },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        my_oder:(userid)=>{
+        
+        
+        my_oder:(userid)=>{  //my oder get query
 
             return new Promise( async(resolve,reject)=>{
 
@@ -1246,7 +1066,7 @@ const viewproductschema=new mongoos.Schema({
 
         },
 
-        plce_products:(odertid)=>{
+        plce_products:(odertid)=>{     //place products query
 
             const oderid_obj= new mongoos.Types.ObjectId(odertid)
 
@@ -1323,7 +1143,7 @@ const viewproductschema=new mongoos.Schema({
 
         },
 
-        cart_delete:(proid,userid)=>{
+        cart_delete:(proid,userid)=>{   // cart delete
 
          const  proid_obj= new mongoos.Types.ObjectId(proid)
 
@@ -1371,7 +1191,7 @@ const viewproductschema=new mongoos.Schema({
 
         },
 
-        cart_full_delete:(userid)=>{
+        cart_full_delete:(userid)=>{    // cart full delete 
 
             return new Promise((resolve,reject)=>{
 
@@ -1397,12 +1217,13 @@ const viewproductschema=new mongoos.Schema({
         }
 
             
+}
 
 
 
 
+ 
 
-
-   }
+                                                        //end  
 
         

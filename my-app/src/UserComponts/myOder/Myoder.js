@@ -8,6 +8,8 @@ import Table from 'react-bootstrap/Table';
 import { useNavigate } from 'react-router-dom';
 import axios from "../../Constant/Axios";
 import { useEffect, useState } from 'react';
+import {message} from "antd";
+
 
 
 
@@ -34,6 +36,11 @@ function Myoder(props) {
     }).then((respo) => {
 
       const result = respo.data;
+
+      if(result.err){
+        message.error("somthing worng");
+
+      }
 
       if (result.authfaild) {
 
@@ -135,15 +142,15 @@ function Myoder(props) {
                         <tr>
 
 
-                          <td>{obj.delevary_date}</td>
+                          <td className='td-myoder'>{obj.delevary_date}</td>
 
-                          <td>{obj.totalAmount}</td>
+                          <td className='td-myoder'>{obj.totalAmount}</td>
 
-                          <td>{obj.pyment_method}</td>
+                          <td className='td-myoder'>{obj.pyment_method}</td>
 
-                          <td>{obj.status}</td>
+                          <td className='td-myoder'>{obj.status}</td>
 
-                          <td> <button className='view-btn' onClick={() => { view_pro(obj._id) }}  > View product</button></td>
+                          <td className='td-myoder'> <button className='view-btn' onClick={() => { view_pro(obj._id) }}  > View product</button></td>
 
                         </tr>
 

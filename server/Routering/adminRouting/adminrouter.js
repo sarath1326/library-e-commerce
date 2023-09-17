@@ -122,7 +122,7 @@ router.post("/login",(req,res)=>{   //login api
 
           const {_id,name}=respo.data;
 
-           const token= jwt.sign({id:_id,name:name},"sarath1937admin",{expiresIn:300}) ;
+           const token= jwt.sign({id:_id,name:name},"sarath1937admin",{expiresIn:36000}) ;
 
             res.json({flag:true, jwt:token ,admin:name}) ;
           
@@ -363,6 +363,8 @@ router.post("/edit_pro", store.single("image"), (req, res) => {  //edit products
 
           }) ;
 
+
+        
 
 
 

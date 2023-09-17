@@ -251,7 +251,7 @@ router.post("/login", (req, res) => {  // login api
 
             const { name, _id } = result.user;
 
-            const token = jwt.sign({ name: name, id: _id }, "sarath1937", { expiresIn: 300 });
+            const token = jwt.sign({ name: name, id: _id }, "sarath1937", { expiresIn: 36000  });
 
             res.json({ flag: true, jwtToken: token });
 
@@ -518,61 +518,32 @@ router.post("/place_oder", (req, res) => {  //place oder api
 
             if (result.flag) {
 
-                const pyment_method = req.body.pyment
+                const pyment_method = req.body.pyment 
 
                 if (pyment_method === "cod") {
 
                      db.cart_delete(id).then(() => { })
 
-                    res.json({ cod: true })
-                    console.log("cod")
-
-
-
-
-
-                } else {
-
-
-
-
+                    res.json({ cod: true });
+                 } else {
+                    
                     Razorpay.generateRazorpay(result.oderid, result.total).then((order) => {
+                        
+                        res.json({ razorpay_order: order });
 
+                        }).catch(err => {
 
-                        res.json({ razorpay_order: order })
-
-                        //    console.log(order);
-
-
-
-
-                    }).catch(err => {
-
-                        console.log("razorpay err");
-
+                        res.json({err:true});
                     })
-
-
-
-
-
-
-
                 }
+             } else {
 
-
-
-            } else {
-
-                res.json({ flag: false })
+                res.json({ flag: false });
             }
-
-
-
+        
         }).catch(err => {
 
-            console.log("place oder err ", err)
-
+            res.json({err:true});
         })
 
 
@@ -599,7 +570,7 @@ router.post("/place_oder", (req, res) => {  //place oder api
 
 
 
-router.post("/verify_pyment", (req, res) => {
+router.post("/verify_pyment", (req, res) => {  //verify online pyment api
 
     const { token, order } = req.body
 
@@ -651,9 +622,9 @@ router.post("/verify_pyment", (req, res) => {
 
 
 
-router.post("/single_buy", (req, res) => {
+router.post("/single_buy", (req, res) => { //single buy api 
 
-    console.log("single buy")
+    
     const token = req.body.userid
 
     jwt.verify(token, "sarath1937", (err, result) => {
@@ -677,49 +648,20 @@ router.post("/single_buy", (req, res) => {
 
                     if (pyment_method === "cod") {
 
-
-
-
-                        res.json({ cod: true })
+                         res.json({ cod: true })
                         console.log("cod")
-
-
-
-
-
+                    
                     } else {
-
-
-
-
+                        
                         Razorpay.generateRazorpay(result.oderid, result.total).then((order) => {
-
-
-                            res.json({ razorpay_order: order })
-
-
-
-
-
-
-                        }).catch(err => {
+                    
+                             res.json({ razorpay_order: order })
+                            }).catch(err => {
 
                             console.log("razorpay err");
 
                         })
-
-
-
-
-
-
-
                     }
-
-
-
-
-
                 } else {
 
                     res.json({ flag: false })
@@ -743,7 +685,7 @@ router.post("/single_buy", (req, res) => {
 })
 
 
-router.post("/single_buy/verify_pyment", (req, res) => {
+router.post("/single_buy/verify_pyment", (req, res) => {  //singil buy verify pyment api 
 
 
     Razorpay.pyment_verify(req.body).then(() => {
@@ -781,28 +723,9 @@ router.post("/single_buy/verify_pyment", (req, res) => {
 
 
 
+router.get("/myorder", verifiLogin, (req, res) => {    // my oder show page 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-router.get("/myorder", verifiLogin, (req, res) => {
-
-    const token = req.headers["jwt-token"]
+    const token = req.headers["jwt-token"] ;
 
     jwt.verify(token, "sarath1937", (err, result) => {
 
@@ -814,62 +737,53 @@ router.get("/myorder", verifiLogin, (req, res) => {
 
                 if (respo.flag) {
 
-                    res.json({ flag: true, data: respo.data })
+                    res.json({ flag: true, data: respo.data });
 
                 } else {
 
-                    res.json({ flag: false })
-
-                    console.log("no data")
+                    res.json({ flag: false });
+                
                 }
 
 
             }).catch(err => {
 
-                console.log("my oder errr")
+                res.json({err:true});
+            
             })
-
-
-
-
-
-
+        
         } else {
 
-            console.log("err");
-
+            res.json({err:true});
         }
-
     })
-
-
 
 })
 
 
 
-router.get("/plcepro", async (req, res) => {
-
-
-    console.log(req.query.cartid)
-
-    const result = await db.plce_products(req.query.cartid)
+router.get("/plcepro", async (req, res) => {   //plac pro view 
+    
+    const result = await db.plce_products(req.query.cartid);
 
     if (result.flag) {
 
-        res.json({ flag: true, data: result.data })
+        res.json({ flag: true, data: result.data });
 
 
     } else {
 
-        res.json({ flag: false })
+        res.json({ flag: false }); 
 
     }
 
-
-
-
 })
+
+
+
+
+
+                                                              //end 
 
 
 

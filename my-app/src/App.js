@@ -50,6 +50,8 @@ import Login_Admin from './Admin componts/login/Login_normal';
 
 
 
+
+
 function App() {
 
   const [loding,setloding]=useState(true)
@@ -127,6 +129,8 @@ function App() {
         <Route element={<Signup_Admin/>} path='/admin/signup' />
 
         <Route element={<Login_Admin />} path='/admin/login' />
+
+        
 
 
 

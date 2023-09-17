@@ -20,7 +20,7 @@ function Proadd_admin(props) {
  const [language,setlanguage]=useState("")
  const [price,setprice]=useState(0)
  const [publisher,setpublisher]=useState("")
- const [cotegory,setcotegory]=useState("")
+ const [category,setcategory]=useState("")
  const [type,settype]=useState("")
  
 
@@ -35,7 +35,7 @@ function Proadd_admin(props) {
    formdata.append("language",language);
    formdata.append("price",price);
    formdata.append("publisher", publisher);
-   formdata.append("cotegory",cotegory);
+   formdata.append("cotegory",category);
    formdata.append("type",type);
    formdata.append("image",image);
 
@@ -150,23 +150,58 @@ function Proadd_admin(props) {
                onChange={(event)=>{setpublisher(event.target.value)}}
                
                /> <br /><br/>
+
+           <select className='input-add' type='select' placeholder='enter category' name='brand' 
+                
+                required 
+                autoComplete={"off"}
+               
+                onChange={(e)=>{setcategory(e.target.value)}}
+                > 
+                  <option > Select category</option>
+                <option value={"Literacher"} > Literacher</option>
+                <option value={"Education"}>Education</option>
+                <option value={"Genarl"}>Genarl</option>
+                
+
+              </select>
   
          
-            <input className='input-add' placeholder='Enter category'
-              type='text'
-               name='cotegory'
-               onChange={(event)=>{setcotegory(event.target.value)}}
+           
               
-              /> <br /><br/>
               
-              <input className='input-add'  placeholder=' Enter type'
-             
-              // type='text'
-              name='type'
+              <br /><br/>
+
+
+              <select className='input-add' type='select' placeholder='enter type' name='brand' 
+                
+                required 
+                autoComplete={"off"}
+               
+                onChange={(e)=>{settype(e.target.value)}}
+                > 
+                  <option > Select type</option>
+                <option value={"novel"} > novel</option>
+                <option value={"poem"}>poem</option>
+                <option value={"story"}>story</option>
+                <option value={"sslc"} > sslc</option>
+                <option value={"plus one"}>plus one</option>
+                <option value={"plus two"}>plus two</option>
+                <option value={"compation exam"} >compation exam</option>
+                <option value={"kids"}>kids</option>
+                <option value={"coocking"}>coocking</option>
+                
+                
+
+                
+                
+                
+                </select>
               
-              onChange={(event)=>{settype(event.target.value)}}
               
-              /> <br /><br/>
+              
+              
+              <br /><br/>
   
               
   
