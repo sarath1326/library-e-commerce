@@ -26,6 +26,15 @@ section{
 
 }
 
+@media (max-width:385px){
+    .input-otp{
+        width: 25px;
+        height: 25px;
+    }
+}
+
+/* w35  h32 */
+
 
 .btn-otp{
 
