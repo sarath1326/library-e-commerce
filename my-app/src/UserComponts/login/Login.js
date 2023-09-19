@@ -43,6 +43,7 @@ function Login(props) {
             if(result.data.err){
                 
                 message.error("somthing worng");
+                return
             }
 
             if (result.data.flag) {

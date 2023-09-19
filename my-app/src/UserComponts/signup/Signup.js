@@ -14,7 +14,7 @@ import {message} from "antd";
 function Signup(props) {
 
   const navigate = useNavigate();
-  const [loding, setloding] = useState(false);
+  const [loding, setloding] = useState(true);
 
 
   const initialValues = {
@@ -37,6 +37,12 @@ function Signup(props) {
       const data = values;
 
       axios.post("/user/signup", data).then((result) => {
+
+        if(result.data.err){
+          
+          message.error("somthing worng , check your connection ");
+          return
+        }
 
 
         if(result.data.exit){
@@ -77,7 +83,7 @@ function Signup(props) {
   return (
     <div className='main-sig'>
 
-      <div className='container mainbox-sig'>
+      {/* <div className='container mainbox-sig'> */}
 
         <div className='logo-sig'>
 
@@ -224,7 +230,7 @@ function Signup(props) {
 
 
 
-      </div>
+      {/* </div> */}
 
 
 

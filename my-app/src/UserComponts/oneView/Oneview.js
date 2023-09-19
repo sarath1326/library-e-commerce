@@ -93,7 +93,7 @@ function Oneview(props) {
 
   const best_oneview = (proid) => {
 
-    navigate(`/oneview/${proid}`);
+    navigate(`/oneview2/${proid}`);
   }
 
   const single_buy = (proid, total) => {
@@ -145,6 +145,7 @@ function Oneview(props) {
                 <div class="main-oneview">
                   <div class="img-oneview">
                     <img className='item-img-oneview' src={`data:${data.contentType};base64,${data.imageBase64}`} alt="" />
+                    <span className='span-rating' > {data.rating}</span><span > ⭐</span>
 
                   </div>
 
@@ -157,7 +158,7 @@ function Oneview(props) {
                       languge : {data.language}<br />
                       Type : {data.type}<br />
                       Publisher : {data.publisher}<br />
-                      price :{data.price}
+                      price :{data.price}/-
 
 
 
@@ -215,7 +216,8 @@ function Oneview(props) {
                     </div>
 
                     <h6 className='booktitle'> {obj.name}</h6>
-                    <span>Language:</span><span> {obj.language}</span>
+                    <span>Language:</span><span> {obj.language}</span><br/>
+                    <span> <span className='rating-one'>{obj.rating} </span>  ⭐</span> 
 
 
 

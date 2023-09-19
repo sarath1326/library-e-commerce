@@ -23,8 +23,8 @@ function Placeoderpropage() {
         <>
 
 
-          <Navbars failed={setfailed} />
-
+         <Navbars failed={setfailed} />
+             
           <Place_Products failed={setfailed}  />
 
 

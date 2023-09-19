@@ -27,8 +27,7 @@ function Placeoderpage() {
 
         <>
 
-          <Navbars failed={setfailed}   />
-
+         <Navbars failed={setfailed} />
           <Placeoder failed={setfailed} />
 
 

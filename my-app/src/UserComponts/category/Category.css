@@ -128,7 +128,7 @@ h3{
 .main-edu{
 
     width: 205px;
-    height: 230px;
+    height: 250px;
    border:  2px solid rgb(214, 213, 213);
     border-radius: 8px;
   /* margin-right: 10px;  */
@@ -151,8 +151,10 @@ h3{
 
   .drop-btn{
 
-    background-color: white;
+   background-color: white;
     border: none;
+    z-index: -1;
+   
 
   }
 
@@ -215,10 +217,13 @@ h3{
 
     .main-edu{
         width:46.333%;
-        height: 240px;
-       
-       
-       
+        height: 250px;
+    }
+
+    .serchbarmain input{
+        width: 300px;
+        margin-left: 20px;
+
     }
 
 
@@ -226,7 +231,9 @@ h3{
 
 .loding-cata{
     width: 100%;
-    height: 30vh;
+    height: 50vh;
+    /* background-color: aqua; */
+    /* padding-top: 100px; */
  
     display: flex;
     justify-content: center;
@@ -254,9 +261,16 @@ h3{
 
 .loging-img-cata{
 
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
 
+
+}
+
+.span-rating{
+
+    font-weight: bold;
+    margin-left: 5px;
 
 }
 

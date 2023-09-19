@@ -22,6 +22,7 @@ function Proadd_admin(props) {
  const [publisher,setpublisher]=useState("")
  const [category,setcategory]=useState("")
  const [type,settype]=useState("")
+ const [rating,setrating]=useState("")
  
 
 
@@ -37,6 +38,7 @@ function Proadd_admin(props) {
    formdata.append("publisher", publisher);
    formdata.append("cotegory",category);
    formdata.append("type",type);
+   formdata.append("rating",rating)
    formdata.append("image",image);
 
    
@@ -202,6 +204,8 @@ function Proadd_admin(props) {
               
               
               <br /><br/>
+
+              <input className='input-add' type='text' placeholder='add Rating ' onChange={(e)=>{setrating(e.target.value)}} />
   
               
   

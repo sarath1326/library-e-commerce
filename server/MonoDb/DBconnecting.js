@@ -8,10 +8,15 @@ require('dotenv').config()
 
 module.exports.dbconnecting=()=>{
 
-   const atlas="mongodb+srv://sarathsarath93366:sarath1937@cluster0.dsvkevb.mongodb.net/?retryWrites=true&w=majority"
+   const atlas="mongodb+srv://sarathpm:Mx4R45dxG5NvZuP2@cluster0.dsvkevb.mongodb.net/?retryWrites=true&w=majority"
+
+   const connectingParams={
+      useNewUrlParser:true,
+      useUnifiedTopology:true
+   }
 
 
-mongoose.connect(atlas)
+mongoose.connect(atlas,connectingParams)
   
    .then(() => console.log("mongoDB connecting ok")
    

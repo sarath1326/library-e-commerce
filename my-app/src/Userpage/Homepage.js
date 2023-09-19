@@ -46,11 +46,11 @@ function Homepage() {
         
         <Home/>
 
-       <Rowhome title="Literature" url="/user/view/lit?limit=1" id="lit" failed={setfailed} />
+       <Rowhome title="Literature" url="/user/view/lit" id="lit" failed={setfailed} />
 
-        <Rowhome title="Education" url="/user/view/edu?limit=1"  id='edu' failed={setfailed} />
+        <Rowhome title="Education" url="/user/view/edu"  id='edu' failed={setfailed} />
 
-        <Rowhome   title="Genaral" url="/user/view/gen?limit=1"  id="gen" failed={setfailed}   /> 
+        <Rowhome   title="Genaral" url="/user/view/gen"  id="gen" failed={setfailed}   /> 
 
 
         </>

@@ -266,7 +266,9 @@ function Category(props) {
                   <div class="text">
 
                     <h6 className='booktitle'> {obj.name}</h6>
-                    <span >Language:</span><span> {obj.language}</span>
+                    <span >Language:</span><span> {obj.language}</span><br/>
+                    <span className='span-rating'> {obj.rating}</span><span > ⭐</span>
+
 
 
                   </div>

@@ -50,6 +50,7 @@ function Pro_edit(props) {
       if (result.data.flag) {
 
         setfetchdata(result.data.data)
+        setloding(false)
         const { name, author, language, price, publisher, cotegory, type } = result.data.data
         setvalues((obj) => ({
 
@@ -217,8 +218,7 @@ function Pro_edit(props) {
                   <label className='label-edit'> language</label><br />
                   <input className='input-edit' placeholder='Enter mobile number'
                     type='text'
-
-                    name=' language'
+                   name='language'
                     value={values.language}
                     onChange={(event) => { handilChange(event) }}
                   /> <br />

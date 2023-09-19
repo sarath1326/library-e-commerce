@@ -91,6 +91,7 @@ function Onve_view_admin(props) {
                                     Languge :{finddata.language} <br />
                                     Type :{finddata.type} <br />
                                     Publisher :{finddata.publisher} <br />
+                                   Rating: {finddata.rating} ⭐<br/>
                                     price :{finddata.price}/-
 
 

@@ -43,6 +43,7 @@ const addproductsschema = new mongoos.Schema({
     publisher: String,
     cotegory: String,
     type: String,
+    rating:String
 
 });
 
@@ -255,6 +256,7 @@ module.exports.addproducts = (data) => {     //addproducts query
             publisher: data.details.publisher,
             cotegory: data.details.cotegory,
             type: data.details.type,
+            rating:data.details.rating
 
         }
 

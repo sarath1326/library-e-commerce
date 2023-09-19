@@ -136,47 +136,46 @@ function Placeoder(props) {
   return (
     <div className='main-pl'>
 
-      <div className='container mainbox-pl'>
+      <div className='pyment-main-pl'>
 
-        <div className='pyment-pl'>
+        <h1 className='title-pl'>Choose Your Pyment</h1>
 
-          <h1 className='title-pl'>Choose Your Pyment</h1>
 
-          <div className='pyment-box-pl'>
+        <div className='pyment-box-pl'>
 
-            <h2 className='amount-pl'> Amount :{total}</h2><br />
+          <h2 className='amount-pl'> Amount :{total}</h2><br />
 
-            <h2 className='amount-pl'> Delevary Charge :40</h2>
+          <h2 className='amount-pl'> Delevary Charge :40</h2>
 
-            <div className='line-pl'></div>
+          <div className='line-pl'></div>
 
-            <h2 className='amount-pl'> Total Amount :{payprice}</h2><br />
+          <h2 className='amount-pl'> Total Amount :{payprice}</h2><br />
 
-            <img className='cod-img' src='../cod.png' alt='loding....' />
-            <label className='cod-text' > Cash On Delevary</label><br />
+          <img className='cod-img' src='../cod.png' alt='loding....' />
+          <label className='cod-text' > Cash On Delevary</label><br />
 
-            {/* <input className='radio' type='radio' /> <br/><br/> */}
+          {/* <input className='radio' type='radio' /> <br/><br/> */}
 
-            <input className='radio-pl' type="radio" id="html" name="fav_language" value="HTML"
+          <input className='radio-pl' type="radio" id="html" name="fav_language" value="HTML"
 
-              onChange={() => { setpyment("cod") }}
+            onChange={() => { setpyment("cod") }}
 
 
 
-            /><br /><br />
+          /><br /><br />
 
-            <label><img className='pyapal-pl' src='../razornew.png' alt='loding...' /></label> <br />
+          <label><img className='pyapal-pl' src='../razornew.png' alt='loding...' /></label> <br />
 
-            {/* <input className='radio' type='radio' /> */}
+          {/* <input className='radio' type='radio' /> */}
 
 
-            <input className='radio-pl' type="radio" id="css" name="fav_language" value="CSS"
+          <input className='radio-pl' type="radio" id="css" name="fav_language" value="CSS"
 
-              onChange={() => { setpyment("online") }}
+            onChange={() => { setpyment("online") }}
 
 
 
-            />
+          />
 
 
 
@@ -184,153 +183,6 @@ function Placeoder(props) {
 
 
 
-
-
-          </div>
-
-
-
-
-
-
-
-          {loding ?
-
-            <div className='loding-sig' >
-
-              <img className='loding-img-pl' src='../Book animation.gif' alt='loding...' />
-
-
-            </div>
-
-            : null
-
-          }
-
-
-
-
-        </div>
-
-
-        <div className='form-pl'>
-
-          <form onSubmit={handleSubmit} className='formmain-pl'>
-
-            <input className='input-pl' placeholder='Enter your full name'
-              type='text'
-              id='name'
-              name='name'
-              value={values.name}
-              onBlur={handleBlur}
-              onChange={handleChange}
-
-
-
-
-            /> <br />
-
-            {
-
-              errors.name && touched.name ?
-
-                <span className='span-pl'> {errors.name}</span>
-
-                : <br />
-
-
-
-            }
-
-
-            <input className='input-pl' placeholder='Enter full adress'
-              type='text'
-              id='adress'
-              name='adress'
-              value={values.adress}
-              onBlur={handleBlur}
-              onChange={handleChange}
-
-
-
-            /> <br />
-
-            {errors.adress && touched.adress ?
-
-              <span className='span-pl'> {errors.adress}</span>
-
-              : <br />
-
-            }
-
-            <input className='input-pl' placeholder='Enter land mark'
-              type='text'
-              id='landmark'
-              name='landmark'
-              value={values.landmark}
-              onBlur={handleBlur}
-              onChange={handleChange}
-
-
-
-            /> <br />
-
-            {errors.landmark && touched.landmark ?
-
-              <span className='span-pl'> {errors.landmark}</span>
-
-              : <br />
-
-            }
-
-            <input className='input-pl' placeholder=' Enter pincode'
-              type='text'
-              id='pincode'
-              name='pincode'
-              value={values.pincode}
-              onBlur={handleBlur}
-              onChange={handleChange}
-
-
-
-            /> <br />
-
-            {
-              errors.pincode && touched.pincode ?
-                <> <span className='span-pl'> {errors.pincode}</span> <br /></>
-                : <br />
-            }
-
-
-            <input className='input-pl' placeholder=' Enter mobile no'
-              type='text'
-              id='mobile'
-              name='mobile'
-              value={values.mobile}
-              onBlur={handleBlur}
-              onChange={handleChange}
-
-
-
-            /> <br />
-
-            {
-              errors.mobile && touched.mobile ?
-                <> <span className='span-pl'> {errors.mobile}</span> <br /></>
-                : <br />
-            }
-
-
-
-
-
-
-
-            <button type='submit' className='btn-pl'>Cheack Out</button>
-
-
-
-          </form>
 
 
         </div>
@@ -340,6 +192,157 @@ function Placeoder(props) {
 
 
       </div>
+
+
+
+      {/* form */}
+
+      <div className='form-main-pl' >
+
+
+
+        <form onSubmit={handleSubmit} className='formmain-pl'>
+
+          <input className='input-pl' placeholder='Enter your full name'
+            type='text'
+            id='name'
+            name='name'
+            value={values.name}
+            onBlur={handleBlur}
+            onChange={handleChange}
+
+
+
+
+          /> <br />
+
+          {
+
+            errors.name && touched.name ?
+
+              <span className='span-pl'> {errors.name}</span>
+
+              : <br />
+
+
+
+          }
+
+
+          <input className='input-pl' placeholder='Enter full adress'
+            type='text'
+            id='adress'
+            name='adress'
+            value={values.adress}
+            onBlur={handleBlur}
+            onChange={handleChange}
+
+
+
+          /> <br />
+
+          {errors.adress && touched.adress ?
+
+            <span className='span-pl'> {errors.adress}</span>
+
+            : <br />
+
+          }
+
+          <input className='input-pl' placeholder='Enter land mark'
+            type='text'
+            id='landmark'
+            name='landmark'
+            value={values.landmark}
+            onBlur={handleBlur}
+            onChange={handleChange}
+
+
+
+          /> <br />
+
+          {errors.landmark && touched.landmark ?
+
+            <span className='span-pl'> {errors.landmark}</span>
+
+            : <br />
+
+          }
+
+          <input className='input-pl' placeholder=' Enter pincode'
+            type='text'
+            id='pincode'
+            name='pincode'
+            value={values.pincode}
+            onBlur={handleBlur}
+            onChange={handleChange}
+
+
+
+          /> <br />
+
+          {
+            errors.pincode && touched.pincode ?
+              <> <span className='span-pl'> {errors.pincode}</span> <br /></>
+              : <br />
+          }
+
+
+          <input className='input-pl' placeholder=' Enter mobile no'
+            type='text'
+            id='mobile'
+            name='mobile'
+            value={values.mobile}
+            onBlur={handleBlur}
+            onChange={handleChange}
+
+
+
+          /> <br />
+
+          {
+            errors.mobile && touched.mobile ?
+              <> <span className='span-pl'> {errors.mobile}</span> <br /></>
+              : <br />
+          }
+
+
+
+
+
+
+
+          <button type='submit' className='btn-pl'>Cheack Out</button>
+
+
+
+        </form>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -33,6 +33,7 @@ const viewproductschema=new mongoos.Schema({     // products schema
     publisher:String,
     cotegory:String,
     type:String,
+    rating:String
 
 })
 
@@ -110,6 +111,8 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
             return new Promise( async(resolve,reject)=>{
                 
+               try {
+
                 const obj={};
 
                 const viewprolit=mongoos.model("products",viewproductschema);
@@ -129,6 +132,14 @@ const cart_schema= new mongoos.Schema({  //cart schma
                    resolve({flag:false});
                  
                 }
+                
+               } catch (error) {
+                
+                reject();
+
+                console.log("mongodb err",error );
+                
+               }
 
               });
 
@@ -139,6 +150,7 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
                 return new  Promise (async(resolve,reject)=>{
 
+                   try {
                     const obj={};
                     
                     const viewproedu=mongoos.model("products",viewproductschema);
@@ -156,6 +168,14 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
                         resolve({flag:false});
                     }
+                    
+                   } catch (error) {
+
+                    reject();
+
+                    console.log("mongodb err");
+                    
+                   }
 
                  })
 
@@ -164,7 +184,9 @@ const cart_schema= new mongoos.Schema({  //cart schma
             view_gen:(limit)=>{   // gen pro get query
 
                 return new Promise( async(resolve,reject)=>{
-                    const obj={};
+                    try {
+
+                        const obj={};
                     
                     const viewprogen=mongoos.model("products",viewproductschema);
 
@@ -181,6 +203,14 @@ const cart_schema= new mongoos.Schema({  //cart schma
                         resolve({flag:false});
 
                     }
+                        
+                    } catch (error) {
+
+                        reject();
+
+                        console.log("mongodb err")
+                        
+                    }
                 })
             
             },
@@ -192,6 +222,7 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
                 return new Promise (async(resolve,reject)=>{
 
+                   try {
                     const prodectes=mongoos.model("products",viewproductschema);
 
                     const result= await prodectes.findOne({_id:proid});
@@ -207,6 +238,13 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
                     resolve({flag:false});
                  }
+                    
+                   } catch (error) {
+
+                    reject();
+                    console.log("monogodb oneview err");
+                    
+                   }
                 
                 })
             },
@@ -215,11 +253,19 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
                  return new Promise( async(resolve,reject)=>{
 
-                    const prodectes=mongoos.model("products",viewproductschema);
+                    try {
+                        const prodectes=mongoos.model("products",viewproductschema);
 
                     const result=await prodectes.find({type:protype});
 
                    resolve(result);
+                        
+                    } catch (error) {
+
+                        reject();
+                        console.log("mongodb bestchoice err");
+                        
+                    }
                 });
             
             },
@@ -229,7 +275,8 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
                 return new Promise(async(resolve ,reject)=>{
 
-                    const signup=mongoos.model("user",user_signup_schema);
+                    try {
+                        const signup=mongoos.model("user",user_signup_schema);
 
                     const result= await signup.findOne({email:email});
 
@@ -239,6 +286,12 @@ const cart_schema= new mongoos.Schema({  //cart schma
                     }else{
 
                         resolve({exsist:false});
+                    }
+                        
+                    } catch (error) {
+                        reject();
+                        console.log("mongodb emailexit err");
+                        
                     }
                    });
                 
@@ -251,7 +304,9 @@ const cart_schema= new mongoos.Schema({  //cart schma
                return new Promise( async(resolve,reject)=>{
 
 
-                const otpDb=mongoos.model("otp",otp_schema);
+                try {
+
+                    const otpDb=mongoos.model("otp",otp_schema);
 
               const dataUplode={
 
@@ -271,6 +326,13 @@ const cart_schema= new mongoos.Schema({  //cart schma
                     console.log("otpData uplding err" + err)
                         
                 })
+                    
+                } catch (error) {
+
+                    reject();
+                    console.log("mongodb otp err");
+                    
+                }
 
             })
         
@@ -281,41 +343,52 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
                 return new Promise( async(resolve,reject)=>{
 
+                    try {
+
+                        
                     const otpDb=mongoos.model("otp",otp_schema);
 
-                  const result= await otpDb.findOne({otp:otp});
-
-                 if(result){
-
-               
-                     otpDb.deleteOne({otp: otp}).then(()=>{});
+                    const result= await otpDb.findOne({otp:otp});
+  
+                   if(result){
+  
+                 
+                       otpDb.deleteOne({otp: otp}).then(()=>{});
+                    
+                      const signup=mongoos.model("user",user_signup_schema);
+  
+                      result.password= await   bcrypt.hash(result.password,10);
+  
+                      const signupData={
+  
+                          name:result.name,
+                          email:result.email,
+                          mobile:result.mobile,
+                          password:result.password
+  
+                      }
+  
+                      const final= new signup(signupData)
+  
+                      final.save().then(()=>{
+  
+                          resolve({flag:true});
+  
+                      })
                   
-                    const signup=mongoos.model("user",user_signup_schema);
+                  }else{
+  
+                     resolve({flag:false});
+  
+                  }
+                        
+                    } catch (error) {
 
-                    result.password= await   bcrypt.hash(result.password,10);
-
-                    const signupData={
-
-                        name:result.name,
-                        email:result.email,
-                        mobile:result.mobile,
-                        password:result.password
-
+                        reject();
+                        console.log("mongodb otpverification err");
+                        
                     }
 
-                    const final= new signup(signupData)
-
-                    final.save().then(()=>{
-
-                        resolve({flag:true});
-
-                    })
-                
-                }else{
-
-                   resolve({flag:false});
-
-                }
             
             })
         
@@ -326,9 +399,12 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
                 const responce={};
 
-             const userdata=mongoos.model("user",user_signup_schema);
+             
 
                return new Promise ( async (resolv,reject)=>{
+
+                try {
+                    const userdata=mongoos.model("user",user_signup_schema);
 
                   const fetchdata= await userdata.findOne({email:data.email});
                   if(fetchdata){
@@ -350,6 +426,13 @@ const cart_schema= new mongoos.Schema({  //cart schma
                     
                     resolv({flag:false});
                 }
+                    
+                } catch (error) {
+
+                    reject();
+                    console.log("mongodb login err");
+                    
+                }
                  })
 
 
@@ -358,9 +441,9 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
             add_cart:(proid,userid)=>{ ///add cart query
 
-
-              const  pro_objid= new mongoos.Types.ObjectId(proid);
+                const  pro_objid= new mongoos.Types.ObjectId(proid);
               
+             
               const data={
 
                     item:pro_objid,
@@ -370,6 +453,11 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
              return new Promise(async(resolve,reject)=>{
 
+                try {
+
+                    
+               
+
                   const cartDB=mongoos.model("cart",cart_schema);
               
                   const findUser= await cartDB.findOne({user:userid});
@@ -377,12 +465,13 @@ const cart_schema= new mongoos.Schema({  //cart schma
                  if (findUser){
 
                     
-              let proExist=findUser.products.findIndex(docObj=>docObj.item==proid);
+              let proExist=findUser.products.findIndex(docObj=>docObj.item==pro_objid);
 
                 if(proExist !=-1){
 
                     resolve({proexit:true});
-                 }else{
+                 
+                }else{
                     
                     cartDB.updateOne({user:userid},{
 
@@ -448,6 +537,14 @@ const cart_schema= new mongoos.Schema({  //cart schma
            
            
             }
+                    
+                } catch (error) {
+
+                    reject();
+                    console.log("mongodb addcart err");
+                    
+                }
+
 
 
 
@@ -471,7 +568,9 @@ const cart_schema= new mongoos.Schema({  //cart schma
                 
                 return new Promise(async(resolve,reject)=>{
                     
-                    let  count = 0
+                    try {
+
+                        let  count = 0
                    const cartDB=mongoos.model("cart",cart_schema);
 
                     const cartData= await cartDB.findOne({user:userid});
@@ -487,6 +586,12 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
 
              }
+                        
+                    } catch (error) {
+                        reject();
+                        console.log("mongo db cart show err");
+                        
+                    }
             
             })
         
@@ -497,7 +602,9 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
             return new Promise( async(resolve,reject)=>{
 
-                const cartDB=mongoos.model("cart",cart_schema)
+                try {
+
+                    const cartDB=mongoos.model("cart",cart_schema)
 
 
                 const findUser= await cartDB.findOne({user:userid})
@@ -586,6 +693,15 @@ const cart_schema= new mongoos.Schema({  //cart schma
                
                 }
 
+                    
+                } catch (error) {
+
+                    reject();
+                    console.log("mongodb cart agrigation err");
+                    
+                }
+
+                
 
 
 
@@ -602,14 +718,11 @@ const cart_schema= new mongoos.Schema({  //cart schma
             const countnum=parseInt(count)
 
             const proid_obj=new mongoos.Types.ObjectId(proid)
-              
-
-
-
-
-
+            
             return new Promise( async(resolv,reject)=>{
 
+                try {
+                    
                 const cartDB=mongoos.model("cart",cart_schema)
 
                 const  userfind= await cartDB.findOne({user:userid})
@@ -646,6 +759,14 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
               
 
+                    
+                } catch (error) {
+
+                    reject();
+                    console.log("mongodb cart count change err");
+                    
+                }
+
 
 
 
@@ -661,6 +782,9 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
             return new Promise( async(resolve,reject)=>{
 
+                try {
+
+                    
                 const cartDB=mongoos.model("cart",cart_schema)
 
 
@@ -758,6 +882,13 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
 
                    }
+                    
+                } catch (error) {
+                    
+                    reject();
+                    console.log("mongodb cart total price err");
+                }
+
 
 
 
@@ -778,6 +909,9 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
             return new Promise( async(resolve,reject)=>{
 
+                try {
+
+                    
                 const {userid,detailes}= data
 
                 const { addrss,pyment, payprice    }=detailes
@@ -869,6 +1003,15 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
                 }
 
+                    
+                } catch (error) {
+
+                    reject();
+                    console.log("cart place oder pro err ");
+
+                    
+                }
+
 
 
 
@@ -903,67 +1046,78 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
             return new Promise((resolve,reject)=>{
 
-                
-                
+                try {
 
+                    
                   const status= pyment ==="cod" ? "placed(cod)" : "pending"
 
 
-                 const  addproducts=[
-                    {
-                        item: proid_obj_id,
-                        quantity:1
-
-                    }
-                 ]
-
-
-
-                 const savedata={
-
-                    userAdress:{
-
-                        name:addrss.name,
-                        adress:addrss.adress,
-                        pincode:addrss.pincode,
-                        landmark:addrss.landmark,
-                        mobile:addrss.mobile
+                  const  addproducts=[
+                     {
+                         item: proid_obj_id,
+                         quantity:1
+ 
+                     }
+                  ]
+ 
+ 
+ 
+                  const savedata={
+ 
+                     userAdress:{
+ 
+                         name:addrss.name,
+                         adress:addrss.adress,
+                         pincode:addrss.pincode,
+                         landmark:addrss.landmark,
+                         mobile:addrss.mobile
+                     
+                     },
+ 
+                     userid:userid,
+                     products:addproducts,
+                     pyment_method:pyment,
+                     totalAmount:payprice,
+                     date:shortdate,
+                     status:status,
+                     delevary_date:"plz wait..."
+                 
+                 
+                 }
+ 
+ 
+              
+                 const place_oder_DB=mongoos.model("placoder",place_oder_schema)
+ 
+                             console.log("db save starting")
+                            const final = new place_oder_DB(savedata)
+ 
+                            final.save().then((responce)=>{
+ 
+                               console.log("single ok")  
+                            
+                               resolve({flag:true,oderid:responce._id,total:payprice})
+ 
+ 
+                            }).catch(err=>{
+ 
+                             console.log("single err")
+ 
+                             reject(err)
+ 
+                            
+                         })
                     
-                    },
+                } catch (error) {
 
-                    userid:userid,
-                    products:addproducts,
-                    pyment_method:pyment,
-                    totalAmount:payprice,
-                    date:shortdate,
-                    status:status,
-                    delevary_date:"plz wait..."
-                
-                
+                    reject();
+                    console.log("mongodb singil buy err");
+                    
                 }
 
+                
+                
 
-             
-                const place_oder_DB=mongoos.model("placoder",place_oder_schema)
-
-                            console.log("db save starting")
-                           const final = new place_oder_DB(savedata)
-
-                           final.save().then((responce)=>{
-
-                              console.log("single ok")  
-                           
-                              resolve({flag:true,oderid:responce._id,total:payprice})
-
-
-                           }).catch(err=>{
-
-                            console.log("single err")
-
-                            reject(err)
-
-                           
-                        })
 
 
 
@@ -988,28 +1142,39 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
             return new Promise(async(resolve,reject)=>{
 
+                try {
+
+                    
                 const place_oder_DB=mongoos.model("placoder",place_oder_schema)
 
-               place_oder_DB.updateOne({_id:orderid},{
+                place_oder_DB.updateOne({_id:orderid},{
+                
+                 $set:{
+ 
+                     status:"placed(online)"
+ 
+                 }
+ 
+                }).then(()=>{
+ 
+                  console.log("online status updated")
+                 resolve()
+ 
                
-                $set:{
+             }).catch(err=>{
+ 
+                 console.log("online status update err")
+ 
+                
+             })
+                    
+                } catch (error) {
 
-                    status:"placed(online)"
-
+                    reject();
+                    console.log("place oder status change err")
+                    
                 }
 
-               }).then(()=>{
-
-                 console.log("online status updated")
-                resolve()
-
-              
-            }).catch(err=>{
-
-                console.log("online status update err")
-
-               
-            })
 
                      
 
@@ -1029,7 +1194,9 @@ const cart_schema= new mongoos.Schema({  //cart schma
             return new Promise( async(resolve,reject)=>{
 
                 
-            const place_oder_DB= mongoos.model("placoder",place_oder_schema)
+            try {
+
+                const place_oder_DB= mongoos.model("placoder",place_oder_schema)
 
             const result= await place_oder_DB.find({userid:userid})
 
@@ -1053,6 +1220,13 @@ const cart_schema= new mongoos.Schema({  //cart schma
             
             }
 
+                
+            } catch (error) {
+
+                reject();
+                console.log("mongodb myoder err ");
+                
+            }
 
             
 
@@ -1072,6 +1246,9 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
             return new Promise(async(resolve,reject)=>{
 
+                try {
+
+                    
                 
            const place_oder_DB= mongoos.model("placoder",place_oder_schema)
 
@@ -1132,6 +1309,18 @@ const cart_schema= new mongoos.Schema({  //cart schma
             resolve({flag:false})
         
         }
+                    
+                } catch (error) {
+
+                    reject();
+
+                    console.log("mongodb place pro err")
+
+                    
+                    
+                    
+                }
+
 
 
               
@@ -1149,6 +1338,10 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
             return new Promise(async(resolve,reject)=>{
 
+
+                try {
+
+                    
                 const cartDB=mongoos.model("cart",cart_schema)
 
                 const cartfind= await cartDB.findOne({user:userid})
@@ -1178,6 +1371,14 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
 
                 }
+                    
+                } catch (error) {
+
+                    reject();
+                    console.log("mongodb cart delete");
+                    
+                }
+
 
 
 
@@ -1195,6 +1396,8 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
             return new Promise((resolve,reject)=>{
 
+               try {
+
                 const cartDB=mongoos.model("cart",cart_schema)
 
                 cartDB.deleteOne({user:userid}).then(()=>{
@@ -1209,6 +1412,12 @@ const cart_schema= new mongoos.Schema({  //cart schma
                     console.log("cart full delet err")
 
                 })
+                
+               } catch (error) {
+
+                console.log("mongodb cart full err")
+                
+               }
 
 
 

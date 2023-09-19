@@ -111,7 +111,7 @@
 .loding-cat{
 
     width: 100%;
-    height: 70vh;
+    height: 100vh;
  
     display: flex;
     justify-content: center;
@@ -121,8 +121,8 @@
 
 .loding-img-cart{
 
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
 
 }
 

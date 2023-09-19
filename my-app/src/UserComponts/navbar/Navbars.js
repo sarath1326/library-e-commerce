@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import axios from "../../Constant/Axios";
 import { useDispatch } from "react-redux";
 import { AddCart } from '../../redux/cart/Cart';
+import {message} from "antd"
 
 
 
@@ -49,6 +50,14 @@ function Navbars(props) {
 
     }).then((result) => {
 
+      if(result.data.err){
+
+        message.error("somthing worng check your connection ")
+
+        return
+        
+      }
+
       if (result.data.login) {
 
         const name = result.data.user;
@@ -68,7 +77,8 @@ function Navbars(props) {
 
     }).catch(err => {
 
-      props.failed(true);
+      // message.error("smothing worng. check your connection ");
+      props.failed(true)
 
     })
 
@@ -133,9 +143,7 @@ function Navbars(props) {
               }
 
 
-              <NavDropdown.Item href="#action4">
-                Profile
-              </NavDropdown.Item>
+              
               <NavDropdown.Divider />
               {/* <NavDropdown.Item href="#action5">
                 Something else here

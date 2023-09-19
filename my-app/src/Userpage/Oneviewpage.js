@@ -29,8 +29,8 @@ function Oneviewpage() {
         <>
 
        
-        <Navbars failed={setfailed}   />
-        
+         <Navbars failed={setfailed}   />
+         
         <Oneview failed={setfailed}  />
         
         

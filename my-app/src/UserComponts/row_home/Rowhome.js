@@ -48,6 +48,13 @@ function Rowhome(props) {
 
     axios(props.url).then((respo) => {
 
+      if(respo.data.err){
+
+        message.error("somthing worng..check your connection")
+
+        return
+      }
+
       const result = respo.data;
 
       if(result.err){
@@ -72,7 +79,7 @@ function Rowhome(props) {
   function oneview(proid) {
 
     navigate(`/oneview/${proid}`);
-
+   
   }
 
 
@@ -83,7 +90,7 @@ function Rowhome(props) {
       <div className='row'>
 
         <h2>{props.title} </h2>
-        <span id='more' onClick={() => { pageview(props.id) }} className='spanicon-row'   > <AiOutlineArrowRight className='spanicon-row' />  </span>
+        <span id='more' className='spanicon-row'   > <AiOutlineArrowRight   onClick={() => { pageview(props.id) }} className='spanicon-row' />  </span>
         <div className='posters'>
 
           {
@@ -106,9 +113,9 @@ function Rowhome(props) {
 
 
 
-                <div onClick={() => { oneview(obj._id) }}>
+                <div  className='div-row'>
 
-                  <div className='poster'>
+                  <div className='poster' onClick={() => { oneview(obj._id) }}  >
 
 
 
@@ -121,7 +128,8 @@ function Rowhome(props) {
                     <div className='row-text'>
 
                       <h6 className='booktitle'> {obj.name}</h6>
-                      <span className='span-row' >Language:</span><span className='span-row' > {obj.language}</span>
+                      <span className='span-row' >Language:</span><span className='span-row' > {obj.language}</span> <br/>
+                      <span> <span className='rating-row'> {obj.rating}  </span> ⭐</span>
 
 
                     </div>

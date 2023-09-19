@@ -200,7 +200,7 @@ router.post("/signup", (req, res) => {   //signup api
 
                 }).catch(err => {
 
-                    res.json({ flag: false });
+                    res.json({ err:true });
                 })
             }
 
@@ -287,6 +287,8 @@ router.get("/navbar/username", (req, res) => {   //navbar user name get api
 
                     res.json({ login: true, user: result, count: respo.cartCount })
 
+                }).catch(err=>{
+                    res.json({err:true})
                 })
             } else {
 
@@ -318,14 +320,19 @@ router.get("/cart", verifiLogin, (req, res) => { //cart api
                 db.cart_total_price(userid).then((result) => {
 
                   const total = result.total_price
+
+                 
    
                   res.json({ flag: true, cartdata: respo.cartdata, total_price: total })
+
+                  return
                 
                 })
             
              } else {
 
                 res.json({ flag: false })
+                return
 
             }
 
@@ -382,16 +389,19 @@ router.get("/add_cart", verifiLogin, (req, res) => { //add cart api
             } else if (respo.update) {
 
                 res.json({ update: true, count: respo.count });
+                return
 
             }
 
             if (respo.flag) {
 
                 res.json({ flag: true, count: respo.count });
+                return
 
             } else {
 
                 res.send("somthing worng");
+                return
 
             }
 
@@ -611,7 +621,7 @@ router.post("/verify_pyment", (req, res) => {  //verify online pyment api
 
         console.log("pyment err:", err)
 
-        res.json({ flag: false })
+        res.json({ err:true })
 
     })
 
@@ -669,7 +679,7 @@ router.post("/single_buy", (req, res) => { //single buy api
 
             }).catch(err => {
 
-                console.log("place oder err ", err)
+                res.json({err:true})
 
             })
 

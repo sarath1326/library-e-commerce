@@ -219,6 +219,7 @@ router.get("/edit_pro",verifiLogin, (req, res) => {    //edit products get data 
   db.edit_pro(proid).then((respo) => {
 
     res.json({ flag: true, data: respo.data }) ;
+    
 
   }).catch(err => {
 

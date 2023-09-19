@@ -211,7 +211,9 @@ function Cart(props) {
     axios.delete(`/user/cart_delete?proid=${proid}&userid=${userid}`).then((respo) => {  
 
       if(respo.data.err){
-        message.error("somthing err")
+        message.error("somthing worng ")
+
+        return
       }
 
      if (respo.data.empty) {

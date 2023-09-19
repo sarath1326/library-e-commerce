@@ -24,15 +24,7 @@ function Loding() {
 
       <div className='dna'>
       
-      <Dna
-      visible={true}
-      
-      height="80"
-      width="80"
-      ariaLabel="dna-loading"
-      wrapperStyle={{}}
-      wrapperClass="dna-wrapper"
-    />
+   <img className='loding-image-sa' src='../logo li.png' alt='loding...' />
 
     </div>
 

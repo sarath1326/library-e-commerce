@@ -75,6 +75,12 @@ function Admin_navbar(props) {
 
   }, [])
 
+  const logout=()=>{
+
+    localStorage.removeItem("library_admin_token")
+
+  }
+
 
 
 
@@ -114,8 +120,13 @@ function Admin_navbar(props) {
 
                 <NavDropdown.Item className='ndi' onClick={() => { navigate("/admin/master/login") }}   >Add new</NavDropdown.Item>
 
-                <NavDropdown.Item className='ndi' onClick={() => { navigate("/admin/login") }}  >Login</NavDropdown.Item>
+              {
+                name ?   <NavDropdown.Item className='ndi' onClick={logout}  >Logout</NavDropdown.Item>
 
+                :    <NavDropdown.Item className='ndi' onClick={() => { navigate("/admin/login") }}  >Login</NavDropdown.Item>
+
+
+              }
 
 
 

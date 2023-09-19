@@ -6,6 +6,7 @@ import { useState,useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Routes,Route}from "react-router-dom"
 
+
 import Homepage from './Userpage/Homepage';
 import Cartpage from './Userpage/Cartpage';
 import Myoderpage from './Userpage/Myoderpage';
@@ -21,6 +22,8 @@ import Categorypage from './Userpage/Categorypage';
 import Signle_buypage from './Userpage/Signle_buypage';
 import Lodingpage from './Userpage/Lodingpage';
 import Otp_page from './Userpage/Otp_page';
+import Oneview2page from './Userpage/Oneview2page';
+import Signup_new from './UserComponts/Signup_new';
 
 
 //admin port pages //
@@ -78,6 +81,8 @@ function App() {
       <Username>
      <View>
 
+      
+
       <Routes>
 
        
@@ -104,6 +109,10 @@ function App() {
        <Route element={<Loginpage />} path='/Login' />
 
         <Route element={<Placeoderpropage/>} path='/placepro/:cartid' /> 
+
+        <Route element={<Oneview2page />} path='/oneview2/:proid2' />
+
+        <Route element={<Signup_new />} path='/newsig' />
 
 
          
